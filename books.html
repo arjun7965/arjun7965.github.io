@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Books Read by Arjun Vinod">
+    <title>Books | Arjun Vinod</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+    <link rel="icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #f5f5f5;
+            --container-bg: white;
+            --text-primary: #2c3e50;
+            --text-secondary: #34495e;
+            --text-muted: #666;
+            --border-color: #eee;
+            --link-color: #3498db;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --container-bg: #2d2d2d;
+            --text-primary: #e0e0e0;
+            --text-secondary: #d0d0d0;
+            --text-muted: #a0a0a0;
+            --border-color: #404040;
+            --link-color: #5dade2;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-color: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            transition: background-color 0.3s ease;
+        }
+        .container {
+            padding: 2rem;
+            background-color: var(--container-bg);
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+        h1 {
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        h2 {
+            color: var(--text-primary);
+            font-size: 1.3rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+        .book-item {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+        .book-item:last-child {
+            border-bottom: none;
+        }
+        .book-cover {
+            flex-shrink: 0;
+            width: 120px;
+        }
+        .book-cover a {
+            display: block;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .book-cover a:hover {
+            transform: translateY(-4px);
+            opacity: 0.9;
+        }
+        .book-cover img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .book-details {
+            flex: 1;
+        }
+        .book-title {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+        .book-author {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-style: italic;
+            margin-bottom: 0.5rem;
+        }
+        .book-notes {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        header {
+            background-color: transparent;
+            color: var(--text-primary);
+            padding: 0.5rem 0;
+            text-align: left;
+            width: 100%;
+            border-bottom: 1px solid var(--border-color);
+        }
+        header .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header-right {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        .menu-wrapper {
+            position: relative;
+        }
+        .menu-button {
+            background: none;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            cursor: pointer;
+            padding: 0.5rem 0.75rem;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .menu-button:hover {
+            background-color: var(--border-color);
+        }
+        .menu-dropdown {
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            right: 0;
+            background-color: var(--container-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            min-width: 150px;
+            display: none;
+            z-index: 1000;
+        }
+        .menu-dropdown.show {
+            display: block;
+        }
+        .menu-dropdown a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        .menu-dropdown a:hover {
+            background-color: var(--border-color);
+        }
+        .menu-dropdown a:first-child {
+            border-radius: 5px 5px 0 0;
+        }
+        .menu-dropdown a:last-child {
+            border-radius: 0 0 5px 5px;
+        }
+        nav a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        nav a:hover {
+            background-color: var(--border-color);
+        }
+        header h1 {
+            color: var(--text-primary);
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+        header h1 a {
+            position: relative;
+        }
+        header h1 a:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background-color: var(--link-color);
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.2s ease-out;
+        }
+        header h1 a:hover:after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+        .theme-toggle-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+        .theme-toggle {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background-color: var(--border-color);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border: none;
+            padding: 0;
+        }
+        .theme-toggle:hover {
+            opacity: 0.8;
+        }
+        .theme-toggle-slider {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 24px;
+            height: 24px;
+            background-color: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .theme-toggle-slider i {
+            font-size: 0.75rem;
+            color: #2c3e50;
+        }
+        [data-theme="dark"] .theme-toggle {
+            background-color: var(--link-color);
+        }
+        [data-theme="dark"] .theme-toggle-slider {
+            transform: translateX(30px);
+        }
+        [data-theme="dark"] .theme-toggle-slider i {
+            color: #f39c12;
+        }
+        footer {
+            background-color: transparent;
+            color: var(--text-muted);
+            padding: 0.75rem 0;
+            text-align: center;
+            margin-top: auto;
+            width: 100%;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        .footer-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+        .copyright {
+            text-align: center;
+            margin-left: 200px;
+        }
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+        .footer-links a:hover {
+            color: var(--text-primary);
+        }
+        .footer-email {
+            font-size: 0.9rem;
+        }
+        .footer-email a:hover {
+            text-decoration: underline;
+        }
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 0;
+        }
+    </style>
+    <script>
+        // Check for saved theme preference or default to light mode
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', currentTheme);
+
+        function toggleTheme() {
+            const theme = document.documentElement.getAttribute('data-theme');
+            const newTheme = theme === 'light' ? 'dark' : 'light';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // Update icon
+            const icon = document.querySelector('.theme-toggle-slider i');
+            icon.className = newTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+        }
+
+        // Helper: Normalize ISBN (remove hyphens/spaces)
+        function normalizeIsbn(isbn) {
+            return (isbn || '').toString().replace(/[^0-9Xx]/g, '').toUpperCase();
+        }
+
+        // Helper: Convert ISBN-10 to ISBN-13 (prefix 978)
+        function isbn10to13(isbn10) {
+            const clean = normalizeIsbn(isbn10);
+            if (clean.length !== 10) return null;
+            const core = '978' + clean.slice(0, 9);
+            // EAN-13 check digit
+            let sum = 0;
+            for (let i = 0; i < 12; i++) {
+                const d = parseInt(core[i], 10);
+                sum += (i % 2 === 0) ? d : d * 3;
+            }
+            const check = (10 - (sum % 10)) % 10;
+            return core + String(check);
+        }
+
+        // Helper: Convert ISBN-13 to ISBN-10 (only for 978 prefix)
+        function isbn13to10(isbn13) {
+            const clean = normalizeIsbn(isbn13);
+            if (clean.length !== 13 || !clean.startsWith('978')) return null;
+            const core9 = clean.slice(3, 12);
+            let sum = 0;
+            for (let i = 0; i < 9; i++) {
+                sum += (10 - i) * parseInt(core9[i], 10);
+            }
+            let remainder = 11 - (sum % 11);
+            let check;
+            if (remainder === 10) check = 'X';
+            else if (remainder === 11) check = '0';
+            else check = String(remainder);
+            return core9 + check;
+        }
+
+        function unique(arr) {
+            return Array.from(new Set(arr.filter(Boolean)));
+        }
+
+        function buildIsbnCandidates(img) {
+            const provided = normalizeIsbn(img.dataset.isbn || '');
+            const manual = (img.dataset.altIsbns || '')
+                .split(',')
+                .map(s => normalizeIsbn(s))
+                .filter(Boolean);
+
+            const candidates = [];
+            // Manual overrides first (explicit order)
+            candidates.push(...manual);
+
+            // Provided ISBN
+            if (provided) candidates.push(provided);
+
+            // Add conversions
+            if (provided.length === 10) {
+                candidates.push(isbn10to13(provided));
+            } else if (provided.length === 13 && provided.startsWith('978')) {
+                candidates.push(isbn13to10(provided));
+            }
+
+            return unique(candidates);
+        }
+
+        function openLibraryUrlForIsbn(isbn) {
+            // default=false so a missing cover triggers error instead of generic placeholder
+            return `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg?default=false`;
+        }
+
+        function generatePlaceholderDataURI(title, author) {
+            const bg = document.documentElement.getAttribute('data-theme') === 'dark' ? '#2d2d2d' : '#e9eef3';
+            const fg = document.documentElement.getAttribute('data-theme') === 'dark' ? '#d0d0d0' : '#2c3e50';
+            const safeTitle = (title || 'No cover').replace(/&/g, '&amp;').replace(/</g, '&lt;');
+            const safeAuthor = (author || '').replace(/&/g, '&amp;').replace(/</g, '&lt;');
+            const svg = `
+                <svg xmlns='http://www.w3.org/2000/svg' width='400' height='600'>
+                    <rect width='100%' height='100%' fill='${bg}'/>
+                    <foreignObject x='20' y='40' width='360' height='520'>
+                        <div xmlns='http://www.w3.org/1999/xhtml' style="font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Inter,Arial,sans-serif; color:${fg}; display:flex; flex-direction:column; justify-content:center; height:100%;">
+                            <div style='font-size:28px; font-weight:700; line-height:1.2; margin-bottom:12px; word-wrap:break-word;'>${safeTitle}</div>
+                            <div style='font-size:18px; opacity:0.8;'>${safeAuthor}</div>
+                        </div>
+                    </foreignObject>
+                </svg>`;
+            return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+        }
+
+        function tryLoadCover(img) {
+            const title = img.getAttribute('alt') || img.dataset.title || '';
+            const author = img.dataset.author || '';
+            const isbns = buildIsbnCandidates(img);
+            let idx = 0;
+
+            function attemptNext() {
+                if (idx >= isbns.length) {
+                    img.src = generatePlaceholderDataURI(title, author);
+                    img.dataset.loaded = 'placeholder';
+                    return;
+                }
+                const isbn = isbns[idx++];
+                const testUrl = openLibraryUrlForIsbn(isbn);
+                // Create a temp image to avoid messing with main until success
+                const probe = new Image();
+                probe.onload = function() {
+                    // Some servers may return 1x1 for missing; guard
+                    if (probe.naturalWidth <= 1 || probe.naturalHeight <= 1) {
+                        attemptNext();
+                        return;
+                    }
+                    img.src = testUrl;
+                    img.dataset.loaded = isbn;
+                };
+                probe.onerror = attemptNext;
+                probe.src = testUrl;
+            }
+
+            attemptNext();
+        }
+
+        // Set initial icon on page load and resolve book covers
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const theme = document.documentElement.getAttribute('data-theme');
+            const icon = document.querySelector('.theme-toggle-slider i');
+            if (icon) icon.className = theme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+
+            // Resolve covers with fallbacks/alternates
+            document.querySelectorAll('.book-cover img[data-isbn]').forEach(img => {
+                tryLoadCover(img);
+            });
+        });
+
+        // Menu dropdown toggle
+        function toggleMenu() {
+            const dropdown = document.querySelector('.menu-dropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const menuWrapper = document.querySelector('.menu-wrapper');
+            if (menuWrapper && !menuWrapper.contains(event.target)) {
+                const dropdown = document.querySelector('.menu-dropdown');
+                if (dropdown) {
+                    dropdown.classList.remove('show');
+                }
+            }
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1><a href="/" style="text-decoration: none; color: inherit;">Arjun Vinod</a></h1>
+            <div class="header-right">
+                <div class="menu-wrapper">
+                    <button class="menu-button" onclick="toggleMenu()" aria-label="Menu">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="menu-dropdown">
+                        <a href="/books.html">Books</a>
+                    </div>
+                </div>
+                <div class="theme-toggle-wrapper">
+                    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+                        <div class="theme-toggle-slider">
+                            <i class="fas fa-moon"></i>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <h1>Reading List</h1>
+            
+            <h2>2025</h2>
+            <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1.5rem; font-style: italic;">
+                A collection of books exploring macroeconomics, financial systems, and monetary history.
+            </p>
+            
+            <div class="book-item">
+                <div class="book-cover">
+                    <a href="https://www.amazon.com/Deficit-Myth-Monetary-Peoples-Economy/dp/1541736184" target="_blank" rel="noopener noreferrer">
+                        <img data-isbn="1541736184" alt="The Deficit Myth by Stephanie Kelton" data-title="The Deficit Myth" data-author="Stephanie Kelton">
+                    </a>
+                </div>
+                <div class="book-details">
+                    <div class="book-title">The Deficit Myth: Modern Monetary Theory and the Birth of the People's Economy</div>
+                    <div class="book-author">by Stephanie Kelton</div>
+                </div>
+            </div>
+
+            <div class="book-item">
+                <div class="book-cover">
+                    <a href="https://www.amazon.com/Layered-Money-Dollars-Bitcoin-Currencies/dp/1736110527" target="_blank" rel="noopener noreferrer">
+                        <img data-isbn="1736110527" alt="Layered Money by Nik Bhatia" data-title="Layered Money" data-author="Nik Bhatia">
+                    </a>
+                </div>
+                <div class="book-details">
+                    <div class="book-title">Layered Money: From Gold and Dollars to Bitcoin and Central Bank Digital Currencies</div>
+                    <div class="book-author">by Nik Bhatia</div>
+                </div>
+            </div>
+
+            <div class="book-item">
+                <div class="book-cover">
+                    <a href="https://www.amazon.com/Price-Tomorrow-Deflation-Abundant-Future/dp/1999257405" target="_blank" rel="noopener noreferrer">
+                        <img data-isbn="1999257405" alt="The Price of Tomorrow by Jeff Booth" data-title="The Price of Tomorrow" data-author="Jeff Booth">
+                    </a>
+                </div>
+                <div class="book-details">
+                    <div class="book-title">The Price of Tomorrow: Why Deflation Is the Key to an Abundant Future</div>
+                    <div class="book-author">by Jeff Booth</div>
+                </div>
+            </div>
+
+            <div class="book-item">
+                <div class="book-cover">
+                    <a href="https://www.amazon.com/Big-Print-Happened-America-Sound/dp/B0F2NCPQ2K?dib=eyJ2IjoiMSJ9.uha7rZrtByB7ftH683hmgpJdt8JwTnKfcNe725oItW8mXzeg-_jkmm6LBRijbel2IX-sbydruCHClzdIp77_eQkb5nTkQ40t-GTz6ErIAqz0YHZiGF6LcSa0szsaeB9S5QRaRb0PiXNMrQxHV6g3J0aqa3cfrAQfZogLsC-oFXGI5iFJ6VO-AqvjDtbodWW35HSY4P3Qkcs804cPbYEUYoD1spdyBsJYNW-5Hqh9L1M.xoDJgTg-6NLJoqi-HnDwYdLL_fzOmN20o3TR7C9gUS4&dib_tag=se&keywords=big+print&qid=1762900380&sr=8-1" target="_blank" rel="noopener noreferrer">
+                        <img data-isbn="9798992242515" alt="The Big Print by Lawrence Lepard" data-title="The Big Print" data-author="Lawrence Lepard">
+                    </a>
+                </div>
+                <div class="book-details">
+                    <div class="book-title">The Big Print: What Happened to America and How Sound Money Will Fix It</div>
+                    <div class="book-author">by Lawrence Lepard</div>
+                </div>
+            </div>
+
+            <div class="book-item">
+                <div class="book-cover">
+                    <a href="https://www.thriftbooks.com/w/the-case-against-the-fed_murray-n-rothbard/343797/#edition=4404863&idiq=4178217" target="_blank" rel="noopener noreferrer">
+                        <img data-isbn="9781987817720" alt="The Case Against the Fed by Murray N. Rothbard" data-title="The Case Against the Fed" data-author="Murray N. Rothbard">
+                    </a>
+                </div>
+                <div class="book-details">
+                    <div class="book-title">The Case Against the Fed</div>
+                    <div class="book-author">by Murray N. Rothbard</div>
+                </div>
+            </div>
+
+            <div class="book-item">
+                <div class="book-cover">
+                    <a href="https://www.thriftbooks.com/w/paper-soldiers-how-the-weaponization-of-the-dollar-changed-the-world-order_saleha-mohsin/55037738/?resultid=b45c7b57-ac03-4945-9e3d-74a29ea8aab4#edition=67591091&idiq=57992781" target="_blank" rel="noopener noreferrer">
+                        <img data-isbn="9780593539118" data-alt-isbns="9780593197543,059319754X" alt="Paper Soldiers by Saleha Mohsin" data-title="Paper Soldiers" data-author="Saleha Mohsin">
+                    </a>
+                </div>
+                <div class="book-details">
+                    <div class="book-title">Paper Soldiers: How the Weaponization of the Dollar Changed the World Order</div>
+                    <div class="book-author">by Saleha Mohsin</div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="footer-content">
+            <div class="copyright" style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-muted);">
+                © 2025 Arjun Vinod. All rights reserved.
+            </div>
+            <div class="footer-right">
+                <div class="footer-links">
+                    <a href="https://twitter.com/arjun7965" target="_blank" rel="noopener noreferrer" title="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://linkedin.com/in/avinod" target="_blank" rel="noopener noreferrer" title="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://github.com/arjun7965" target="_blank" rel="noopener noreferrer" title="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
+                <div class="footer-email">
+                    <a href="mailto:me@arjunvinod.com" style="color: var(--text-muted); text-decoration: none;">me@arjunvinod.com</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
