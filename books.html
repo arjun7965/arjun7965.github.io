@@ -4,13 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Books Read by Arjun Vinod">
+    <meta name="author" content="Arjun Vinod">
     <title>Books | Arjun Vinod</title>
+    <link rel="canonical" href="https://arjunvinod.com/books.html">
+    <meta property="og:title" content="Books | Arjun Vinod">
+    <meta property="og:description" content="A collection of books exploring macroeconomics, financial systems, and monetary history.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://arjunvinod.com/books.html">
+    <meta property="og:image" content="https://arjunvinod.com/images/apple-touch-icon.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Books | Arjun Vinod">
+    <meta name="twitter:description" content="A collection of books exploring macroeconomics, financial systems, and monetary history.">
+    <meta name="twitter:image" content="https://arjunvinod.com/images/apple-touch-icon.png">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://covers.openlibrary.org" crossorigin>
     <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
     <link rel="icon" href="images/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
+        /* Skip link for keyboard users */
+        .skip-link {
+            position: absolute;
+            left: -9999px;
+            top: auto;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        }
+        .skip-link:focus {
+            position: static;
+            width: auto;
+            height: auto;
+            padding: 0.5rem 0.75rem;
+            background: var(--container-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            margin: 0.5rem;
+        }
         :root {
             --bg-color: #f5f5f5;
             --container-bg: white;
@@ -472,7 +504,10 @@
         // Menu dropdown toggle
         function toggleMenu() {
             const dropdown = document.querySelector('.menu-dropdown');
+            const btn = document.querySelector('.menu-button');
+            const willShow = !dropdown.classList.contains('show');
             dropdown.classList.toggle('show');
+            if (btn) btn.setAttribute('aria-expanded', willShow ? 'true' : 'false');
         }
 
         // Close dropdown when clicking outside
@@ -482,23 +517,26 @@
                 const dropdown = document.querySelector('.menu-dropdown');
                 if (dropdown) {
                     dropdown.classList.remove('show');
+                    const btn = document.querySelector('.menu-button');
+                    if (btn) btn.setAttribute('aria-expanded', 'false');
                 }
             }
         });
     </script>
 </head>
 <body>
+    <a class="skip-link" href="#main">Skip to content</a>
     <header>
         <div class="header-content">
             <h1><a href="/" style="text-decoration: none; color: inherit;">Arjun Vinod</a></h1>
             <div class="header-right">
                 <div class="menu-wrapper">
-                    <button class="menu-button" onclick="toggleMenu()" aria-label="Menu">
+                    <button class="menu-button" onclick="toggleMenu()" aria-label="Menu" aria-haspopup="true" aria-expanded="false" aria-controls="menu-dropdown">
                         <i class="fas fa-bars"></i>
                     </button>
-                    <div class="menu-dropdown">
+                    <nav class="menu-dropdown" id="menu-dropdown" role="navigation" aria-label="Primary Navigation">
                         <a href="/books.html">Books</a>
-                    </div>
+                    </nav>
                 </div>
                 <div class="theme-toggle-wrapper">
                     <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
@@ -510,7 +548,7 @@
             </div>
         </div>
     </header>
-    <main>
+    <main id="main">
         <div class="container">
             <h1>Reading List</h1>
             
@@ -519,77 +557,77 @@
                 A collection of books exploring macroeconomics, financial systems, and monetary history.
             </p>
             
-            <div class="book-item">
+            <article class="book-item">
                 <div class="book-cover">
                     <a href="https://www.amazon.com/Deficit-Myth-Monetary-Peoples-Economy/dp/1541736184" target="_blank" rel="noopener noreferrer">
-                        <img data-isbn="1541736184" alt="The Deficit Myth by Stephanie Kelton" data-title="The Deficit Myth" data-author="Stephanie Kelton">
+                        <img loading="lazy" decoding="async" data-isbn="1541736184" alt="The Deficit Myth by Stephanie Kelton" data-title="The Deficit Myth" data-author="Stephanie Kelton">
                     </a>
                 </div>
                 <div class="book-details">
                     <div class="book-title">The Deficit Myth: Modern Monetary Theory and the Birth of the People's Economy</div>
                     <div class="book-author">by Stephanie Kelton</div>
                 </div>
-            </div>
+            </article>
 
-            <div class="book-item">
+            <article class="book-item">
                 <div class="book-cover">
                     <a href="https://www.amazon.com/Layered-Money-Dollars-Bitcoin-Currencies/dp/1736110527" target="_blank" rel="noopener noreferrer">
-                        <img data-isbn="1736110527" alt="Layered Money by Nik Bhatia" data-title="Layered Money" data-author="Nik Bhatia">
+                        <img loading="lazy" decoding="async" data-isbn="1736110527" alt="Layered Money by Nik Bhatia" data-title="Layered Money" data-author="Nik Bhatia">
                     </a>
                 </div>
                 <div class="book-details">
                     <div class="book-title">Layered Money: From Gold and Dollars to Bitcoin and Central Bank Digital Currencies</div>
                     <div class="book-author">by Nik Bhatia</div>
                 </div>
-            </div>
+            </article>
 
-            <div class="book-item">
+            <article class="book-item">
                 <div class="book-cover">
                     <a href="https://www.amazon.com/Price-Tomorrow-Deflation-Abundant-Future/dp/1999257405" target="_blank" rel="noopener noreferrer">
-                        <img data-isbn="1999257405" alt="The Price of Tomorrow by Jeff Booth" data-title="The Price of Tomorrow" data-author="Jeff Booth">
+                        <img loading="lazy" decoding="async" data-isbn="1999257405" alt="The Price of Tomorrow by Jeff Booth" data-title="The Price of Tomorrow" data-author="Jeff Booth">
                     </a>
                 </div>
                 <div class="book-details">
                     <div class="book-title">The Price of Tomorrow: Why Deflation Is the Key to an Abundant Future</div>
                     <div class="book-author">by Jeff Booth</div>
                 </div>
-            </div>
+            </article>
 
-            <div class="book-item">
+            <article class="book-item">
                 <div class="book-cover">
                     <a href="https://www.amazon.com/Big-Print-Happened-America-Sound/dp/B0F2NCPQ2K?dib=eyJ2IjoiMSJ9.uha7rZrtByB7ftH683hmgpJdt8JwTnKfcNe725oItW8mXzeg-_jkmm6LBRijbel2IX-sbydruCHClzdIp77_eQkb5nTkQ40t-GTz6ErIAqz0YHZiGF6LcSa0szsaeB9S5QRaRb0PiXNMrQxHV6g3J0aqa3cfrAQfZogLsC-oFXGI5iFJ6VO-AqvjDtbodWW35HSY4P3Qkcs804cPbYEUYoD1spdyBsJYNW-5Hqh9L1M.xoDJgTg-6NLJoqi-HnDwYdLL_fzOmN20o3TR7C9gUS4&dib_tag=se&keywords=big+print&qid=1762900380&sr=8-1" target="_blank" rel="noopener noreferrer">
-                        <img data-isbn="9798992242515" alt="The Big Print by Lawrence Lepard" data-title="The Big Print" data-author="Lawrence Lepard">
+                        <img loading="lazy" decoding="async" data-isbn="9798992242515" alt="The Big Print by Lawrence Lepard" data-title="The Big Print" data-author="Lawrence Lepard">
                     </a>
                 </div>
                 <div class="book-details">
                     <div class="book-title">The Big Print: What Happened to America and How Sound Money Will Fix It</div>
                     <div class="book-author">by Lawrence Lepard</div>
                 </div>
-            </div>
+            </article>
 
-            <div class="book-item">
+            <article class="book-item">
                 <div class="book-cover">
                     <a href="https://www.thriftbooks.com/w/the-case-against-the-fed_murray-n-rothbard/343797/#edition=4404863&idiq=4178217" target="_blank" rel="noopener noreferrer">
-                        <img data-isbn="9781987817720" alt="The Case Against the Fed by Murray N. Rothbard" data-title="The Case Against the Fed" data-author="Murray N. Rothbard">
+                        <img loading="lazy" decoding="async" data-isbn="9781987817720" alt="The Case Against the Fed by Murray N. Rothbard" data-title="The Case Against the Fed" data-author="Murray N. Rothbard">
                     </a>
                 </div>
                 <div class="book-details">
                     <div class="book-title">The Case Against the Fed</div>
                     <div class="book-author">by Murray N. Rothbard</div>
                 </div>
-            </div>
+            </article>
 
-            <div class="book-item">
+            <article class="book-item">
                 <div class="book-cover">
                     <a href="https://www.thriftbooks.com/w/paper-soldiers-how-the-weaponization-of-the-dollar-changed-the-world-order_saleha-mohsin/55037738/?resultid=b45c7b57-ac03-4945-9e3d-74a29ea8aab4#edition=67591091&idiq=57992781" target="_blank" rel="noopener noreferrer">
-                        <img data-isbn="9780593539118" data-alt-isbns="9780593197543,059319754X" alt="Paper Soldiers by Saleha Mohsin" data-title="Paper Soldiers" data-author="Saleha Mohsin">
+                        <img loading="lazy" decoding="async" data-isbn="9780593539118" data-alt-isbns="9780593197543,059319754X" alt="Paper Soldiers by Saleha Mohsin" data-title="Paper Soldiers" data-author="Saleha Mohsin">
                     </a>
                 </div>
                 <div class="book-details">
                     <div class="book-title">Paper Soldiers: How the Weaponization of the Dollar Changed the World Order</div>
                     <div class="book-author">by Saleha Mohsin</div>
                 </div>
-            </div>
+            </article>
         </div>
     </main>
     <footer>
@@ -599,13 +637,13 @@
             </div>
             <div class="footer-right">
                 <div class="footer-links">
-                    <a href="https://twitter.com/arjun7965" target="_blank" rel="noopener noreferrer" title="X (Twitter)">
+                    <a href="https://twitter.com/arjun7965" target="_blank" rel="noopener noreferrer" title="X (Twitter)" aria-label="X (Twitter)">
                         <i class="fab fa-x-twitter"></i>
                     </a>
-                    <a href="https://linkedin.com/in/avinod" target="_blank" rel="noopener noreferrer" title="LinkedIn">
+                    <a href="https://linkedin.com/in/avinod" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn">
                         <i class="fab fa-linkedin"></i>
                     </a>
-                    <a href="https://github.com/arjun7965" target="_blank" rel="noopener noreferrer" title="GitHub">
+                    <a href="https://github.com/arjun7965" target="_blank" rel="noopener noreferrer" title="GitHub" aria-label="GitHub">
                         <i class="fab fa-github"></i>
                     </a>
                 </div>
