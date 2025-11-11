@@ -11,30 +11,52 @@
     <link rel="icon" href="images/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
+        :root {
+            --bg-color: #f5f5f5;
+            --container-bg: white;
+            --text-primary: #2c3e50;
+            --text-secondary: #34495e;
+            --text-muted: #666;
+            --border-color: #eee;
+            --link-color: #3498db;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --container-bg: #2d2d2d;
+            --text-primary: #e0e0e0;
+            --text-secondary: #d0d0d0;
+            --text-muted: #a0a0a0;
+            --border-color: #404040;
+            --link-color: #5dade2;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            background-color: #f5f5f5;
+            background-color: var(--bg-color);
             display: flex;
             flex-direction: column;
+            transition: background-color 0.3s ease;
         }
         .container {
             text-align: center;
             padding: 2rem;
-            background-color: white;
+            background-color: var(--container-bg);
             max-width: 800px;
             margin: 0 auto;
             width: 100%;
+            transition: background-color 0.3s ease;
         }
         h1 {
-            color: #2c3e50;
+            color: var(--text-primary);
             margin-bottom: 1rem;
         }
         p {
-            color: #34495e;
+            color: var(--text-secondary);
             font-size: 1.1rem;
             margin-bottom: 1.5rem;
         }
@@ -46,19 +68,19 @@
         }
         .social-links a {
             text-decoration: none;
-            color: #3498db;
+            color: var(--link-color);
             padding: 0.5rem 1rem;
-            border: 2px solid #3498db;
+            border: 2px solid var(--link-color);
             border-radius: 5px;
             transition: all 0.3s ease;
         }
         .social-links a:hover {
-            background-color: #3498db;
+            background-color: var(--link-color);
             color: white;
         }
         .intro {
             font-size: 1.1rem;
-            color: #2c3e50;
+            color: var(--text-primary);
             max-width: 600px;
             margin: 2rem auto;
         }
@@ -67,7 +89,7 @@
             text-align: left;
         }
         .experience h3 {
-            color: #2c3e50;
+            color: var(--text-primary);
             font-size: 1.5rem;
             margin-bottom: 1.5rem;
             font-weight: 500;
@@ -75,7 +97,7 @@
         .experience-item {
             margin-bottom: 2rem;
             padding-bottom: 1.5rem;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--border-color);
         }
         .experience-item:last-child {
             border-bottom: none;
@@ -84,29 +106,29 @@
             margin-bottom: 0.5rem;
         }
         .experience-header h4 {
-            color: #2c3e50;
+            color: var(--text-primary);
             margin: 0 0 0.25rem 0;
             font-size: 1.1rem;
             font-weight: 500;
         }
         .company {
             display: block;
-            color: #666;
+            color: var(--text-muted);
             margin-bottom: 0.25rem;
         }
         .company a {
-            color: #3498db;
+            color: var(--link-color);
             text-decoration: none;
         }
         .company a:hover {
             text-decoration: underline;
         }
         .duration {
-            color: #666;
+            color: var(--text-muted);
             font-size: 0.9rem;
         }
         .experience-item p {
-            color: #666;
+            color: var(--text-muted);
             font-size: 0.95rem;
             margin: 0.5rem 0 0 0;
             line-height: 1.5;
@@ -116,7 +138,7 @@
             text-align: left;
         }
         .education h3 {
-            color: #2c3e50;
+            color: var(--text-primary);
             font-size: 1.5rem;
             margin-bottom: 1.5rem;
             font-weight: 500;
@@ -124,7 +146,7 @@
         .education-item {
             margin-bottom: 2rem;
             padding-bottom: 1.5rem;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--border-color);
         }
         .education-item:last-child {
             border-bottom: none;
@@ -133,44 +155,47 @@
             margin-bottom: 0.5rem;
         }
         .education-header h4 {
-            color: #2c3e50;
+            color: var(--text-primary);
             margin: 0 0 0.25rem 0;
             font-size: 1.1rem;
             font-weight: 500;
         }
         .university {
             display: block;
-            color: #666;
+            color: var(--text-muted);
             margin-bottom: 0.25rem;
         }
         .university a {
-            color: #3498db;
+            color: var(--link-color);
             text-decoration: none;
         }
         .university a:hover {
             text-decoration: underline;
         }
         .activities {
-            color: #666;
+            color: var(--text-muted);
             font-size: 0.9rem;
             margin: 0.5rem 0 0 0;
             font-style: italic;
         }
         header {
             background-color: transparent;
-            color: #2c3e50;
+            color: var(--text-primary);
             padding: 0.5rem 0;
             text-align: left;
             width: 100%;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--border-color);
         }
         header .header-content {
             max-width: 800px;
             margin: 0 auto;
             padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         header h1 {
-            color: #2c3e50;
+            color: var(--text-primary);
             margin: 0;
             font-size: 1.2rem;
             font-weight: 500;
@@ -185,7 +210,7 @@
             height: 1px;
             bottom: -2px;
             left: 0;
-            background-color: #3498db;
+            background-color: var(--link-color);
             transform: scaleX(0);
             transform-origin: bottom right;
             transition: transform 0.2s ease-out;
@@ -194,14 +219,59 @@
             transform: scaleX(1);
             transform-origin: bottom left;
         }
+        .theme-toggle-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+        .theme-toggle {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background-color: var(--border-color);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border: none;
+            padding: 0;
+        }
+        .theme-toggle:hover {
+            opacity: 0.8;
+        }
+        .theme-toggle-slider {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 24px;
+            height: 24px;
+            background-color: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .theme-toggle-slider i {
+            font-size: 0.75rem;
+            color: #2c3e50;
+        }
+        [data-theme="dark"] .theme-toggle {
+            background-color: var(--link-color);
+        }
+        [data-theme="dark"] .theme-toggle-slider {
+            transform: translateX(30px);
+        }
+        [data-theme="dark"] .theme-toggle-slider i {
+            color: #f39c12;
+        }
         footer {
             background-color: transparent;
-            color: #666;
+            color: var(--text-muted);
             padding: 0.75rem 0;
             text-align: center;
             margin-top: auto;
             width: 100%;
-            border-top: 1px solid #eee;
+            border-top: 1px solid var(--border-color);
             font-size: 0.9rem;
         }
         .footer-content {
@@ -228,13 +298,13 @@
             margin-bottom: 0.5rem;
         }
         .footer-links a {
-            color: #666;
+            color: var(--text-muted);
             text-decoration: none;
             font-size: 1.1rem;
             transition: color 0.3s ease;
         }
         .footer-links a:hover {
-            color: #2c3e50;
+            color: var(--text-primary);
         }
         .footer-email {
             font-size: 0.9rem;
@@ -250,17 +320,47 @@
             padding: 2rem 0;
         }
     </style>
+    <script>
+        // Check for saved theme preference or default to light mode
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', currentTheme);
+
+        function toggleTheme() {
+            const theme = document.documentElement.getAttribute('data-theme');
+            const newTheme = theme === 'light' ? 'dark' : 'light';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // Update icon
+            const icon = document.querySelector('.theme-toggle-slider i');
+            icon.className = newTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+        }
+
+        // Set initial icon on page load
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const theme = document.documentElement.getAttribute('data-theme');
+            const icon = document.querySelector('.theme-toggle-slider i');
+            icon.className = theme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+        });
+    </script>
 </head>
 <body>
     <header>
         <div class="header-content">
             <h1><a href="/" style="text-decoration: none; color: inherit;">Arjun Vinod</a></h1>
+            <div class="theme-toggle-wrapper">
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+                    <div class="theme-toggle-slider">
+                        <i class="fas fa-moon"></i>
+                    </div>
+                </button>
+            </div>
         </div>
     </header>
     <main>
         <div class="container">
-            <h2>Welcome to My Website</h2>
-        <p class="intro">Hi! I'm Arjun, a Firmware Engineer based in Silicon Valley with expertise in embedded systems and hardware interfaces.</p>
+        <p class="intro">Hi! I'm Arjun, a Firmware Engineer based in Silicon Valley. I specialize in developing high-performance embedded systems, optimizing firmware for data center infrastructure, and designing robust hardware interfaces for next-generation connectivity solutions.</p>
         
         <section class="experience">
             <h3>Experience</h3>
