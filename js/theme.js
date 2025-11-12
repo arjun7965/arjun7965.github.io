@@ -13,7 +13,7 @@ function toggleTheme() {
     
     // Update icon
     const icon = document.querySelector('.theme-toggle-slider i');
-    icon.className = newTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+    if (icon) icon.className = newTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
 }
 
 // Set initial icon on page load
