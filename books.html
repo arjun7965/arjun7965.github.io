@@ -66,7 +66,7 @@
 
         // Helper: Normalize ISBN (remove hyphens/spaces)
         function normalizeIsbn(isbn) {
-            return (isbn || '').toString().replace(/[^0-9Xx]/g, '').toUpperCase();
+            return (isbn || '').toString().replace(/[^0-9X]/gi, '').toUpperCase();
         }
 
         // Helper: Convert ISBN-10 to ISBN-13 (prefix 978)
