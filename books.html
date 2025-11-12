@@ -176,6 +176,16 @@
                 tryLoadCover(img);
             });
         });
+
+        // Listen for theme changes and regenerate placeholder images
+        document.addEventListener('themeChanged', () => {
+            // Only regenerate placeholder images, not real book covers
+            document.querySelectorAll('.book-cover img[data-loaded="placeholder"]').forEach(img => {
+                const title = img.getAttribute('alt') || img.dataset.title || '';
+                const author = img.dataset.author || '';
+                img.src = generatePlaceholderDataURI(title, author);
+            });
+        });
     </script>
     <script src="js/menu.js"></script>
 </head>

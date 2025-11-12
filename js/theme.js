@@ -14,6 +14,9 @@ function toggleTheme() {
     // Update icon
     const icon = document.querySelector('.theme-toggle-slider i');
     if (icon) icon.className = newTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+    
+    // Dispatch custom event for theme change
+    document.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme: newTheme } }));
 }
 
 // Set initial icon on page load
