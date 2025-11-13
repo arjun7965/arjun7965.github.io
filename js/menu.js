@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (dropdown.classList.contains('show')) {
                 dropdown.classList.remove('show');
                 btn.setAttribute('aria-expanded', 'false');
+                btn.focus(); // Return focus to button
             }
         }
     });
@@ -37,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Close dropdown when focus leaves the menu area
     menuWrapper.addEventListener('focusout', function(event) {
         // If the newly focused element is not inside the menu wrapper, close the dropdown
-        if (!menuWrapper.contains(event.relatedTarget)) {
+        if (!event.relatedTarget || !menuWrapper.contains(event.relatedTarget)) {
             if (dropdown.classList.contains('show')) {
                 dropdown.classList.remove('show');
                 btn.setAttribute('aria-expanded', 'false');

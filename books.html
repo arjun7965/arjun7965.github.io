@@ -166,7 +166,8 @@
                 probes.push(probe);
                 probe.onload = function() {
                     if (settled) return;
-                    // Some servers may return 1x1 for missing; guard
+                    // Check for 1x1 pixel placeholder images that some servers may return
+                    // even with default=false parameter as a defensive measure
                     if (probe.naturalWidth <= 1 || probe.naturalHeight <= 1) {
                         remaining--;
                         if (remaining === 0 && !settled) {
@@ -256,7 +257,7 @@
                     </a>
                 </div>
                 <div class="book-details">
-                    <div class="book-title">The Deficit Myth: Modern Monetary Theory and the Birth of the People's Economy</div>
+                    <h3 class="book-title">The Deficit Myth: Modern Monetary Theory and the Birth of the People's Economy</h3>
                     <div class="book-author">by Stephanie Kelton</div>
                     <p class="book-notes">A leading economist challenges conventional deficit thinking and explains how Modern Monetary Theory reveals the true power and limitations of sovereign currencies in advancing the public good.</p>
                 </div>
@@ -269,7 +270,7 @@
                     </a>
                 </div>
                 <div class="book-details">
-                    <div class="book-title">Layered Money: From Gold and Dollars to Bitcoin and Central Bank Digital Currencies</div>
+                    <h3 class="book-title">Layered Money: From Gold and Dollars to Bitcoin and Central Bank Digital Currencies</h3>
                     <div class="book-author">by Nik Bhatia</div>
                     <p class="book-notes">An innovative framework for understanding money as a layered system, tracing its evolution from gold-backed currencies through modern banking to cryptocurrencies and the future of digital central bank money.</p>
                 </div>
@@ -282,7 +283,7 @@
                     </a>
                 </div>
                 <div class="book-details">
-                    <div class="book-title">The Price of Tomorrow: Why Deflation Is the Key to an Abundant Future</div>
+                    <h3 class="book-title">The Price of Tomorrow: Why Deflation Is the Key to an Abundant Future</h3>
                     <div class="book-author">by Jeff Booth</div>
                     <p class="book-notes">A thought-provoking exploration of how exponential technological advancement is creating deflation in a world built on inflationary economic systems, and why embracing this shift could unlock unprecedented prosperity.</p>
                 </div>
@@ -295,7 +296,7 @@
                     </a>
                 </div>
                 <div class="book-details">
-                    <div class="book-title">The Big Print: What Happened to America and How Sound Money Will Fix It</div>
+                    <h3 class="book-title">The Big Print: What Happened to America and How Sound Money Will Fix It</h3>
                     <div class="book-author">by Lawrence Lepard</div>
                     <p class="book-notes">A compelling analysis of how decades of monetary expansion and currency debasement have eroded American prosperity, and a call for returning to sound money principles to restore economic stability and opportunity.</p>
                 </div>
@@ -308,7 +309,7 @@
                     </a>
                 </div>
                 <div class="book-details">
-                    <div class="book-title">The Case Against the Fed</div>
+                    <h3 class="book-title">The Case Against the Fed</h3>
                     <div class="book-author">by Murray N. Rothbard</div>
                     <p class="book-notes">A foundational critique of the Federal Reserve System, examining its origins, operations, and effects on the economy while arguing for a return to free-market banking and sound money backed by gold.</p>
                 </div>
@@ -321,7 +322,7 @@
                     </a>
                 </div>
                 <div class="book-details">
-                    <div class="book-title">Paper Soldiers: How the Weaponization of the Dollar Changed the World Order</div>
+                    <h3 class="book-title">Paper Soldiers: How the Weaponization of the Dollar Changed the World Order</h3>
                     <div class="book-author">by Saleha Mohsin</div>
                     <p class="book-notes">An inside look at how the U.S. dollar became a powerful geopolitical weapon through financial sanctions and economic warfare, reshaping global power dynamics and raising questions about the future of American financial dominance.</p>
                 </div>
