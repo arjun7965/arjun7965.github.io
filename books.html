@@ -141,32 +141,59 @@
             const title = img.getAttribute('alt') || img.dataset.title || '';
             const author = img.dataset.author || '';
             const isbns = buildIsbnCandidates(img);
-            let idx = 0;
 
-            function attemptNext() {
-                if (idx >= isbns.length) {
-                    img.src = generatePlaceholderDataURI(title, author);
-                    img.dataset.loaded = 'placeholder';
-                    return;
-                }
-                const isbn = isbns[idx++];
-                const testUrl = openLibraryUrlForIsbn(isbn);
-                // Create a temp image to avoid messing with main until success
-                const probe = new Image();
-                probe.onload = function() {
-                    // Some servers may return 1x1 for missing; guard
-                    if (probe.naturalWidth <= 1 || probe.naturalHeight <= 1) {
-                        attemptNext();
-                        return;
-                    }
-                    img.src = testUrl;
-                    img.dataset.loaded = isbn;
-                };
-                probe.onerror = attemptNext;
-                probe.src = testUrl;
+            if (isbns.length === 0) {
+                img.src = generatePlaceholderDataURI(title, author);
+                img.dataset.loaded = 'placeholder';
+                return;
             }
 
-            attemptNext();
+            let settled = false;
+            let remaining = isbns.length;
+            const probes = [];
+
+            function cleanup() {
+                // Remove event handlers and references to avoid leaks
+                probes.forEach(probe => {
+                    probe.onload = null;
+                    probe.onerror = null;
+                });
+            }
+
+            isbns.forEach(isbn => {
+                const testUrl = openLibraryUrlForIsbn(isbn);
+                const probe = new Image();
+                probes.push(probe);
+                probe.onload = function() {
+                    if (settled) return;
+                    // Some servers may return 1x1 for missing; guard
+                    if (probe.naturalWidth <= 1 || probe.naturalHeight <= 1) {
+                        remaining--;
+                        if (remaining === 0 && !settled) {
+                            settled = true;
+                            img.src = generatePlaceholderDataURI(title, author);
+                            img.dataset.loaded = 'placeholder';
+                            cleanup();
+                        }
+                        return;
+                    }
+                    settled = true;
+                    img.src = testUrl;
+                    img.dataset.loaded = isbn;
+                    cleanup();
+                };
+                probe.onerror = function() {
+                    if (settled) return;
+                    remaining--;
+                    if (remaining === 0 && !settled) {
+                        settled = true;
+                        img.src = generatePlaceholderDataURI(title, author);
+                        img.dataset.loaded = 'placeholder';
+                        cleanup();
+                    }
+                };
+                probe.src = testUrl;
+            });
         }
 
         // Resolve book covers on page load
