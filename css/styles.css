@@ -126,6 +126,17 @@ footer { background-color: transparent; color: var(--text-muted); padding: 0.75r
 /* Skip Link */
 .skip-link { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
 .skip-link:focus { position: static; width: auto; height: auto; padding: 0.5rem 0.75rem; background: var(--container-bg); border: 1px solid var(--border-color); border-radius: 5px; margin: 0.5rem; }
+/* Footer Specific */
+.footer-copyright { margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-muted); }
+.footer-email-link { color: var(--text-muted); text-decoration: none; }
+.footer-email-link:hover { text-decoration: underline; }
+/* Section Description */
+.section-description { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1.5rem; font-style: italic; }
+/* Site Logo */
+.site-logo { font-size: 1.2rem; font-weight: 500; }
+.site-logo a { position: relative; text-decoration: none; color: inherit; }
+.site-logo a:after { content: ''; position: absolute; width: 100%; height: 1px; bottom: -2px; left: 0; background-color: var(--link-color); transform: scaleX(0); transform-origin: bottom right; transition: transform 0.2s ease-out; }
+.site-logo a:hover:after { transform: scaleX(1); transform-origin: bottom left; }
 /* Books Page Shared Elements */
 .book-item { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); display: flex; gap: 1.5rem; align-items: flex-start; }
 .book-item:last-child { border-bottom: none; }
