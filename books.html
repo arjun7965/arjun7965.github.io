@@ -170,7 +170,7 @@
         }
 
         // Resolve book covers on page load
-        window.addEventListener('DOMContentLoaded', (event) => {
+        window.addEventListener('DOMContentLoaded', () => {
             // Resolve covers with fallbacks/alternates
             document.querySelectorAll('.book-cover img[data-isbn]').forEach(img => {
                 tryLoadCover(img);
@@ -193,7 +193,7 @@
     <a class="skip-link" href="#main">Skip to content</a>
     <header>
         <div class="header-content">
-            <div class="site-logo" style="font-size: 2rem; font-weight: bold;"><a href="/" style="text-decoration: none; color: inherit;">Arjun Vinod</a></div>
+            <div class="site-logo"><a href="/">Arjun Vinod</a></div>
             <div class="header-right">
                 <div class="menu-wrapper">
                     <button class="menu-button" onclick="toggleMenu()" aria-label="Menu" aria-haspopup="true" aria-expanded="false" aria-controls="menu-dropdown">
@@ -218,7 +218,7 @@
             <h1>Reading List</h1>
             
             <h2>2025</h2>
-            <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1.5rem; font-style: italic;">
+            <p class="section-description">
                 A collection of books exploring macroeconomics, financial systems, and monetary history.
             </p>
             
@@ -303,7 +303,7 @@
     </main>
     <footer>
         <div class="footer-content">
-            <div class="copyright" style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-muted);">
+            <div class="copyright footer-copyright">
                 © 2025 Arjun Vinod. All rights reserved.
             </div>
             <div class="footer-right">
@@ -319,7 +319,7 @@
                     </a>
                 </div>
                 <div class="footer-email">
-                    <a href="mailto:me@arjunvinod.com" style="color: var(--text-muted); text-decoration: none;">me@arjunvinod.com</a>
+                    <a href="mailto:me@arjunvinod.com" class="footer-email-link">me@arjunvinod.com</a>
                 </div>
             </div>
         </div>

@@ -7,47 +7,41 @@ function toggleMenu() {
     if (btn) btn.setAttribute('aria-expanded', willShow ? 'true' : 'false');
 }
 
-// Close dropdown when clicking outside and on Escape key press, after DOM is ready
+// Close dropdown when clicking outside, on Escape key press, and when focus leaves the menu area
 document.addEventListener('DOMContentLoaded', function() {
+    // Cache DOM elements
+    const menuWrapper = document.querySelector('.menu-wrapper');
+    const dropdown = document.querySelector('#menu-dropdown');
+    const btn = document.querySelector('.menu-button');
+    
+    if (!menuWrapper || !dropdown || !btn) return;
+    
+    // Close dropdown when clicking outside
     document.addEventListener('click', function(event) {
-        const menuWrapper = document.querySelector('.menu-wrapper');
-        if (menuWrapper && !menuWrapper.contains(event.target)) {
-            const dropdown = document.querySelector('#menu-dropdown');
-            if (dropdown) {
-                dropdown.classList.remove('show');
-                const btn = document.querySelector('.menu-button');
-                if (btn) btn.setAttribute('aria-expanded', 'false');
-            }
+        if (!menuWrapper.contains(event.target)) {
+            dropdown.classList.remove('show');
+            btn.setAttribute('aria-expanded', 'false');
         }
     });
 
     // Close dropdown on Escape key press
     document.addEventListener('keydown', function(event) {
         if (event.key === 'Escape' || event.key === 'Esc') {
-            const dropdown = document.querySelector('#menu-dropdown');
-            if (dropdown && dropdown.classList.contains('show')) {
+            if (dropdown.classList.contains('show')) {
                 dropdown.classList.remove('show');
-                const btn = document.querySelector('.menu-button');
-                if (btn) btn.setAttribute('aria-expanded', 'false');
+                btn.setAttribute('aria-expanded', 'false');
             }
         }
     });
-});
-
-// Close dropdown when focus leaves the menu area
-document.addEventListener('DOMContentLoaded', function() {
-    const menuWrapper = document.querySelector('.menu-wrapper');
-    if (menuWrapper) {
-        menuWrapper.addEventListener('focusout', function(event) {
-            // If the newly focused element is not inside the menu wrapper, close the dropdown
-            if (!menuWrapper.contains(event.relatedTarget)) {
-                const dropdown = document.querySelector('#menu-dropdown');
-                if (dropdown && dropdown.classList.contains('show')) {
-                    dropdown.classList.remove('show');
-                    const btn = document.querySelector('.menu-button');
-                    if (btn) btn.setAttribute('aria-expanded', 'false');
-                }
+    
+    // Close dropdown when focus leaves the menu area
+    menuWrapper.addEventListener('focusout', function(event) {
+        // If the newly focused element is not inside the menu wrapper, close the dropdown
+        if (!menuWrapper.contains(event.relatedTarget)) {
+            if (dropdown.classList.contains('show')) {
+                dropdown.classList.remove('show');
+                btn.setAttribute('aria-expanded', 'false');
             }
-        });
-    }
+        }
+    });
 });
