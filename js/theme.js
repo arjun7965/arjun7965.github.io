@@ -23,5 +23,9 @@ function toggleTheme() {
 window.addEventListener('DOMContentLoaded', () => {
     const theme = document.documentElement.getAttribute('data-theme');
     const icon = document.querySelector('.theme-toggle-slider i');
-    if (icon) icon.className = theme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+    if (icon) {
+        icon.className = theme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+    } else {
+        console.warn('Theme toggle icon element not found');
+    }
 });
