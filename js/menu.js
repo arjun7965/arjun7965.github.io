@@ -7,29 +7,31 @@ function toggleMenu() {
     if (btn) btn.setAttribute('aria-expanded', willShow ? 'true' : 'false');
 }
 
-// Close dropdown when clicking outside
-document.addEventListener('click', function(event) {
-    const menuWrapper = document.querySelector('.menu-wrapper');
-    if (menuWrapper && !menuWrapper.contains(event.target)) {
-        const dropdown = document.querySelector('#menu-dropdown');
-        if (dropdown) {
-            dropdown.classList.remove('show');
-            const btn = document.querySelector('.menu-button');
-            if (btn) btn.setAttribute('aria-expanded', 'false');
+// Close dropdown when clicking outside and on Escape key press, after DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('click', function(event) {
+        const menuWrapper = document.querySelector('.menu-wrapper');
+        if (menuWrapper && !menuWrapper.contains(event.target)) {
+            const dropdown = document.querySelector('#menu-dropdown');
+            if (dropdown) {
+                dropdown.classList.remove('show');
+                const btn = document.querySelector('.menu-button');
+                if (btn) btn.setAttribute('aria-expanded', 'false');
+            }
         }
-    }
-});
+    });
 
-// Close dropdown on Escape key press
-document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape' || event.key === 'Esc') {
-        const dropdown = document.querySelector('#menu-dropdown');
-        if (dropdown && dropdown.classList.contains('show')) {
-            dropdown.classList.remove('show');
-            const btn = document.querySelector('.menu-button');
-            if (btn) btn.setAttribute('aria-expanded', 'false');
+    // Close dropdown on Escape key press
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' || event.key === 'Esc') {
+            const dropdown = document.querySelector('#menu-dropdown');
+            if (dropdown && dropdown.classList.contains('show')) {
+                dropdown.classList.remove('show');
+                const btn = document.querySelector('.menu-button');
+                if (btn) btn.setAttribute('aria-expanded', 'false');
+            }
         }
-    }
+    });
 });
 
 // Close dropdown when focus leaves the menu area
