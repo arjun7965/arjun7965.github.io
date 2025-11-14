@@ -39,5 +39,6 @@ window.addEventListener('DOMContentLoaded', () => {
     const btn = document.querySelector('.theme-toggle');
     if (btn) {
         btn.setAttribute('aria-label', theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode');
+        btn.setAttribute('aria-checked', theme === 'dark' ? 'true' : 'false');
     }
 });
