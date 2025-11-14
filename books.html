@@ -175,7 +175,8 @@
                 probes.push(probe);
                 probe.onload = function() {
                     // Check for 1x1 pixel placeholder images that some servers may return
-                    if (probe.naturalWidth <= 1 || probe.naturalHeight <= 1) {
+                    // Only reject images that are exactly 1x1 pixels (common placeholder)
+                    if (probe.naturalWidth === 1 && probe.naturalHeight === 1) {
                         tryNextIsbn(index + 1);
                         return;
                     }
