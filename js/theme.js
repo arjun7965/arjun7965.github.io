@@ -19,6 +19,7 @@ function toggleTheme() {
     const btn = document.querySelector('.theme-toggle');
     if (btn) {
         btn.setAttribute('aria-label', newTheme === 'light' ? 'Switch to dark mode' : 'Switch to light mode');
+        btn.setAttribute('aria-checked', newTheme === 'dark' ? 'true' : 'false');
     }
     
     // Dispatch custom event for theme change
