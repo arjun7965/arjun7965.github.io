@@ -49,7 +49,7 @@
     </style>
     <script src="js/theme.js" defer></script>
     <script>
-        // Helper: Normalize ISBN (remove hyphens/spaces)
+        // Helper: Normalize ISBN (remove all non-digit characters except X)
         function normalizeIsbn(isbn) {
             return (isbn || '').toString().replace(/[^0-9X]/gi, '').toUpperCase();
         }
