@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Books Read by Arjun Vinod">
+    <meta name="author" content="Arjun Vinod">
+    <title>Books | Arjun Vinod</title>
+    <link rel="canonical" href="https://arjunvinod.com/books.html">
+    <meta property="og:title" content="Books | Arjun Vinod">
+    <meta property="og:description" content="A collection of books exploring macroeconomics, financial systems, and monetary history.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://arjunvinod.com/books.html">
+    <meta property="og:image" content="https://arjunvinod.com/images/apple-touch-icon.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Books | Arjun Vinod">
+    <meta name="twitter:description" content="A collection of books exploring macroeconomics, financial systems, and monetary history.">
+    <meta name="twitter:image" content="https://arjunvinod.com/images/apple-touch-icon.png">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous">
+    <link rel="preconnect" href="https://covers.openlibrary.org" crossorigin="anonymous">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+    <link rel="icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        /* Books-specific: h1/h2 and copyright alignment */
+        h1 {
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        h2 {
+            color: var(--text-primary);
+            font-size: 1.3rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+        .copyright {
+            text-align: center;
+            /* Removed hardcoded margin-left: 200px for better responsiveness */
+        }
+        .footer-email {
+            font-size: 0.9rem;
+        }
+    </style>
+    <script src="js/theme.js" defer></script>
+    <script>
+        // Helper: Normalize ISBN (remove all non-digit characters except X)
+        function normalizeIsbn(isbn) {
+            return (isbn || '').toString().replace(/[^0-9X]/gi, '').toUpperCase();
+        }
+
+        // Helper: Convert ISBN-10 to ISBN-13 (prefix 978)
+        // ISBN-13 is the modern standard that replaced ISBN-10. All ISBN-10s can be converted
+        // to ISBN-13 by prepending '978' (the Bookland EAN prefix) to the first 9 digits,
+        // then recalculating the check digit using the EAN-13 algorithm.
+        function isbn10to13(isbn10) {
+            const clean = normalizeIsbn(isbn10);
+            if (clean.length !== 10) return null;
+            
+            // Take first 9 digits of ISBN-10 and prepend '978' to create 12-digit base
+            const core = '978' + clean.slice(0, 9);
+            
+            // Calculate EAN-13 check digit using the standard algorithm:
+            // Sum all digits, alternating between weight 1 (even positions) and weight 3 (odd positions)
+            // The check digit is the number needed to make the total sum a multiple of 10
+            let sum = 0;
+            for (let i = 0; i < 12; i++) {
+                const d = parseInt(core[i], 10);
+                sum += (i % 2 === 0) ? d : d * 3;  // Even index = weight 1, odd index = weight 3
+            }
+            const check = (10 - (sum % 10)) % 10;
+            return core + String(check);
+        }
+
+        // Helper: Convert ISBN-13 to ISBN-10 (only for 978 prefix)
+        // Only ISBN-13s with '978' prefix (Bookland) can be converted back to ISBN-10.
+        // ISBN-13s with '979' prefix have no ISBN-10 equivalent as they were issued after
+        // the ISBN-10 system was deprecated.
+        function isbn13to10(isbn13) {
+            const clean = normalizeIsbn(isbn13);
+            if (clean.length !== 13 || !clean.startsWith('978')) return null;
+            
+            // Extract the 9 core digits (removing '978' prefix and check digit)
+            const core9 = clean.slice(3, 12);
+            
+            // Calculate ISBN-10 check digit using modulo 11 algorithm:
+            // Each digit is multiplied by its position weight (10 down to 2)
+            // The check digit makes the weighted sum divisible by 11
+            let sum = 0;
+            for (let i = 0; i < 9; i++) {
+                sum += (10 - i) * parseInt(core9[i], 10);  // Weights: 10, 9, 8, 7, 6, 5, 4, 3, 2
+            }
+            
+            // Calculate what's needed to reach next multiple of 11
+            let remainder = 11 - (sum % 11);
+            let check;
+            if (remainder === 10) check = 'X';        // 'X' represents 10 in ISBN-10
+            else if (remainder === 11) check = '0';   // Remainder 11 means already divisible, use 0
+            else check = String(remainder);
+            return core9 + check;
+        }
+
+        function unique(arr) {
+            return Array.from(new Set(arr.filter(Boolean)));
+        }
+
+        function buildIsbnCandidates(img) {
+            const provided = normalizeIsbn(img.dataset.isbn || '');
+            const manual = (img.dataset.altIsbns || '')
+                .split(',')
+                .map(s => normalizeIsbn(s))
+                .filter(Boolean);
+
+            const candidates = [];
+            // Manual overrides first (explicit order)
+            candidates.push(...manual);
+
+            // Provided ISBN
+            if (provided) candidates.push(provided);
+
+            // Add conversions
+            if (provided.length === 10) {
+                candidates.push(isbn10to13(provided));
+            } else if (provided.length === 13 && provided.startsWith('978')) {
+                candidates.push(isbn13to10(provided));
+            }
+
+            return unique(candidates);
+        }
+
+        function openLibraryUrlForIsbn(isbn) {
+            // default=false so a missing cover triggers error instead of generic placeholder
+            return `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg?default=false`;
+        }
+
+        function generatePlaceholderDataURI(title, author) {
+            const bg = document.documentElement.getAttribute('data-theme') === 'dark' ? '#2d2d2d' : '#e9eef3';
+            const fg = document.documentElement.getAttribute('data-theme') === 'dark' ? '#d0d0d0' : '#2c3e50';
+            const safeTitle = (title || 'No cover').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+            const safeAuthor = (author || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+            const svg = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="400" height="600">
+                    <rect width="100%" height="100%" fill="${bg}"/>
+                    <foreignObject x="20" y="40" width="360" height="520">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Inter,Arial,sans-serif; color:${fg}; display:flex; flex-direction:column; justify-content:center; height:100%;">
+                            <div style="font-size:28px; font-weight:700; line-height:1.2; margin-bottom:12px; word-wrap:break-word;">${safeTitle}</div>
+                            <div style="font-size:18px; opacity:0.8;">${safeAuthor}</div>
+                        </div>
+                    </foreignObject>
+                </svg>`;
+            return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+        }
+
+        function tryLoadCover(img) {
+            const title = img.getAttribute('alt') || img.dataset.title || '';
+            const author = img.dataset.author || '';
+            const isbns = buildIsbnCandidates(img);
+
+            if (isbns.length === 0) {
+                img.src = generatePlaceholderDataURI(title, author);
+                img.dataset.loaded = 'placeholder';
+                return;
+            }
+
+            const probes = [];
+
+            function cleanup() {
+                // Remove event handlers and references to avoid leaks
+                probes.forEach(probe => {
+                    probe.onload = null;
+                    probe.onerror = null;
+                });
+                probes.length = 0;
+            }
+
+            // Try ISBNs sequentially to ensure deterministic order
+            function tryNextIsbn(index) {
+                if (index >= isbns.length) {
+                    // All ISBNs failed, use placeholder
+                    img.src = generatePlaceholderDataURI(title, author);
+                    img.dataset.loaded = 'placeholder';
+                    return;
+                }
+                const isbn = isbns[index];
+                const testUrl = openLibraryUrlForIsbn(isbn);
+                const probe = new Image();
+                probes.push(probe);
+                probe.onload = function() {
+                    // Check for 1x1 pixel placeholder images that some servers may return
+                    // Only reject images that are exactly 1x1 pixels (common placeholder)
+                    if (probe.naturalWidth === 1 && probe.naturalHeight === 1) {
+                        tryNextIsbn(index + 1);
+                        return;
+                    }
+                    img.src = testUrl;
+                    img.dataset.loaded = isbn;
+                    cleanup();
+                };
+                probe.onerror = function() {
+                    tryNextIsbn(index + 1);
+                };
+                probe.src = testUrl;
+            }
+            tryNextIsbn(0);
+        }
+
+        // Resolve book covers on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            // Resolve covers with fallbacks/alternates
+            document.querySelectorAll('.book-cover img[data-isbn]').forEach(img => {
+                tryLoadCover(img);
+            });
+        });
+
+        // Listen for theme changes and regenerate placeholder images
+        document.addEventListener('themeChanged', () => {
+            // Only regenerate placeholder images, not real book covers
+            document.querySelectorAll('.book-cover img[data-loaded="placeholder"]').forEach(img => {
+                const title = img.getAttribute('alt') || img.dataset.title || '';
+                const author = img.dataset.author || '';
+                img.src = generatePlaceholderDataURI(title, author);
+            });
+        });
+    </script>
+    <script src="js/menu.js" defer></script>
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header>
+        <div class="header-content">
+            <div class="site-logo"><a href="/">Arjun Vinod</a></div>
+            <div class="header-right">
+                <div class="menu-wrapper">
+                    <button class="menu-button" aria-label="Menu" aria-haspopup="true" aria-expanded="false" aria-controls="menu-dropdown">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <nav class="menu-dropdown" id="menu-dropdown" role="navigation" aria-label="Primary Navigation">
+                        <a href="/books.html">Books</a>
+                    </nav>
+                </div>
+                <div class="theme-toggle-wrapper">
+                    <button class="theme-toggle" aria-label="Toggle theme" role="switch" aria-checked="false">
+                        <div class="theme-toggle-slider">
+                            <i class="fas fa-moon"></i>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main id="main">
+        <div class="container">
+            <h1>Reading List</h1>
+            
+            <h2>2025</h2>
+            <p class="section-description">
+                A collection of books exploring macroeconomics, financial systems, and monetary history.
+            </p>
+            
+            <article class="book-item">
+                <div class="book-cover">
+                    <a href="https://www.amazon.com/Deficit-Myth-Monetary-Peoples-Economy/dp/1541736184" target="_blank" rel="noopener noreferrer">
+                        <img decoding="async" data-isbn="1541736184" alt="The Deficit Myth by Stephanie Kelton" data-title="The Deficit Myth" data-author="Stephanie Kelton">
+                    </a>
+                </div>
+                <div class="book-details">
+                    <h3 class="book-title">The Deficit Myth: Modern Monetary Theory and the Birth of the People's Economy</h3>
+                    <div class="book-author">by Stephanie Kelton</div>
+                    <p class="book-notes">A leading economist challenges conventional deficit thinking and explains how Modern Monetary Theory reveals the true power and limitations of sovereign currencies in advancing the public good.</p>
+                </div>
+            </article>
+
+            <article class="book-item">
+                <div class="book-cover">
+                    <a href="https://www.amazon.com/Layered-Money-Dollars-Bitcoin-Currencies/dp/1736110527" target="_blank" rel="noopener noreferrer">
+                        <img loading="lazy" decoding="async" data-isbn="1736110527" alt="Layered Money by Nik Bhatia" data-title="Layered Money" data-author="Nik Bhatia">
+                    </a>
+                </div>
+                <div class="book-details">
+                    <h3 class="book-title">Layered Money: From Gold and Dollars to Bitcoin and Central Bank Digital Currencies</h3>
+                    <div class="book-author">by Nik Bhatia</div>
+                    <p class="book-notes">An innovative framework for understanding money as a layered system, tracing its evolution from gold-backed currencies through modern banking to cryptocurrencies and the future of digital central bank money.</p>
+                </div>
+            </article>
+
+            <article class="book-item">
+                <div class="book-cover">
+                    <a href="https://www.amazon.com/Price-Tomorrow-Deflation-Abundant-Future/dp/1999257405" target="_blank" rel="noopener noreferrer">
+                        <img loading="lazy" decoding="async" data-isbn="1999257405" alt="The Price of Tomorrow by Jeff Booth" data-title="The Price of Tomorrow" data-author="Jeff Booth">
+                    </a>
+                </div>
+                <div class="book-details">
+                    <h3 class="book-title">The Price of Tomorrow: Why Deflation Is the Key to an Abundant Future</h3>
+                    <div class="book-author">by Jeff Booth</div>
+                    <p class="book-notes">A thought-provoking exploration of how exponential technological advancement is creating deflation in a world built on inflationary economic systems, and why embracing this shift could unlock unprecedented prosperity.</p>
+                </div>
+            </article>
+
+            <article class="book-item">
+                <div class="book-cover">
+                    <a href="https://www.amazon.com/dp/B0F2NCPQ2K" target="_blank" rel="noopener noreferrer">
+                        <img loading="lazy" decoding="async" data-isbn="9798992242515" alt="The Big Print by Lawrence Lepard" data-title="The Big Print" data-author="Lawrence Lepard">
+                    </a>
+                </div>
+                <div class="book-details">
+                    <h3 class="book-title">The Big Print: What Happened to America and How Sound Money Will Fix It</h3>
+                    <div class="book-author">by Lawrence Lepard</div>
+                    <p class="book-notes">A compelling analysis of how decades of monetary expansion and currency debasement have eroded American prosperity, and a call for returning to sound money principles to restore economic stability and opportunity.</p>
+                </div>
+            </article>
+
+            <article class="book-item">
+                <div class="book-cover">
+                    <a href="https://www.thriftbooks.com/w/the-case-against-the-fed_murray-n-rothbard/343797/#edition=4404863&idiq=4178217" target="_blank" rel="noopener noreferrer">
+                        <img loading="lazy" decoding="async" data-isbn="9781987817720" alt="The Case Against the Fed by Murray N. Rothbard" data-title="The Case Against the Fed" data-author="Murray N. Rothbard">
+                    </a>
+                </div>
+                <div class="book-details">
+                    <h3 class="book-title">The Case Against the Fed</h3>
+                    <div class="book-author">by Murray N. Rothbard</div>
+                    <p class="book-notes">A foundational critique of the Federal Reserve System, examining its origins, operations, and effects on the economy while arguing for a return to free-market banking and sound money backed by gold.</p>
+                </div>
+            </article>
+
+            <article class="book-item">
+                <div class="book-cover">
+                    <a href="https://www.thriftbooks.com/w/paper-soldiers-how-the-weaponization-of-the-dollar-changed-the-world-order_saleha-mohsin/55037738/?resultid=b45c7b57-ac03-4945-9e3d-74a29ea8aab4#edition=67591091&idiq=57992781" target="_blank" rel="noopener noreferrer">
+                        <img loading="lazy" decoding="async" data-isbn="9780593539118" data-alt-isbns="9780593197543,059319754X" alt="Paper Soldiers by Saleha Mohsin" data-title="Paper Soldiers" data-author="Saleha Mohsin">
+                    </a>
+                </div>
+                <div class="book-details">
+                    <h3 class="book-title">Paper Soldiers: How the Weaponization of the Dollar Changed the World Order</h3>
+                    <div class="book-author">by Saleha Mohsin</div>
+                    <p class="book-notes">An inside look at how the U.S. dollar became a powerful geopolitical weapon through financial sanctions and economic warfare, reshaping global power dynamics and raising questions about the future of American financial dominance.</p>
+                </div>
+            </article>
+        </div>
+    </main>
+    <footer>
+        <div class="footer-content">
+            <div class="copyright footer-copyright">
+                © 2025 Arjun Vinod. All rights reserved.
+            </div>
+            <div class="footer-right">
+                <div class="footer-links">
+                    <a href="https://twitter.com/arjun7965" target="_blank" rel="noopener noreferrer" title="X (Twitter)" aria-label="X (Twitter)">
+                        <i class="fab fa-x-twitter"></i>
+                    </a>
+                    <a href="https://linkedin.com/in/avinod" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://github.com/arjun7965" target="_blank" rel="noopener noreferrer" title="GitHub" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
+                <div class="footer-email">
+                    <a href="mailto:me@arjunvinod.com" class="footer-email-link">me@arjunvinod.com</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

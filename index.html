@@ -4,37 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Arjun's Personal Website - Firmware Engineer">
+    <meta name="author" content="Arjun Vinod">
     <title>Arjun Vinod | Firmware Engineer</title>
+    <link rel="canonical" href="https://arjunvinod.com/">
+    <meta property="og:title" content="Arjun Vinod | Firmware Engineer">
+    <meta property="og:description" content="Firmware engineer specializing in high-performance embedded systems, data center infrastructure, and hardware interfaces.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://arjunvinod.com/">
+    <meta property="og:image" content="https://arjunvinod.com/images/apple-touch-icon.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Arjun Vinod | Firmware Engineer">
+    <meta name="twitter:description" content="Firmware engineer specializing in high-performance embedded systems, data center infrastructure, and hardware interfaces.">
+    <meta name="twitter:image" content="https://arjunvinod.com/images/apple-touch-icon.png">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous">
     <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
     <link rel="icon" href="images/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            background-color: #f5f5f5;
-            display: flex;
-            flex-direction: column;
-        }
+        /* Index-specific: container with text-align center */
         .container {
             text-align: center;
-            padding: 2rem;
-            background-color: white;
-            max-width: 800px;
-            margin: 0 auto;
-            width: 100%;
         }
         h1 {
-            color: #2c3e50;
+            color: var(--text-primary);
             margin-bottom: 1rem;
         }
         p {
-            color: #34495e;
+            color: var(--text-secondary);
             font-size: 1.1rem;
             margin-bottom: 1.5rem;
         }
@@ -46,224 +45,69 @@
         }
         .social-links a {
             text-decoration: none;
-            color: #3498db;
+            color: var(--link-color);
             padding: 0.5rem 1rem;
-            border: 2px solid #3498db;
+            border: 2px solid var(--link-color);
             border-radius: 5px;
             transition: all 0.3s ease;
         }
         .social-links a:hover {
-            background-color: #3498db;
+            background-color: var(--link-color);
             color: white;
-        }
-        .intro {
-            font-size: 1.1rem;
-            color: #2c3e50;
-            max-width: 600px;
-            margin: 2rem auto;
-        }
-        .experience {
-            margin: 2rem 0;
-            text-align: left;
-        }
-        .experience h3 {
-            color: #2c3e50;
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            font-weight: 500;
-        }
-        .experience-item {
-            margin-bottom: 2rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid #eee;
-        }
-        .experience-item:last-child {
-            border-bottom: none;
         }
         .experience-header {
             margin-bottom: 0.5rem;
         }
-        .experience-header h4 {
-            color: #2c3e50;
-            margin: 0 0 0.25rem 0;
-            font-size: 1.1rem;
-            font-weight: 500;
-        }
-        .company {
-            display: block;
-            color: #666;
-            margin-bottom: 0.25rem;
-        }
-        .company a {
-            color: #3498db;
-            text-decoration: none;
-        }
-        .company a:hover {
-            text-decoration: underline;
-        }
-        .duration {
-            color: #666;
-            font-size: 0.9rem;
-        }
         .experience-item p {
-            color: #666;
+            color: var(--text-muted);
             font-size: 0.95rem;
             margin: 0.5rem 0 0 0;
             line-height: 1.5;
         }
-        .education {
-            margin: 2rem 0;
-            text-align: left;
-        }
-        .education h3 {
-            color: #2c3e50;
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            font-weight: 500;
-        }
-        .education-item {
-            margin-bottom: 2rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid #eee;
-        }
-        .education-item:last-child {
-            border-bottom: none;
-        }
         .education-header {
             margin-bottom: 0.5rem;
         }
-        .education-header h4 {
-            color: #2c3e50;
-            margin: 0 0 0.25rem 0;
-            font-size: 1.1rem;
-            font-weight: 500;
-        }
-        .university {
-            display: block;
-            color: #666;
-            margin-bottom: 0.25rem;
-        }
-        .university a {
-            color: #3498db;
-            text-decoration: none;
-        }
-        .university a:hover {
-            text-decoration: underline;
-        }
-        .activities {
-            color: #666;
-            font-size: 0.9rem;
-            margin: 0.5rem 0 0 0;
-            font-style: italic;
-        }
-        header {
-            background-color: transparent;
-            color: #2c3e50;
-            padding: 0.5rem 0;
-            text-align: left;
-            width: 100%;
-            border-bottom: 1px solid #eee;
-        }
-        header .header-content {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
-        header h1 {
-            color: #2c3e50;
-            margin: 0;
-            font-size: 1.2rem;
-            font-weight: 500;
-        }
-        header h1 a {
-            position: relative;
-        }
-        header h1 a:after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 1px;
-            bottom: -2px;
-            left: 0;
-            background-color: #3498db;
-            transform: scaleX(0);
-            transform-origin: bottom right;
-            transition: transform 0.2s ease-out;
-        }
-        header h1 a:hover:after {
-            transform: scaleX(1);
-            transform-origin: bottom left;
-        }
-        footer {
-            background-color: transparent;
-            color: #666;
-            padding: 0.75rem 0;
-            text-align: center;
-            margin-top: auto;
-            width: 100%;
-            border-top: 1px solid #eee;
-            font-size: 0.9rem;
-        }
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
-        .footer-right {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-        }
         .copyright {
             text-align: center;
-            margin-left: 200px;
-        }
-        .footer-links {
-            display: flex;
-            gap: 1.5rem;
-            align-items: center;
-            margin-bottom: 0.5rem;
-        }
-        .footer-links a {
-            color: #666;
-            text-decoration: none;
-            font-size: 1.1rem;
-            transition: color 0.3s ease;
-        }
-        .footer-links a:hover {
-            color: #2c3e50;
+            /* Removed hardcoded margin-left: 200px; for better responsiveness */
         }
         .footer-email {
             font-size: 0.9rem;
         }
-        .footer-email a:hover {
-            text-decoration: underline;
-        }
-        main {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem 0;
-        }
     </style>
+    <script src="js/theme.js" defer></script>
+    <script src="js/menu.js" defer></script>
 </head>
 <body>
+    <a class="skip-link" href="#main">Skip to content</a>
     <header>
         <div class="header-content">
-            <h1><a href="/" style="text-decoration: none; color: inherit;">Arjun Vinod</a></h1>
+            <div class="site-logo"><a href="/">Arjun Vinod</a></div>
+            <div class="header-right">
+                <div class="menu-wrapper">
+                    <button class="menu-button" aria-label="Menu" aria-haspopup="true" aria-expanded="false" aria-controls="menu-dropdown">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <nav class="menu-dropdown" id="menu-dropdown" role="navigation" aria-label="Primary Navigation">
+                        <a href="/books.html">Books</a>
+                    </nav>
+                </div>
+                <div class="theme-toggle-wrapper">
+                    <button class="theme-toggle" aria-label="Toggle theme" role="switch" aria-checked="false">
+                        <div class="theme-toggle-slider">
+                            <i class="fas fa-moon"></i>
+                        </div>
+                    </button>
+                </div>
+            </div>
         </div>
     </header>
-    <main>
+    <main id="main">
         <div class="container">
-            <h2>Welcome to My Website</h2>
-        <p class="intro">Hi! I'm Arjun, a Firmware Engineer based in Silicon Valley with expertise in embedded systems and hardware interfaces.</p>
+        <p class="intro">Hi! I'm Arjun, a Firmware Engineer based in Silicon Valley. I specialize in developing high-performance embedded systems, optimizing firmware for data center infrastructure, and designing robust hardware interfaces for next-generation connectivity solutions.</p>
         
         <section class="experience">
-            <h3>Experience</h3>
+            <h2>Experience</h2>
             
             <div class="experience-item">
                 <div class="experience-header">
@@ -294,7 +138,7 @@
         </section>
 
         <section class="education">
-            <h3>Education</h3>
+            <h2>Education</h2>
             
             <div class="education-item">
                 <div class="education-header">
@@ -314,23 +158,23 @@
     </main>
     <footer>
         <div class="footer-content">
-            <div class="copyright" style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">
+            <div class="copyright footer-copyright">
                 © 2025 Arjun Vinod. All rights reserved.
             </div>
             <div class="footer-right">
                 <div class="footer-links">
-                    <a href="https://twitter.com/arjun7965" target="_blank" rel="noopener noreferrer" title="Twitter">
-                        <i class="fab fa-twitter"></i>
+                    <a href="https://twitter.com/arjun7965" target="_blank" rel="noopener noreferrer" title="X (Twitter)" aria-label="X (Twitter)">
+                        <i class="fab fa-x-twitter"></i>
                     </a>
-                    <a href="https://linkedin.com/in/avinod" target="_blank" rel="noopener noreferrer" title="LinkedIn">
+                    <a href="https://linkedin.com/in/avinod" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn">
                         <i class="fab fa-linkedin"></i>
                     </a>
-                    <a href="https://github.com/arjun7965" target="_blank" rel="noopener noreferrer" title="GitHub">
+                    <a href="https://github.com/arjun7965" target="_blank" rel="noopener noreferrer" title="GitHub" aria-label="GitHub">
                         <i class="fab fa-github"></i>
                     </a>
                 </div>
                 <div class="footer-email">
-                    <a href="mailto:me@arjunvinod.com" style="color: #666; text-decoration: none;">me@arjunvinod.com</a>
+                    <a href="mailto:me@arjunvinod.com" class="footer-email-link">me@arjunvinod.com</a>
                 </div>
             </div>
         </div>
