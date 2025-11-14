@@ -55,33 +55,52 @@
         }
 
         // Helper: Convert ISBN-10 to ISBN-13 (prefix 978)
+        // ISBN-13 is the modern standard that replaced ISBN-10. All ISBN-10s can be converted
+        // to ISBN-13 by prepending '978' (the bookland EAN prefix) to the first 9 digits,
+        // then recalculating the check digit using the EAN-13 algorithm.
         function isbn10to13(isbn10) {
             const clean = normalizeIsbn(isbn10);
             if (clean.length !== 10) return null;
+            
+            // Take first 9 digits of ISBN-10 and prepend '978' to create 12-digit base
             const core = '978' + clean.slice(0, 9);
-            // EAN-13 check digit
+            
+            // Calculate EAN-13 check digit using the standard algorithm:
+            // Sum all digits, alternating between weight 1 (even positions) and weight 3 (odd positions)
+            // The check digit is the number needed to make the total sum a multiple of 10
             let sum = 0;
             for (let i = 0; i < 12; i++) {
                 const d = parseInt(core[i], 10);
-                sum += (i % 2 === 0) ? d : d * 3;
+                sum += (i % 2 === 0) ? d : d * 3;  // Even index = weight 1, odd index = weight 3
             }
             const check = (10 - (sum % 10)) % 10;
             return core + String(check);
         }
 
         // Helper: Convert ISBN-13 to ISBN-10 (only for 978 prefix)
+        // Only ISBN-13s with '978' prefix (bookland) can be converted back to ISBN-10.
+        // ISBN-13s with '979' prefix have no ISBN-10 equivalent as they were issued after
+        // the ISBN-10 system was deprecated.
         function isbn13to10(isbn13) {
             const clean = normalizeIsbn(isbn13);
             if (clean.length !== 13 || !clean.startsWith('978')) return null;
+            
+            // Extract the 9 core digits (removing '978' prefix and check digit)
             const core9 = clean.slice(3, 12);
+            
+            // Calculate ISBN-10 check digit using modulo 11 algorithm:
+            // Each digit is multiplied by its position weight (10 down to 2)
+            // The check digit makes the weighted sum divisible by 11
             let sum = 0;
             for (let i = 0; i < 9; i++) {
-                sum += (10 - i) * parseInt(core9[i], 10);
+                sum += (10 - i) * parseInt(core9[i], 10);  // Weights: 10, 9, 8, 7, 6, 5, 4, 3, 2
             }
+            
+            // Calculate what's needed to reach next multiple of 11
             let remainder = 11 - (sum % 11);
             let check;
-            if (remainder === 10) check = 'X';
-            else if (remainder === 11) check = '0';
+            if (remainder === 10) check = 'X';        // 'X' represents 10 in ISBN-10
+            else if (remainder === 11) check = '0';   // Remainder 11 means already divisible, use 0
             else check = String(remainder);
             return core9 + check;
         }
