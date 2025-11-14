@@ -5,6 +5,11 @@ function toggleMenu() {
     const willShow = !dropdown.classList.contains('show');
     dropdown.classList.toggle('show');
     if (btn) btn.setAttribute('aria-expanded', willShow ? 'true' : 'false');
+    // Move focus to first link in dropdown when menu is opened
+    if (willShow) {
+        const firstLink = dropdown.querySelector('a, button, [tabindex]:not([tabindex="-1"])');
+        if (firstLink) firstLink.focus();
+    }
 }
 
 // Close dropdown when clicking outside, on Escape key press, and when focus leaves the menu area
