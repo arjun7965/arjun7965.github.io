@@ -161,41 +161,34 @@
                 probes.length = 0;
             }
 
-            isbns.forEach(isbn => {
+            // Try ISBNs sequentially to ensure deterministic order
+            function tryNextIsbn(index) {
+                if (index >= isbns.length) {
+                    // All ISBNs failed, use placeholder
+                    img.src = generatePlaceholderDataURI(title, author);
+                    img.dataset.loaded = 'placeholder';
+                    return;
+                }
+                const isbn = isbns[index];
                 const testUrl = openLibraryUrlForIsbn(isbn);
                 const probe = new Image();
                 probes.push(probe);
                 probe.onload = function() {
-                    if (settled) return;
                     // Check for 1x1 pixel placeholder images that some servers may return
-                    // even with default=false parameter as a defensive measure
                     if (probe.naturalWidth <= 1 || probe.naturalHeight <= 1) {
-                        remaining--;
-                        if (remaining === 0 && !settled) {
-                            settled = true;
-                            img.src = generatePlaceholderDataURI(title, author);
-                            img.dataset.loaded = 'placeholder';
-                            cleanup();
-                        }
+                        tryNextIsbn(index + 1);
                         return;
                     }
-                    settled = true;
                     img.src = testUrl;
                     img.dataset.loaded = isbn;
                     cleanup();
                 };
                 probe.onerror = function() {
-                    if (settled) return;
-                    remaining--;
-                    if (remaining === 0 && !settled) {
-                        settled = true;
-                        img.src = generatePlaceholderDataURI(title, author);
-                        img.dataset.loaded = 'placeholder';
-                        cleanup();
-                    }
+                    tryNextIsbn(index + 1);
                 };
                 probe.src = testUrl;
-            });
+            }
+            tryNextIsbn(0);
         }
 
         // Resolve book covers on page load
