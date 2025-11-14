@@ -35,10 +35,11 @@ window.addEventListener('DOMContentLoaded', () => {
         console.warn('Theme toggle icon element not found');
     }
     
-    // Set initial aria-label
+    // Set initial aria-label and attach event listener
     const btn = document.querySelector('.theme-toggle');
     if (btn) {
         btn.setAttribute('aria-label', theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode');
         btn.setAttribute('aria-checked', theme === 'dark' ? 'true' : 'false');
+        btn.addEventListener('click', toggleTheme);
     }
 });
