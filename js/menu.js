@@ -21,6 +21,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (!menuWrapper || !dropdown || !btn) return;
     
+    // Attach event listener to menu button
+    btn.addEventListener('click', toggleMenu);
+    
     // Close dropdown when clicking outside
     document.addEventListener('click', function(event) {
         if (!menuWrapper.contains(event.target)) {
