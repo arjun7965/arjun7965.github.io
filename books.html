@@ -56,7 +56,7 @@
 
         // Helper: Convert ISBN-10 to ISBN-13 (prefix 978)
         // ISBN-13 is the modern standard that replaced ISBN-10. All ISBN-10s can be converted
-        // to ISBN-13 by prepending '978' (the bookland EAN prefix) to the first 9 digits,
+        // to ISBN-13 by prepending '978' (the Bookland EAN prefix) to the first 9 digits,
         // then recalculating the check digit using the EAN-13 algorithm.
         function isbn10to13(isbn10) {
             const clean = normalizeIsbn(isbn10);
