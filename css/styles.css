@@ -87,10 +87,21 @@ header {
   border-radius: 5px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   min-width: 150px;
-  display: none;
   z-index: 2000; /* ensure dropdown is above other header elements on mobile */
+  /* Visibility-based toggle for iOS reliability */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition: opacity .15s ease, transform .15s ease, visibility 0s .15s;
 }
-.menu-dropdown.show { display: block; }
+.menu-dropdown.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+  transition: opacity .15s ease, transform .15s ease, visibility 0s;
+}
 .menu-dropdown a {
   display: block;
   padding: 0.75rem 1rem;
