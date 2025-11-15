@@ -32,6 +32,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Close dropdown when a menu link is tapped/clicked
+    dropdown.addEventListener('click', function(event) {
+        const link = event.target.closest('a');
+        if (link) {
+            // Do not prevent navigation; just close the menu for better UX on mobile
+            dropdown.classList.remove('show');
+            btn.setAttribute('aria-expanded', 'false');
+        }
+    });
+
     // Close dropdown on Escape key press
     document.addEventListener('keydown', function(event) {
         if (event.key === 'Escape' || event.key === 'Esc') {
