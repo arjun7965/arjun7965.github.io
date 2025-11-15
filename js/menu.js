@@ -33,12 +33,15 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Close dropdown when a menu link is tapped/clicked
+    // Important: defer closing to avoid iOS Safari occasionally cancelling navigation
     dropdown.addEventListener('click', function(event) {
-        const link = event.target.closest('a');
+        const link = event.target.closest('a[href]');
         if (link) {
-            // Do not prevent navigation; just close the menu for better UX on mobile
-            dropdown.classList.remove('show');
-            btn.setAttribute('aria-expanded', 'false');
+            // Let the browser start navigation first
+            setTimeout(() => {
+                dropdown.classList.remove('show');
+                btn.setAttribute('aria-expanded', 'false');
+            }, 0);
         }
     });
 
