@@ -198,3 +198,186 @@ footer { background-color: transparent; color: var(--text-muted); padding: 0.75r
 .company a:hover, .university a:hover { text-decoration: underline; }
 .duration { color: var(--text-muted); font-size: 0.9rem; }
 .activities { color: var(--text-muted); font-size: 0.9rem; margin: 0.5rem 0 0 0; font-style: italic; }
+
+/* Horizontal timeline (wrapping serpentine line) */
+.timeline-section { margin: 2.5rem 0; }
+.timeline { position: relative; }
+.timeline-items {
+  --tl-cols: 3;
+  --tl-col-gap: 2.5rem;
+  --tl-row-gap: 2rem;
+  display: grid;
+  grid-template-columns: repeat(var(--tl-cols), minmax(220px, 1fr));
+  column-gap: var(--tl-col-gap);
+  row-gap: var(--tl-row-gap);
+  align-items: start;
+}
+.timeline-item { position: relative; text-align: left; }
+.timeline-dot {
+  position: absolute;
+  top: 0.3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 14px;
+  background: var(--container-bg);
+  border: 2px solid var(--link-color);
+  border-radius: 50%;
+  z-index: 2;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.18);
+}
+.tl-card {
+  position: relative;
+  margin-top: 2rem; /* space below dot */
+  background: var(--container-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 0.85rem 0.9rem 0.95rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  transition: box-shadow 0.2s ease, transform 0.12s ease;
+}
+.tl-card:hover { box-shadow: 0 8px 22px rgba(0,0,0,0.12); transform: translateY(-2px); }
+.tl-title { margin: 0 0 0.4rem; font-size: 0.95rem; line-height: 1.35; color: var(--text-primary); font-weight: 600; }
+.tl-title a { color: var(--link-color); text-decoration: none; }
+.tl-title a:hover { text-decoration: underline; }
+.tl-meta { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.4rem; }
+.tl-desc { margin: 0; font-size: 0.8rem; line-height: 1.4; color: var(--text-secondary); }
+
+/* Dark mode tweaks */
+[data-theme="dark"] .timeline-items::before { background: var(--border-color); }
+[data-theme="dark"] .timeline-dot { background: var(--container-bg); box-shadow: 0 0 0 3px rgba(93,173,226,0.25); }
+[data-theme="dark"] .tl-card { box-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+[data-theme="dark"] .tl-card:hover { box-shadow: 0 10px 28px rgba(0,0,0,0.55); }
+
+/* Serpentine connectors for 3-column desktop layout */
+/* Odd rows (items 6n+1 to 6n+3): left-to-right */
+.timeline-item:nth-child(6n+1)::after,
+.timeline-item:nth-child(6n+2)::after {
+  content: "";
+  position: absolute;
+  top: 0.9rem;
+  left: 50%;
+  height: 2px;
+  width: calc(50% + var(--tl-col-gap));
+  background: var(--border-color);
+  z-index: 0;
+}
+/* Odd row, last column: vertical drop to next row */
+.timeline-item:nth-child(6n+3)::after {
+  content: "";
+  position: absolute;
+  top: 0.9rem;
+  right: calc(-1 * (var(--tl-col-gap) / 2));
+  width: 2px;
+  height: calc(var(--tl-row-gap) + 1.6rem);
+  background: var(--border-color);
+  z-index: 0;
+}
+/* Even rows (items 6n+4 to 6n+6): right-to-left */
+.timeline-item:nth-child(6n+5)::after,
+.timeline-item:nth-child(6n+6)::after {
+  content: "";
+  position: absolute;
+  top: 0.9rem;
+  right: 50%;
+  height: 2px;
+  width: calc(50% + var(--tl-col-gap));
+  background: var(--border-color);
+  z-index: 0;
+}
+/* Even row, first column: vertical up from previous row and horizontal lead-in */
+.timeline-item:nth-child(6n+4)::after {
+  content: "";
+  position: absolute;
+  top: calc(-1 * (var(--tl-row-gap) + 1.6rem) + 0.9rem);
+  left: calc(-1 * (var(--tl-col-gap) / 2));
+  width: 2px;
+  height: calc(var(--tl-row-gap) + 1.6rem);
+  background: var(--border-color);
+  z-index: 0;
+}
+.timeline-item:nth-child(6n+4)::before {
+  content: "";
+  position: absolute;
+  top: 0.9rem;
+  left: calc(-1 * (var(--tl-col-gap) + 50%));
+  width: calc(50% + var(--tl-col-gap));
+  height: 2px;
+  background: var(--border-color);
+  z-index: 0;
+}
+/* Do not draw connectors past the last item */
+.timeline-item:last-child::after,
+.timeline-item:last-child::before { content: none; }
+
+/* Responsive: stack vertically on narrow screens */
+@media (max-width: 760px) {
+  .timeline-items { display: block; }
+  .timeline-item { max-width: none; }
+  .timeline-item::after,
+  .timeline-item::before { content: none !important; }
+  .timeline-dot { position: absolute; left: 0; transform: none; top: 0.4rem; }
+  .tl-card { margin-top: 0; padding-left: 2.2rem; }
+  .timeline-item { padding-left: 0.2rem; }
+  .timeline-item::before {
+    content: "";
+    position: absolute;
+    left: 0.35rem;
+    top: 0.4rem;
+    bottom: -1.4rem;
+    width: 2px;
+    background: var(--border-color);
+    z-index: 0;
+  }
+  .timeline-item:last-child::before { bottom: 0.6rem; }
+  .timeline-dot { left: 0; }
+}
+
+/* Vertical two-lane roadmap (Experience | Education) */
+.roadmap-section { margin: 2rem 0; text-align: left; }
+.roadmap {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr; /* content only, no rail */
+  gap: 2rem 2rem;
+  align-items: start;
+}
+.rail {
+  display: none; /* hide vertical rail */
+}
+.lane { display: grid; gap: 1.5rem; }
+.lane-experience { grid-column: 1; }
+.lane-education  { grid-column: 1; }
+.lane-title { margin: 0; color: var(--text-muted); font-weight: 600; letter-spacing: 0.2px; }
+.lane-title i { margin-right: 0.5rem; color: var(--link-color); }
+.node { position: relative; }
+.node .dot {
+  position: absolute;
+  top: 0.6rem;
+  width: 12px; height: 12px;
+  background: var(--container-bg);
+  border: 2px solid var(--link-color);
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15); /* subtle glow */
+  left: -7px;
+  right: auto;
+}
+.rm-card {
+  background: var(--container-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.rm-title { margin: 0 0 0.25rem; font-size: 1.05rem; color: var(--text-primary); }
+.rm-title a { color: var(--link-color); text-decoration: none; }
+.rm-title a:hover { text-decoration: underline; }
+.rm-meta  { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 0.5rem; }
+.rm-desc  { margin: 0; color: var(--text-secondary); }
+.rm-points { margin: 0; padding-left: 1rem; }
+
+/* Slightly tighter spacing on small screens */
+@media (max-width: 720px) {
+  .roadmap { gap: 1.25rem 1.25rem; }
+  .lane-title { margin-top: 0.25rem; }
+}
