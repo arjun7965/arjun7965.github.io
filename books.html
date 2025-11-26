@@ -46,6 +46,28 @@
         .footer-email {
             font-size: 0.9rem;
         }
+        .currently-reading-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-left: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        .currently-reading-badge::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: #22c55e;
+            border-radius: 50%;
+            animation: blink 1.5s ease-in-out infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
     </style>
     <script src="js/theme.js" defer></script>
     <script>
@@ -264,53 +286,17 @@
             
             <article class="book-item">
                 <div class="book-cover">
-                    <a href="https://www.amazon.com/Deficit-Myth-Monetary-Peoples-Economy/dp/1541736184" target="_blank" rel="noopener noreferrer">
-                        <img decoding="async" data-isbn="1541736184" alt="The Deficit Myth by Stephanie Kelton" data-title="The Deficit Myth" data-author="Stephanie Kelton">
+                    <a href="https://www.thriftbooks.com/w/paper-soldiers-how-the-weaponization-of-the-dollar-changed-the-world-order_saleha-mohsin/55037738/?resultid=b45c7b57-ac03-4945-9e3d-74a29ea8aab4#edition=67591091&idiq=57992781" target="_blank" rel="noopener noreferrer">
+                        <img loading="lazy" decoding="async" data-isbn="9780593539118" data-alt-isbns="9780593197543,059319754X" alt="Paper Soldiers by Saleha Mohsin" data-title="Paper Soldiers" data-author="Saleha Mohsin">
                     </a>
                 </div>
                 <div class="book-details">
-                    <h3 class="book-title">The Deficit Myth: Modern Monetary Theory and the Birth of the People's Economy</h3>
-                    <div class="book-author">by Stephanie Kelton</div>
-                    <p class="book-notes">A leading economist challenges conventional deficit thinking and explains how Modern Monetary Theory reveals the true power and limitations of sovereign currencies in advancing the public good.</p>
-                </div>
-            </article>
-
-            <article class="book-item">
-                <div class="book-cover">
-                    <a href="https://www.amazon.com/Layered-Money-Dollars-Bitcoin-Currencies/dp/1736110527" target="_blank" rel="noopener noreferrer">
-                        <img loading="lazy" decoding="async" data-isbn="1736110527" alt="Layered Money by Nik Bhatia" data-title="Layered Money" data-author="Nik Bhatia">
-                    </a>
-                </div>
-                <div class="book-details">
-                    <h3 class="book-title">Layered Money: From Gold and Dollars to Bitcoin and Central Bank Digital Currencies</h3>
-                    <div class="book-author">by Nik Bhatia</div>
-                    <p class="book-notes">An innovative framework for understanding money as a layered system, tracing its evolution from gold-backed currencies through modern banking to cryptocurrencies and the future of digital central bank money.</p>
-                </div>
-            </article>
-
-            <article class="book-item">
-                <div class="book-cover">
-                    <a href="https://www.amazon.com/Price-Tomorrow-Deflation-Abundant-Future/dp/1999257405" target="_blank" rel="noopener noreferrer">
-                        <img loading="lazy" decoding="async" data-isbn="1999257405" alt="The Price of Tomorrow by Jeff Booth" data-title="The Price of Tomorrow" data-author="Jeff Booth">
-                    </a>
-                </div>
-                <div class="book-details">
-                    <h3 class="book-title">The Price of Tomorrow: Why Deflation Is the Key to an Abundant Future</h3>
-                    <div class="book-author">by Jeff Booth</div>
-                    <p class="book-notes">A thought-provoking exploration of how exponential technological advancement is creating deflation in a world built on inflationary economic systems, and why embracing this shift could unlock unprecedented prosperity.</p>
-                </div>
-            </article>
-
-            <article class="book-item">
-                <div class="book-cover">
-                    <a href="https://www.amazon.com/dp/B0F2NCPQ2K" target="_blank" rel="noopener noreferrer">
-                        <img loading="lazy" decoding="async" data-isbn="9798992242515" alt="The Big Print by Lawrence Lepard" data-title="The Big Print" data-author="Lawrence Lepard">
-                    </a>
-                </div>
-                <div class="book-details">
-                    <h3 class="book-title">The Big Print: What Happened to America and How Sound Money Will Fix It</h3>
-                    <div class="book-author">by Lawrence Lepard</div>
-                    <p class="book-notes">A compelling analysis of how decades of monetary expansion and currency debasement have eroded American prosperity, and a call for returning to sound money principles to restore economic stability and opportunity.</p>
+                    <h3 class="book-title">
+                        Paper Soldiers: How the Weaponization of the Dollar Changed the World Order
+                        <span class="currently-reading-badge">Currently Reading</span>
+                    </h3>
+                    <div class="book-author">by Saleha Mohsin</div>
+                    <p class="book-notes">An inside look at how the U.S. dollar became a powerful geopolitical weapon through financial sanctions and economic warfare, reshaping global power dynamics and raising questions about the future of American financial dominance.</p>
                 </div>
             </article>
 
@@ -329,14 +315,53 @@
 
             <article class="book-item">
                 <div class="book-cover">
-                    <a href="https://www.thriftbooks.com/w/paper-soldiers-how-the-weaponization-of-the-dollar-changed-the-world-order_saleha-mohsin/55037738/?resultid=b45c7b57-ac03-4945-9e3d-74a29ea8aab4#edition=67591091&idiq=57992781" target="_blank" rel="noopener noreferrer">
-                        <img loading="lazy" decoding="async" data-isbn="9780593539118" data-alt-isbns="9780593197543,059319754X" alt="Paper Soldiers by Saleha Mohsin" data-title="Paper Soldiers" data-author="Saleha Mohsin">
+                    <a href="https://www.amazon.com/dp/B0F2NCPQ2K" target="_blank" rel="noopener noreferrer">
+                        <img loading="lazy" decoding="async" data-isbn="9798992242515" alt="The Big Print by Lawrence Lepard" data-title="The Big Print" data-author="Lawrence Lepard">
                     </a>
                 </div>
                 <div class="book-details">
-                    <h3 class="book-title">Paper Soldiers: How the Weaponization of the Dollar Changed the World Order</h3>
-                    <div class="book-author">by Saleha Mohsin</div>
-                    <p class="book-notes">An inside look at how the U.S. dollar became a powerful geopolitical weapon through financial sanctions and economic warfare, reshaping global power dynamics and raising questions about the future of American financial dominance.</p>
+                    <h3 class="book-title">The Big Print: What Happened to America and How Sound Money Will Fix It</h3>
+                    <div class="book-author">by Lawrence Lepard</div>
+                    <p class="book-notes">A compelling analysis of how decades of monetary expansion and currency debasement have eroded American prosperity, and a call for returning to sound money principles to restore economic stability and opportunity.</p>
+                </div>
+            </article>
+
+            <article class="book-item">
+                <div class="book-cover">
+                    <a href="https://www.amazon.com/Price-Tomorrow-Deflation-Abundant-Future/dp/1999257405" target="_blank" rel="noopener noreferrer">
+                        <img loading="lazy" decoding="async" data-isbn="1999257405" alt="The Price of Tomorrow by Jeff Booth" data-title="The Price of Tomorrow" data-author="Jeff Booth">
+                    </a>
+                </div>
+                <div class="book-details">
+                    <h3 class="book-title">The Price of Tomorrow: Why Deflation Is the Key to an Abundant Future</h3>
+                    <div class="book-author">by Jeff Booth</div>
+                    <p class="book-notes">A thought-provoking exploration of how exponential technological advancement is creating deflation in a world built on inflationary economic systems, and why embracing this shift could unlock unprecedented prosperity.</p>
+                </div>
+            </article>
+
+            <article class="book-item">
+                <div class="book-cover">
+                    <a href="https://www.amazon.com/Layered-Money-Dollars-Bitcoin-Currencies/dp/1736110527" target="_blank" rel="noopener noreferrer">
+                        <img loading="lazy" decoding="async" data-isbn="1736110527" alt="Layered Money by Nik Bhatia" data-title="Layered Money" data-author="Nik Bhatia">
+                    </a>
+                </div>
+                <div class="book-details">
+                    <h3 class="book-title">Layered Money: From Gold and Dollars to Bitcoin and Central Bank Digital Currencies</h3>
+                    <div class="book-author">by Nik Bhatia</div>
+                    <p class="book-notes">An innovative framework for understanding money as a layered system, tracing its evolution from gold-backed currencies through modern banking to cryptocurrencies and the future of digital central bank money.</p>
+                </div>
+            </article>
+
+            <article class="book-item">
+                <div class="book-cover">
+                    <a href="https://www.amazon.com/Deficit-Myth-Monetary-Peoples-Economy/dp/1541736184" target="_blank" rel="noopener noreferrer">
+                        <img decoding="async" data-isbn="1541736184" alt="The Deficit Myth by Stephanie Kelton" data-title="The Deficit Myth" data-author="Stephanie Kelton">
+                    </a>
+                </div>
+                <div class="book-details">
+                    <h3 class="book-title">The Deficit Myth: Modern Monetary Theory and the Birth of the People's Economy</h3>
+                    <div class="book-author">by Stephanie Kelton</div>
+                    <p class="book-notes">A leading economist challenges conventional deficit thinking and explains how Modern Monetary Theory reveals the true power and limitations of sovereign currencies in advancing the public good.</p>
                 </div>
             </article>
         </div>
