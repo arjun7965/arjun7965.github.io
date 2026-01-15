@@ -8,7 +8,8 @@ Personal website for Arjun Vinod, a Firmware Engineer based in Silicon Valley.
 
 This repository hosts a personal portfolio website built with vanilla HTML, CSS, and JavaScript. The site features:
 
-- **Professional Profile**: Experience and education background in firmware and embedded systems engineering
+- **Modern Minimalist Design**: Clean, professional aesthetic with navy/teal accent colors
+- **Professional Profile**: Experience and education displayed in an elegant vertical timeline
 - **Reading List**: Curated collection of books on macroeconomics, financial systems, and monetary theory
 - **Theme Toggle**: Light/dark mode with system preference detection and persistent user choice
 - **Responsive Design**: Mobile-friendly layout with CSS custom properties for consistent theming
@@ -17,7 +18,8 @@ This repository hosts a personal portfolio website built with vanilla HTML, CSS,
 
 ### [index.html](https://arjunvinod.com/)
 Main landing page featuring:
-- Professional introduction and expertise
+- Concise professional introduction
+- Modern vertical timeline with connecting lines and animated dots
 - Work experience at Astera Labs, Qualcomm Atheros, and GreenSight Agronomics
 - Educational background from Syracuse University and KCG College of Technology
 - Social media links and contact information
@@ -28,6 +30,16 @@ Reading list with:
 - Theme-aware placeholder generation for missing covers
 - Book descriptions and Amazon/ThriftBooks links
 - Topics: Modern Monetary Theory, cryptocurrency, sound money, financial systems
+
+## Design
+
+The site uses a modern minimalist design language:
+
+- **Color Palette**: Navy blue (#0f4c75) primary with teal (#14b8a6) accents
+- **Typography**: System font stack with clean, readable hierarchy
+- **Timeline**: Vertical timeline with gradient connecting lines and glowing dots
+- **Cards**: Subtle shadows with hover animations and gradient accent bars
+- **Accessibility**: High contrast colors in both light and dark modes
 
 ## Technical Features
 
@@ -90,4 +102,4 @@ The site implements a comprehensive theme toggle:
 
 ## License
 
-© 2025 Arjun Vinod. All rights reserved.
+© 2026 Arjun Vinod. All rights reserved.
