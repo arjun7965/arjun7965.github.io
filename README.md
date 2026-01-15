@@ -95,7 +95,7 @@ The site implements a comprehensive theme toggle:
 
 ## Contact
 
-- **Email**: [me@arjunvinod.com](mailto:me@arjunvinod.com)
+- **Email**: [arjun@arjunvinod.com](mailto:arjun@arjunvinod.com)
 - **LinkedIn**: [linkedin.com/in/avinod](https://linkedin.com/in/avinod)
 - **GitHub**: [github.com/arjun7965](https://github.com/arjun7965)
 - **X (Twitter)**: [twitter.com/arjun7965](https://twitter.com/arjun7965)
