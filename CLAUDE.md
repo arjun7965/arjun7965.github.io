@@ -28,8 +28,5 @@ Themes are toggled via a `data-theme="dark"` attribute on `<html>`. All colors a
 
 ## Known Issues to Be Aware Of
 
-- Footer copyright year (`© 2025`) in both HTML files is stale — should be `© 2026`
-- `theme.js` defaults to `'light'` instead of reading `prefers-color-scheme` for first-time visitors
-- Dead CSS in `styles.css` from an old horizontal timeline layout (`.timeline-*`, `.tl-*` classes, ~130 lines) — the current layout uses `.roadmap`, `.lane`, `.node`, `.rm-card`
 - No `site.webmanifest` exists despite `android-chrome-*.png` favicons being present
 - `images/generate-favicons.html` is a dev utility served publicly
