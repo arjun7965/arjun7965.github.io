@@ -57,4 +57,9 @@ window.addEventListener('DOMContentLoaded', () => {
         btn.setAttribute('aria-checked', theme === 'dark' ? 'true' : 'false');
         btn.addEventListener('click', toggleTheme);
     }
+
+    // Auto-update copyright year
+    document.querySelectorAll('.copyright-year').forEach(el => {
+        el.textContent = new Date().getFullYear();
+    });
 });

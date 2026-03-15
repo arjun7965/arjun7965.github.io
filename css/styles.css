@@ -523,13 +523,16 @@ footer {
   color: var(--color-accent);
 }
 
-.rm-desc  { 
-  margin: 0; 
-  color: var(--text-secondary); 
-  line-height: 1.8; 
+.rm-desc  {
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.8;
   font-size: 0.9375rem;
   font-weight: 400;
 }
+.rm-body { margin-top: 0.75rem; }
+.rm-role { font-weight: 500; color: var(--text-primary); margin-bottom: 0.25rem; }
+.rm-stint { margin-bottom: 0.75rem; }
 /* Slightly tighter spacing on small screens */
 @media (max-width: 720px) {
   .roadmap { gap: 2rem; }
