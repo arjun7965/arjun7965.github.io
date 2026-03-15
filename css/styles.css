@@ -82,50 +82,78 @@ header {
   border-radius: 6px;
   font-size: 1rem;
   transition: all 0.2s ease;
-  display: flex;
+  display: none; /* hidden on desktop */
   align-items: center;
   gap: 0.5rem;
   touch-action: manipulation;
 }
-.menu-button:hover { 
+.menu-button:hover {
   background-color: var(--border-color);
   color: var(--text-primary);
   border-color: var(--text-muted);
 }
+/* Desktop: inline nav links */
 .menu-dropdown {
-  position: absolute;
-  top: calc(100% + 0.5rem);
-  right: 0;
-  background-color: var(--container-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 5px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  min-width: 150px;
-  z-index: 2000; /* ensure dropdown is above other header elements on mobile */
-  /* Visibility-based toggle for iOS reliability */
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-4px);
-  pointer-events: none;
-  transition: opacity .15s ease, transform .15s ease, visibility 0s .15s;
-}
-.menu-dropdown.show {
+  display: flex;
+  gap: 0.25rem;
+  position: static;
+  background: none;
+  border: none;
+  box-shadow: none;
+  min-width: auto;
   opacity: 1;
   visibility: visible;
-  transform: translateY(0);
+  transform: none;
   pointer-events: auto;
-  transition: opacity .15s ease, transform .15s ease, visibility 0s;
+  transition: none;
 }
 .menu-dropdown a {
   display: block;
-  padding: 0.75rem 1rem;
+  padding: 0.5rem 0.75rem;
   color: var(--text-primary);
   text-decoration: none;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 .menu-dropdown a:hover { background-color: var(--border-color); }
-.menu-dropdown a:first-child { border-radius: 5px 5px 0 0; }
-.menu-dropdown a:last-child { border-radius: 0 0 5px 5px; }
+/* Active page indicator */
+.menu-dropdown a.active {
+  color: var(--color-accent);
+  font-weight: 600;
+  background-color: rgba(20, 184, 166, 0.08);
+}
+/* Mobile: dropdown behavior */
+@media (max-width: 480px) {
+  .menu-button { display: flex; }
+  .menu-dropdown {
+    display: block;
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    background-color: var(--container-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    min-width: 150px;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4px);
+    pointer-events: none;
+    transition: opacity .15s ease, transform .15s ease, visibility 0s .15s;
+  }
+  .menu-dropdown.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+    transition: opacity .15s ease, transform .15s ease, visibility 0s;
+  }
+  .menu-dropdown a { padding: 0.75rem 1rem; border-radius: 0; }
+  .menu-dropdown a:first-child { border-radius: 5px 5px 0 0; }
+  .menu-dropdown a:last-child { border-radius: 0 0 5px 5px; }
+}
 header h1 { margin: 0; font-size: 1.2rem; font-weight: 500; }
 header h1 a { position: relative; text-decoration: none; color: inherit; }
 header h1 a:after { content: ''; position: absolute; width: 100%; height: 1px; bottom: -2px; left: 0; background-color: var(--link-color); transform: scaleX(0); transform-origin: bottom right; transition: transform 0.2s ease-out; }
@@ -195,23 +223,32 @@ footer {
   gap: 1rem; 
   align-items: center; 
 }
-.footer-links a { 
+.footer-links a {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
+  gap: 0.4rem;
   height: 36px;
-  color: var(--text-muted); 
+  padding: 0 0.6rem;
+  color: var(--text-muted);
   border: 1px solid var(--border-color);
   border-radius: 6px;
-  text-decoration: none; 
-  font-size: 1rem; 
-  transition: all 0.2s ease; 
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
 }
-.footer-links a:hover { 
+.footer-links a:hover {
   color: var(--color-accent);
   border-color: var(--color-accent);
   background: rgba(20, 184, 166, 0.1);
+}
+.footer-link-label {
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+@media (max-width: 480px) {
+  .footer-link-label { display: none; }
+  .footer-links a { width: 36px; padding: 0; }
 }
 .footer-email a:hover { text-decoration: underline; }
 /* Skip Link */

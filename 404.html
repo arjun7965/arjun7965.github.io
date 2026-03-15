@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found | Arjun Vinod</title>
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+    <link rel="icon" href="images/favicon.ico">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .error-container {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+        .error-code {
+            font-size: 6rem;
+            font-weight: 800;
+            color: var(--color-accent);
+            margin: 0;
+            line-height: 1;
+            letter-spacing: -0.04em;
+        }
+        .error-message {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin: 1rem 0 2rem;
+        }
+        .error-link {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: var(--color-accent);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background 0.2s ease;
+        }
+        .error-link:hover {
+            background: var(--color-accent-hover);
+        }
+        .copyright { text-align: center; }
+        .footer-email { font-size: 0.9rem; }
+    </style>
+    <script src="js/theme.js" defer></script>
+    <script src="js/menu.js" defer></script>
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header>
+        <div class="header-content">
+            <div class="site-logo"><a href="/">Arjun Vinod</a></div>
+            <div class="header-right">
+                <div class="menu-wrapper">
+                    <button class="menu-button" type="button" aria-label="Menu" aria-haspopup="true" aria-expanded="false" aria-controls="menu-dropdown">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <nav class="menu-dropdown" id="menu-dropdown" role="navigation" aria-label="Primary Navigation">
+                        <a href="/">Home</a>
+                        <a href="/books.html">Books</a>
+                    </nav>
+                </div>
+                <div class="theme-toggle-wrapper">
+                    <button class="theme-toggle" aria-label="Toggle theme" role="switch" aria-checked="false">
+                        <div class="theme-toggle-slider">
+                            <i class="fas fa-moon"></i>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main id="main">
+        <div class="container error-container">
+            <p class="error-code">404</p>
+            <p class="error-message">This page doesn't exist.</p>
+            <a href="/" class="error-link">Go Home</a>
+        </div>
+    </main>
+    <footer>
+        <div class="footer-content">
+            <div class="copyright footer-copyright">
+                &copy; 2026 Arjun Vinod. All rights reserved.
+            </div>
+            <div class="footer-right">
+                <div class="footer-links">
+                    <a href="https://twitter.com/arjun7965" target="_blank" rel="noopener noreferrer" title="X (Twitter)" aria-label="X (Twitter)">
+                        <i class="fab fa-x-twitter"></i><span class="footer-link-label">X</span>
+                    </a>
+                    <a href="https://linkedin.com/in/avinod" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin"></i><span class="footer-link-label">LinkedIn</span>
+                    </a>
+                    <a href="https://github.com/arjun7965" target="_blank" rel="noopener noreferrer" title="GitHub" aria-label="GitHub">
+                        <i class="fab fa-github"></i><span class="footer-link-label">GitHub</span>
+                    </a>
+                </div>
+                <div class="footer-email">
+                    <a href="mailto:arjun@arjunvinod.com" class="footer-email-link">arjun@arjunvinod.com</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
