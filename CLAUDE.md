@@ -22,6 +22,12 @@ Then visit http://localhost:4000. No build step, bundler, or package manager —
 - `js/menu.js` — dropdown toggle for the hamburger menu; handles outside-click, Escape, and iOS Safari quirks
 - `js/books.js` — book cover loading for `books.html`. Tries ISBNs sequentially against `covers.openlibrary.org`, falling back to an SVG placeholder generated as a `data:` URI. Each `<img>` carries `data-isbn` and optionally `data-alt-isbns` (comma-separated) for fallback ordering.
 
+## Workflow
+
+- **Branching**: Create a new branch for larger or more complex changes; small/trivial fixes can go directly to master.
+- **Commits**: Use conventional commits (`fix:`, `feat:`, `refactor:`, `style:`, `docs:`, `chore:`). Keep messages concise.
+- **Always commit and push** when asked — do not just stage.
+
 ## Theme System
 
 Themes are toggled via a `data-theme="dark"` attribute on `<html>`. All colors are CSS custom properties defined in `:root` (light) and `[data-theme="dark"]` (dark) in `styles.css`. The user's choice is persisted in `localStorage` under the key `theme`.
