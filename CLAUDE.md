@@ -26,6 +26,3 @@ Then visit http://localhost:4000. No build step, bundler, or package manager —
 
 Themes are toggled via a `data-theme="dark"` attribute on `<html>`. All colors are CSS custom properties defined in `:root` (light) and `[data-theme="dark"]` (dark) in `styles.css`. The user's choice is persisted in `localStorage` under the key `theme`.
 
-## Known Issues to Be Aware Of
-
-- No `site.webmanifest` exists despite `android-chrome-*.png` favicons being present
