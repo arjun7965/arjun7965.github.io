@@ -29,4 +29,3 @@ Themes are toggled via a `data-theme="dark"` attribute on `<html>`. All colors a
 ## Known Issues to Be Aware Of
 
 - No `site.webmanifest` exists despite `android-chrome-*.png` favicons being present
-- `images/generate-favicons.html` is a dev utility served publicly
