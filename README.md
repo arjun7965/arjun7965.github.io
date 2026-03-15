@@ -58,6 +58,7 @@ The site uses a modern minimalist design language:
 ├── css/
 │   └── styles.css          # Shared styles and theme system
 ├── js/
+│   ├── books.js           # Book cover loading and ISBN fallback logic
 │   ├── menu.js            # Mobile menu dropdown logic
 │   └── theme.js           # Theme toggle and persistence
 └── images/
