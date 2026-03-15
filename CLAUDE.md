@@ -20,9 +20,7 @@ Then visit http://localhost:4000. No build step, bundler, or package manager —
 **JavaScript files:**
 - `js/theme.js` — sets `data-theme` attribute on `<html>` immediately on load (top-level, not deferred logic), then attaches the toggle button listener on `DOMContentLoaded`. Fires a custom `themeChanged` event that `books.html` listens to for regenerating placeholder covers.
 - `js/menu.js` — dropdown toggle for the hamburger menu; handles outside-click, Escape, and iOS Safari quirks
-
-**Book cover loading (`books.html` inline script):**
-The entire cover-fetching logic is inlined in `books.html`. It tries ISBNs sequentially against `covers.openlibrary.org`, falling back to an SVG placeholder generated as a `data:` URI. Each `<img>` carries `data-isbn` and optionally `data-alt-isbns` (comma-separated) for fallback ordering.
+- `js/books.js` — book cover loading for `books.html`. Tries ISBNs sequentially against `covers.openlibrary.org`, falling back to an SVG placeholder generated as a `data:` URI. Each `<img>` carries `data-isbn` and optionally `data-alt-isbns` (comma-separated) for fallback ordering.
 
 ## Theme System
 
