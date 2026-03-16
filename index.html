@@ -21,58 +21,14 @@
     <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
     <link rel="icon" href="images/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
     <style>
-        /* Index-specific: container with text-align center */
-        .container {
-            text-align: center;
-        }
-        h1 {
-            color: var(--text-primary);
-            margin-bottom: 1rem;
-        }
-        p {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-        }
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-        .social-links a {
-            text-decoration: none;
-            color: var(--link-color);
-            padding: 0.5rem 1rem;
-            border: 2px solid var(--link-color);
-            border-radius: 5px;
-            transition: all 0.3s ease;
-        }
-        .social-links a:hover {
-            background-color: var(--link-color);
-            color: white;
-        }
-        .experience-header {
-            margin-bottom: 0.5rem;
-        }
-        .experience-item p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            margin: 0.5rem 0 0 0;
-            line-height: 1.5;
-        }
-        .education-header {
-            margin-bottom: 0.5rem;
-        }
-        .copyright {
-            text-align: center;
-            /* Removed hardcoded margin-left: 200px; for better responsiveness */
-        }
-        .footer-email {
-            font-size: 0.9rem;
-        }
+        .container { text-align: center; }
+        .copyright { text-align: center; }
+        .footer-email { font-size: 0.9rem; }
     </style>
     <script src="js/theme.js" defer></script>
     <script src="js/menu.js" defer></script>
@@ -104,20 +60,34 @@
     </header>
     <main id="main">
         <div class="container">
-        <p class="intro">Hi, I'm Arjun — a Firmware Engineer in Silicon Valley building high-performance embedded systems for data center connectivity.</p>
+        <div class="hero">
+            <h1 class="hero-name">Arjun Vinod</h1>
+            <p class="hero-role">Firmware Engineer</p>
+            <p class="hero-desc">Building high-performance embedded systems for data center connectivity in Silicon Valley.</p>
+            <div class="hero-links">
+                <a href="https://github.com/arjun7965" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                    <svg class="icon" viewBox="0 0 496 512" aria-hidden="true"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8z"/></svg>
+                </a>
+                <a href="https://linkedin.com/in/avinod" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                    <svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+                </a>
+                <a href="https://twitter.com/arjun7965" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
+                    <svg class="icon" viewBox="0 0 512 512" aria-hidden="true"><path fill="currentColor" d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8l164.9-188.5L26.8 48h145.6l100.5 132.9L389.2 48zm-24.8 373.8h39.1L151.1 88h-42L364.4 421.8z"/></svg>
+                </a>
+            </div>
+        </div>
         
         <section aria-label="Experience and education" class="roadmap-section">
             <div class="roadmap">
                 <div class="lane lane-experience">
-                    <h3 class="lane-title"><svg class="icon" viewBox="0 0 512 512" aria-hidden="true"><path fill="currentColor" d="M184 48h144c4.4 0 8 3.6 8 8v40H176V56c0-4.4 3.6-8 8-8zm-56 8v40H64c-35.3 0-64 28.7-64 64v96h192 128 192v-96c0-35.3-28.7-64-64-64h-64V56c0-30.9-25.1-56-56-56H184c-30.9 0-56 25.1-56 56zm384 232H320v32c0 17.7-14.3 32-32 32h-64c-17.7 0-32-14.3-32-32v-32H0v128c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64V288z"/></svg> Experience</h3>
+                    <h3 class="lane-title">Experience</h3>
 
                     <div class="node">
                         <span class="dot" aria-hidden="true"></span>
                         <article class="rm-card">
-                            <h4 class="rm-title"><a href="https://www.asteralabs.com/" target="_blank" rel="noopener noreferrer">Astera Labs</a></h4>
+                            <h4 class="rm-title"><a href="https://www.asteralabs.com/" target="_blank" rel="noopener noreferrer">Astera Labs</a> <span class="current-badge">Current</span></h4>
                             <div class="rm-body">
-                                <div class="rm-role">Firmware Engineer, Technical Lead</div>
-                                <div class="rm-meta">February 2023 – Present</div>
+                                <div class="rm-role-line">Firmware Engineer, Technical Lead <span class="rm-meta">Feb 2023 – Present</span></div>
                                 <p class="rm-desc">Developing cutting-edge firmware solutions for high-speed connectivity and data center infrastructure.</p>
                             </div>
                         </article>
@@ -129,13 +99,11 @@
                             <h4 class="rm-title"><a href="https://www.qualcomm.com/products/internet-of-things/networking/wi-fi-networks" target="_blank" rel="noopener noreferrer">Qualcomm Atheros</a></h4>
                             <div class="rm-body">
                                 <div class="rm-stint">
-                                    <div class="rm-role">Senior Embedded Software Engineer</div>
-                                    <div class="rm-meta">November 2021 – February 2023</div>
+                                    <div class="rm-role-line">Senior Embedded Software Engineer <span class="rm-meta">Nov 2021 – Feb 2023</span></div>
                                     <p class="rm-desc">Developed embedded software for enterprise WiFi platforms. Implemented advanced TX power control features for Qualcomm's WiFi chipsets.</p>
                                 </div>
                                 <div>
-                                    <div class="rm-role">Embedded Software Engineer</div>
-                                    <div class="rm-meta">January 2020 – November 2021</div>
+                                    <div class="rm-role-line">Embedded Software Engineer <span class="rm-meta">Jan 2020 – Nov 2021</span></div>
                                     <p class="rm-desc">Contributed to WiFi physical layer firmware development and implemented automated test framework for regression testing.</p>
                                 </div>
                             </div>
@@ -147,8 +115,7 @@
                         <article class="rm-card">
                             <h4 class="rm-title"><a href="https://www.greensightag.com/" target="_blank" rel="noopener noreferrer">GreenSight Agronomics</a></h4>
                             <div class="rm-body">
-                                <div class="rm-role">Embedded Software Engineer</div>
-                                <div class="rm-meta">January 2018 – December 2019</div>
+                                <div class="rm-role-line">Embedded Software Engineer <span class="rm-meta">Jan 2018 – Dec 2019</span></div>
                                 <p class="rm-desc">Built embedded systems for autonomous agricultural drones. Developed sensor integration, flight control software for precision agriculture applications.</p>
                             </div>
                         </article>
@@ -158,14 +125,14 @@
                 <div class="rail" aria-hidden="true"></div>
 
                 <div class="lane lane-education">
-                    <h3 class="lane-title"><svg class="icon" viewBox="0 0 640 512" aria-hidden="true"><path fill="currentColor" d="M320 32L0 192l142.4 71.2c-4.2 8.7-7.5 17.8-9.8 27.3L64 320v96c0 17.7 14.3 32 32 32s32-14.3 32-32v-82.7l52.4 26.2c-1.6 7.5-2.4 15.3-2.4 23.2 0 53 43 96 96 96h96c53 0 96-43 96-96 0-7.9-.8-15.7-2.4-23.2L640 192 320 32zm160 348.7c0 20.1-16.3 36.4-36.4 36.4H196.4c-20.1 0-36.4-16.3-36.4-36.4 0-5.2 1.1-10.2 3.2-14.9L320 288l156.8 77.8c2.1 4.6 3.2 9.7 3.2 14.9z"/></svg> Education</h3>
+                    <h3 class="lane-title">Education</h3>
 
                     <div class="node">
                         <span class="dot" aria-hidden="true"></span>
                         <article class="rm-card">
                             <h4 class="rm-title"><a href="https://ecs.syracuse.edu/" target="_blank" rel="noopener noreferrer">Syracuse University</a></h4>
                             <div class="rm-body">
-                                <div class="rm-role">Master of Science (MS), Computer Engineering</div>
+                                <div class="rm-role-line">Master of Science (MS), Computer Engineering</div>
                             </div>
                         </article>
                     </div>
@@ -175,7 +142,7 @@
                         <article class="rm-card">
                             <h4 class="rm-title"><a href="https://kcgcollege.ac.in/" target="_blank" rel="noopener noreferrer">KCG College of Technology, Anna University</a></h4>
                             <div class="rm-body">
-                                <div class="rm-role">Bachelor of Engineering (B.E.), Electrical, Electronics and Communications Engineering</div>
+                                <div class="rm-role-line">Bachelor of Engineering (B.E.), Electrical, Electronics and Communications Engineering</div>
                             </div>
                         </article>
                     </div>
