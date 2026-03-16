@@ -343,8 +343,64 @@ footer {
   line-height: 1.7; 
   margin: 0;
 }
-/* Misc */
-.intro { font-size: clamp(1rem, 0.9rem + 0.5vw, 1.2rem); color: var(--text-primary); max-width: 600px; margin: 2rem auto; text-align: center; }
+/* Hero Section */
+.hero {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.hero-name {
+  font-size: clamp(2.5rem, 2rem + 2vw, 3.5rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin: 0 0 0.5rem;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-role {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(0.8rem, 0.75rem + 0.25vw, 0.95rem);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--color-accent);
+  margin: 0 0 1.25rem;
+}
+.hero-desc {
+  font-size: clamp(1rem, 0.9rem + 0.4vw, 1.15rem);
+  color: var(--text-secondary);
+  max-width: 500px;
+  margin: 0 auto 1.5rem;
+  line-height: 1.7;
+}
+.hero-links {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+}
+.hero-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.hero-links a:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+  background: rgba(20, 184, 166, 0.1);
+  transform: translateY(-2px);
+}
+.hero-links .icon {
+  width: 1.1em;
+  height: 1.1em;
+}
 
 /* Vertical two-lane roadmap (Experience | Education) */
 .roadmap-section { margin: 2rem 0; text-align: left; }
@@ -514,22 +570,6 @@ footer {
 .rm-body { margin-top: 0.5rem; }
 .rm-stint { margin-bottom: 0.75rem; }
 /* Slightly tighter spacing on small screens */
-/* Hero gradient text */
-.intro-name {
-  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-weight: 700;
-}
-.intro-role {
-  display: block;
-  font-size: clamp(0.85rem, 0.8rem + 0.3vw, 1rem);
-  color: var(--color-accent);
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  margin-top: 0.5rem;
-}
 /* Scroll-reveal animations */
 .node, .book-item {
   opacity: 0;
