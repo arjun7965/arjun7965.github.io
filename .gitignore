@@ -1,1 +1,4 @@
 images/generate-favicons.html
+node_modules/
+.lighthouseci/
+.playwright-mcp/
