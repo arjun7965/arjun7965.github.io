@@ -8,7 +8,20 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 python3 -m http.server 4000
 ```
 
-Then visit http://localhost:4000. No build step, bundler, or package manager — the site is pure HTML/CSS/JS.
+Then visit http://localhost:4000. No build step or bundler — the site is pure HTML/CSS/JS.
+
+## Linting & Auditing
+
+Run before pushing changes:
+
+```bash
+npm run lint          # HTMLHint + Stylelint (HTML & CSS)
+npm run lint:html     # HTMLHint only
+npm run lint:css      # Stylelint only
+npm run lighthouse    # Lighthouse CI (requires local server on port 4000)
+```
+
+A Claude Code hook auto-lints HTML/CSS files on edit, but always run the full `npm run lint` before pushing.
 
 ## Architecture
 
