@@ -10,7 +10,7 @@ This repository hosts a personal portfolio website built with vanilla HTML, CSS,
 
 - **Modern Minimalist Design**: Clean, professional aesthetic with navy/teal accent colors
 - **Professional Profile**: Experience and education displayed in an elegant vertical timeline
-- **Reading List**: Curated collection of books on macroeconomics, financial systems, and monetary theory
+- **Reading List**: Curated collection of books spanning macroeconomics, financial systems, psychology, philosophy, and personal growth
 - **Theme Toggle**: Light/dark mode with system preference detection and persistent user choice
 - **Responsive Design**: Mobile-friendly layout with CSS custom properties for consistent theming
 
@@ -27,16 +27,17 @@ Main landing page featuring:
 ### [books.html](https://arjunvinod.com/books.html)
 Reading list with:
 - Dynamic book cover loading from Open Library API with ISBN fallbacks
+- "Currently Reading" badge for in-progress books
 - Theme-aware placeholder generation for missing covers
 - Book descriptions and Amazon/ThriftBooks links
-- Topics: Modern Monetary Theory, cryptocurrency, sound money, financial systems
 
 ## Design
 
 The site uses a modern minimalist design language:
 
 - **Color Palette**: Navy blue (#0f4c75) primary with teal (#14b8a6) accents
-- **Typography**: System font stack with clean, readable hierarchy
+- **Typography**: Inter (Google Fonts) with JetBrains Mono for monospace, system font stack as fallback
+- **Icons**: Inline SVGs for social links and UI elements
 - **Timeline**: Vertical timeline with gradient connecting lines and glowing dots
 - **Cards**: Subtle shadows with hover animations and gradient accent bars
 - **Accessibility**: High contrast colors in both light and dark modes
@@ -47,7 +48,7 @@ The site uses a modern minimalist design language:
 - **Accessibility**: ARIA labels, skip links, semantic HTML, keyboard navigation
 - **Performance**: Lazy loading, preconnect hints, optimized asset loading
 - **SEO**: Meta tags, Open Graph, Twitter Cards, canonical URLs
-- **PWA Ready**: Favicon set with multiple sizes for all platforms
+- **PWA Ready**: Web manifest and favicon set with multiple sizes for all platforms
 
 ## Structure
 
@@ -55,17 +56,27 @@ The site uses a modern minimalist design language:
 .
 ├── index.html              # Main page
 ├── books.html              # Reading list
+├── 404.html                # Custom 404 page
+├── sitemap.xml             # Sitemap for SEO
+├── site.webmanifest        # PWA manifest
 ├── css/
 │   └── styles.css          # Shared styles and theme system
 ├── js/
-│   ├── books.js           # Book cover loading and ISBN fallback logic
-│   ├── menu.js            # Mobile menu dropdown logic
-│   └── theme.js           # Theme toggle and persistence
-└── images/
-    ├── favicon.ico
-    ├── favicon-16x16.png
-    ├── favicon-32x32.png
-    └── apple-touch-icon.png
+│   ├── books.js            # Book cover loading and ISBN fallback logic
+│   ├── menu.js             # Mobile menu dropdown logic
+│   └── theme.js            # Theme toggle and persistence
+├── images/
+│   ├── favicon.ico
+│   ├── favicon-16x16.png
+│   ├── favicon-32x32.png
+│   ├── apple-touch-icon.png
+│   ├── android-chrome-192x192.png
+│   ├── android-chrome-512x512.png
+│   └── og-image.png
+├── package.json            # Dev dependencies (linting, Lighthouse)
+├── .htmlhintrc             # HTMLHint configuration
+├── .stylelintrc.json       # Stylelint configuration
+└── lighthouserc.js         # Lighthouse CI configuration
 ```
 
 ## Local Development
@@ -78,13 +89,23 @@ python3 -m http.server 4000
 
 Then visit [http://localhost:4000](http://localhost:4000)
 
+### Linting & Auditing
+
+```bash
+npm run lint          # HTMLHint + Stylelint (HTML & CSS)
+npm run lint:html     # HTMLHint only
+npm run lint:css      # Stylelint only
+npm run lighthouse    # Lighthouse CI (requires local server on port 4000)
+```
+
 ## Technologies
 
 - HTML5 with semantic markup
 - CSS3 with custom properties (CSS variables) for theming
 - Vanilla JavaScript (ES6+)
-- Font Awesome 6.4.2 for icons
+- [Inter](https://fonts.google.com/specimen/Inter) and [JetBrains Mono](https://fonts.google.com/specimen/JetBrains+Mono) via Google Fonts
 - Open Library Covers API for book images
+- HTMLHint, Stylelint, and Lighthouse CI for quality assurance
 
 ## Theme System
 
