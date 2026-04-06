@@ -49,6 +49,7 @@ The site uses a modern minimalist design language:
 - **Performance**: Lazy loading, preconnect hints, optimized asset loading
 - **SEO**: Meta tags, Open Graph, Twitter Cards, canonical URLs
 - **PWA Ready**: Web manifest and favicon set with multiple sizes for all platforms
+- **Analytics**: [GoatCounter](https://www.goatcounter.com/) — privacy-friendly, no cookies, GDPR-compliant. Dashboard at [arjunvinod.goatcounter.com](https://arjunvinod.goatcounter.com)
 
 ## Structure
 
