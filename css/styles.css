@@ -282,15 +282,6 @@ footer {
   background: rgb(20 184 166 / 10%);
 }
 
-.footer-link-label {
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
-@media (width <= 480px) {
-  .footer-link-label { display: none; }
-  .footer-links a { width: 36px; padding: 0; }
-}
 .footer-email a:hover { text-decoration: underline; }
 
 /* Skip Link */
