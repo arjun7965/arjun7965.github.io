@@ -3,7 +3,7 @@
   "private": true,
   "description": "Personal portfolio site",
   "scripts": {
-    "lint:html": "htmlhint index.html books.html",
+    "lint:html": "htmlhint index.html books/index.html",
     "lint:css": "stylelint 'css/**/*.css'",
     "lint": "npm run lint:html && npm run lint:css",
     "lighthouse": "lhci autorun"

@@ -24,7 +24,7 @@ Main landing page featuring:
 - Educational background from Syracuse University and KCG College of Technology
 - Social media links and contact information
 
-### [books.html](https://arjunvinod.com/books.html)
+### [books/](https://arjunvinod.com/books/)
 Reading list with:
 - Dynamic book cover loading from Open Library API with ISBN fallbacks
 - "Currently Reading" badge for in-progress books
@@ -56,7 +56,8 @@ The site uses a modern minimalist design language:
 ```
 .
 ├── index.html              # Main page
-├── books.html              # Reading list
+├── books/
+│   └── index.html          # Reading list (served at /books/)
 ├── 404.html                # Custom 404 page
 ├── sitemap.xml             # Sitemap for SEO
 ├── site.webmanifest        # PWA manifest
