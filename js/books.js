@@ -168,7 +168,7 @@ const READING_LIST = [
                 author: "Albert Camus (translated by Matthew Ward)",
                 shortTitle: "The Stranger",
                 altText: "The Stranger by Albert Camus",
-                link: "https://www.amazon.com/dp/0679720200",
+                link: "https://www.thriftbooks.com/w/the-stranger-by-albert-camus/247130/#isbn=0679720200",
                 isbn: "9780679720201",
                 notes: "Camus's iconic existentialist novel follows Meursault, an indifferent Algerian man whose emotional detachment leads to a fateful act of violence and a confrontation with mortality. A meditation on the absurd — the conflict between our desire for meaning and the universe's silence.",
                 currentlyReading: true,
