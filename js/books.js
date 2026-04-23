@@ -164,6 +164,16 @@ const READING_LIST = [
         description: "Starting fresh in 2026 with explorations into psychology, philosophy, and personal growth.",
         books: [
             {
+                title: "The Stranger",
+                author: "Albert Camus (translated by Matthew Ward)",
+                shortTitle: "The Stranger",
+                altText: "The Stranger by Albert Camus",
+                link: "https://www.amazon.com/dp/0679720200",
+                isbn: "9780679720201",
+                notes: "Camus's iconic existentialist novel follows Meursault, an indifferent Algerian man whose emotional detachment leads to a fateful act of violence and a confrontation with mortality. A meditation on the absurd — the conflict between our desire for meaning and the universe's silence.",
+                currentlyReading: true,
+            },
+            {
                 title: "Mind to Matter: The Astonishing Science of How Your Brain Creates Material Reality",
                 author: "Dawson Church",
                 shortTitle: "Mind to Matter",
@@ -172,7 +182,6 @@ const READING_LIST = [
                 link: "https://www.thriftbooks.com/w/mind-to-matter-the-astonishing-science-of-how-your-brain-creates-material-reality_dawson-church/18645933/?resultid=2de6c45e-dd46-4b5c-92e6-cf8019dea194#edition=19846831&idiq=32358812",
                 isbn: "9781788171151",
                 notes: "An exploration of the mind-body connection, revealing scientific evidence for how consciousness and intention can influence physical reality, healing, and the material world around us.",
-                currentlyReading: true,
             },
             {
                 title: "The Courage to Be Disliked",
