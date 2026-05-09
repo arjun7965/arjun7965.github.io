@@ -100,6 +100,21 @@ npm run lint:css      # Stylelint only
 npm run lighthouse    # Lighthouse CI (requires local server on port 4000)
 ```
 
+### Dependency Overrides
+
+`package.json` pins patched versions of several transitive dev dependencies via the npm `overrides` field, avoiding breaking major bumps of the direct deps that pull them in:
+
+| Package | Pinned to | Resolves |
+|---|---|---|
+| `tmp` | `^0.2.4` | CVE-2025-54798 (symlink) |
+| `uuid` | `^14.0.0` | GHSA-w5hq-g745-h8pq (buffer bounds) |
+| `fast-uri` | `^3.1.2` | GHSA-v39h-62p7-jpjc (host confusion), GHSA-q3j6-qgpj-74h6 (path traversal) |
+| `ip-address` | `^10.1.1` | GHSA-v2v4-37r5-5v8g (Address6 XSS) |
+| `basic-ftp` | `^5.3.1` | GHSA-rpmf-866q-6p89 (DoS) |
+| `postcss` | `^8.5.10` | GHSA-qx2v-qp2m-jg93 (XSS via `</style>`) |
+
+Run `npm audit` after `npm install` to verify 0 vulnerabilities.
+
 ## Technologies
 
 - HTML5 with semantic markup
