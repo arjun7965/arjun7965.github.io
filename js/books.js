@@ -164,6 +164,16 @@ const READING_LIST = [
         description: "Starting fresh in 2026 with explorations into psychology, philosophy, and personal growth.",
         books: [
             {
+                title: "My Stroke of Insight: A Brain Scientist's Personal Journey",
+                author: "Jill Bolte Taylor",
+                shortTitle: "My Stroke of Insight",
+                altText: "My Stroke of Insight by Jill Bolte Taylor",
+                link: "https://www.thriftbooks.com/w/my-stroke-of-insight-a-brain-scientists-personal-journey_jill-bolte-taylor/249568/#isbn=0670020745",
+                isbn: "9780670020744",
+                notes: "A Harvard-trained neuroanatomist's first-person account of suffering a massive left-hemisphere stroke at age 37 — and what the experience revealed about the brain's two hemispheres, consciousness, and the nature of inner peace. Both a clinical case study and a deeply personal meditation on recovery.",
+                currentlyReading: true,
+            },
+            {
                 title: "The Stranger",
                 author: "Albert Camus (translated by Matthew Ward)",
                 shortTitle: "The Stranger",
@@ -171,7 +181,6 @@ const READING_LIST = [
                 link: "https://www.thriftbooks.com/w/the-stranger-by-albert-camus/247130/#isbn=0679720200",
                 isbn: "9780679720201",
                 notes: "Camus's iconic existentialist novel follows Meursault, an indifferent Algerian man whose emotional detachment leads to a fateful act of violence and a confrontation with mortality. A meditation on the absurd — the conflict between our desire for meaning and the universe's silence.",
-                currentlyReading: true,
             },
             {
                 title: "Mind to Matter: The Astonishing Science of How Your Brain Creates Material Reality",
