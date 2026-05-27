@@ -106,7 +106,7 @@ npm run lighthouse    # Lighthouse CI (requires local server on port 4000)
 
 | Package | Pinned to | Resolves |
 |---|---|---|
-| `tmp` | `^0.2.4` | CVE-2025-54798 (symlink) |
+| `tmp` | `^0.2.6` | CVE-2025-54798 (symlink), GHSA-ph9p-34f9-6g65 (path traversal) |
 | `uuid` | `^14.0.0` | GHSA-w5hq-g745-h8pq (buffer bounds) |
 | `fast-uri` | `^3.1.2` | GHSA-v39h-62p7-jpjc (host confusion), GHSA-q3j6-qgpj-74h6 (path traversal) |
 | `ip-address` | `^10.1.1` | GHSA-v2v4-37r5-5v8g (Address6 XSS) |
