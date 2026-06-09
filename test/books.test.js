@@ -6,6 +6,7 @@ const {
     isbn10to13,
     isbn13to10,
     unique,
+    escapeHtml,
     buildIsbnCandidates,
     openLibraryUrlForIsbn,
 } = require('../js/books.js');
@@ -69,6 +70,19 @@ test('round trip 10 → 13 → 10 is identity', () => {
     for (const isbn10 of ['0306406152', '0679720200', '043942089X', '1999257405']) {
         assert.equal(isbn13to10(isbn10to13(isbn10)), isbn10);
     }
+});
+
+test('escapeHtml escapes markup-significant characters', () => {
+    assert.equal(
+        escapeHtml('Tom & Jerry\'s <"Adventures">'),
+        'Tom &amp; Jerry&apos;s &lt;&quot;Adventures&quot;&gt;'
+    );
+});
+
+test('escapeHtml passes plain text through and handles null/undefined', () => {
+    assert.equal(escapeHtml('The Stranger'), 'The Stranger');
+    assert.equal(escapeHtml(null), '');
+    assert.equal(escapeHtml(undefined), '');
 });
 
 test('unique removes duplicates and falsy values, preserving order', () => {

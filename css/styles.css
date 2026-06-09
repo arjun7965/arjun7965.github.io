@@ -344,11 +344,13 @@ footer {
   transform: translateY(-4px);
 }
 
-.book-cover img { 
-  width: 100%; 
-  height: auto; 
-  border-radius: 8px; 
-  box-shadow: 0 4px 12px rgb(0 0 0 / 15%); 
+.book-cover img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2 / 3; /* reserve space pre-load: prevents layout shift and keeps lazy loading meaningful */
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
 }
 .book-details { flex: 1; }
 
@@ -637,4 +639,22 @@ footer {
 
 @media (width <= 720px) {
   .node { padding-left: 1.5rem; }
+}
+
+/* Respect the user's motion preference: stop the blinking badge dot and
+   hover/scroll animations, and show reveal-animated content immediately */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .node,
+  .book-item {
+    opacity: 1;
+    transform: none;
+  }
 }

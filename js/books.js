@@ -58,6 +58,16 @@ function unique(arr) {
     return Array.from(new Set(arr.filter(Boolean)));
 }
 
+// Helper: escape text for safe interpolation into HTML markup and attributes
+function escapeHtml(text) {
+    return (text || '').toString()
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&apos;');
+}
+
 function buildIsbnCandidates(img) {
     const provided = normalizeIsbn(img.dataset.isbn || '');
     const manual = (img.dataset.altIsbns || '')
@@ -90,8 +100,8 @@ function openLibraryUrlForIsbn(isbn) {
 function generatePlaceholderDataURI(title, author) {
     const bg = document.documentElement.getAttribute('data-theme') === 'dark' ? '#2d2d2d' : '#e9eef3';
     const fg = document.documentElement.getAttribute('data-theme') === 'dark' ? '#d0d0d0' : '#2c3e50';
-    const safeTitle = (title || 'No cover').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
-    const safeAuthor = (author || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+    const safeTitle = escapeHtml(title || 'No cover');
+    const safeAuthor = escapeHtml(author);
     const svg = `
         <svg xmlns="http://www.w3.org/2000/svg" width="400" height="600">
             <rect width="100%" height="100%" fill="${bg}"/>
@@ -264,27 +274,27 @@ function renderReadingList(container) {
     const shortTitleOf = book => book.shortTitle || book.title.split(':')[0].trim();
     const html = READING_LIST.map(section => {
         const books = section.books.map(book => {
-            const altIsbns = book.altIsbns ? ` data-alt-isbns="${book.altIsbns}"` : '';
+            const altIsbns = book.altIsbns ? ` data-alt-isbns="${escapeHtml(book.altIsbns)}"` : '';
             const badge = book.currentlyReading
                 ? '<span class="currently-reading-badge">Currently Reading</span>'
                 : '';
             return `
             <article class="book-item">
                 <div class="book-cover">
-                    <a href="${book.link}" target="_blank" rel="noopener noreferrer">
-                        <img loading="lazy" decoding="async" data-isbn="${book.isbn}"${altIsbns} alt="${book.altText}" data-title="${shortTitleOf(book)}" data-author="${book.author}">
+                    <a href="${escapeHtml(book.link)}" target="_blank" rel="noopener noreferrer">
+                        <img loading="lazy" decoding="async" data-isbn="${escapeHtml(book.isbn)}"${altIsbns} alt="${escapeHtml(book.altText)}" data-title="${escapeHtml(shortTitleOf(book))}" data-author="${escapeHtml(book.author)}">
                     </a>
                 </div>
                 <div class="book-details">
-                    <h3 class="book-title">${book.title}${badge}</h3>
-                    <div class="book-author">by ${book.author}</div>
-                    <p class="book-notes">${book.notes}</p>
+                    <h3 class="book-title">${escapeHtml(book.title)}${badge}</h3>
+                    <div class="book-author">by ${escapeHtml(book.author)}</div>
+                    <p class="book-notes">${escapeHtml(book.notes)}</p>
                 </div>
             </article>`;
         }).join('');
         return `
             <h2>${section.year}</h2>
-            <p class="section-description">${section.description}</p>
+            <p class="section-description">${escapeHtml(section.description)}</p>
             ${books}`;
     }).join('');
     container.insertAdjacentHTML('beforeend', html);
@@ -297,11 +307,23 @@ if (typeof document !== 'undefined') {
     const readingListContainer = document.querySelector('[data-reading-list]');
     if (readingListContainer) renderReadingList(readingListContainer);
 
-    // Resolve book covers on page load
+    // Resolve book covers lazily: probing covers.openlibrary.org with Image()
+    // bypasses loading="lazy", so gate it on viewport proximity instead
     window.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll('.book-cover img[data-isbn]').forEach(img => {
-            tryLoadCover(img);
-        });
+        const covers = document.querySelectorAll('.book-cover img[data-isbn]');
+        if ('IntersectionObserver' in window) {
+            const coverObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        coverObserver.unobserve(entry.target);
+                        tryLoadCover(entry.target);
+                    }
+                });
+            }, { rootMargin: '200px' });
+            covers.forEach(img => coverObserver.observe(img));
+        } else {
+            covers.forEach(img => tryLoadCover(img));
+        }
     });
 
     // Listen for theme changes and regenerate placeholder images
@@ -322,6 +344,7 @@ if (typeof module !== 'undefined' && module.exports) {
         isbn10to13,
         isbn13to10,
         unique,
+        escapeHtml,
         buildIsbnCandidates,
         openLibraryUrlForIsbn,
     };
