@@ -290,24 +290,39 @@ function renderReadingList(container) {
     container.insertAdjacentHTML('beforeend', html);
 }
 
-// Render immediately so theme.js's DOMContentLoaded observer sees the items.
-// Safe under `defer`: the DOM is parsed before this script executes.
-const readingListContainer = document.querySelector('[data-reading-list]');
-if (readingListContainer) renderReadingList(readingListContainer);
+// Browser-only wiring; skipped when loaded in Node for unit tests
+if (typeof document !== 'undefined') {
+    // Render immediately so theme.js's DOMContentLoaded observer sees the items.
+    // Safe under `defer`: the DOM is parsed before this script executes.
+    const readingListContainer = document.querySelector('[data-reading-list]');
+    if (readingListContainer) renderReadingList(readingListContainer);
 
-// Resolve book covers on page load
-window.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.book-cover img[data-isbn]').forEach(img => {
-        tryLoadCover(img);
+    // Resolve book covers on page load
+    window.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.book-cover img[data-isbn]').forEach(img => {
+            tryLoadCover(img);
+        });
     });
-});
 
-// Listen for theme changes and regenerate placeholder images
-document.addEventListener('themeChanged', () => {
-    // Only regenerate placeholder images, not real book covers
-    document.querySelectorAll('.book-cover img[data-loaded="placeholder"]').forEach(img => {
-        const title = img.getAttribute('alt') || img.dataset.title || '';
-        const author = img.dataset.author || '';
-        img.src = generatePlaceholderDataURI(title, author);
+    // Listen for theme changes and regenerate placeholder images
+    document.addEventListener('themeChanged', () => {
+        // Only regenerate placeholder images, not real book covers
+        document.querySelectorAll('.book-cover img[data-loaded="placeholder"]').forEach(img => {
+            const title = img.getAttribute('alt') || img.dataset.title || '';
+            const author = img.dataset.author || '';
+            img.src = generatePlaceholderDataURI(title, author);
+        });
     });
-});
+}
+
+// Export pure helpers for unit tests (Node only)
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        normalizeIsbn,
+        isbn10to13,
+        isbn13to10,
+        unique,
+        buildIsbnCandidates,
+        openLibraryUrlForIsbn,
+    };
+}

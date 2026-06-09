@@ -6,6 +6,7 @@
     "lint:html": "htmlhint index.html books/index.html",
     "lint:css": "stylelint 'css/**/*.css'",
     "lint": "npm run lint:html && npm run lint:css",
+    "test": "node --test",
     "lighthouse": "lhci autorun"
   },
   "devDependencies": {
