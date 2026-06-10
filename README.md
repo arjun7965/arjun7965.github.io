@@ -26,7 +26,8 @@ Main landing page featuring:
 
 ### [books/](https://arjunvinod.com/books/)
 Reading list with:
-- Dynamic book cover loading from Open Library API with ISBN fallbacks
+- Self-hosted book covers (`images/covers/`), fetched once from the Open Library Covers API at build time — no runtime third-party requests
+- List markup pre-rendered into static HTML for SEO and no-JS visitors
 - "Currently Reading" badge for in-progress books
 - Theme-aware placeholder generation for missing covers
 - Book descriptions and Amazon/ThriftBooks links
@@ -45,11 +46,12 @@ The site uses a modern minimalist design language:
 ## Technical Features
 
 - **No Build Process**: Pure HTML/CSS/JavaScript - no frameworks or bundlers required
-- **Accessibility**: ARIA labels, skip links, semantic HTML, keyboard navigation
-- **Performance**: Lazy loading, preconnect hints, optimized asset loading
-- **SEO**: Meta tags, Open Graph, Twitter Cards, canonical URLs
+- **Accessibility**: ARIA labels, skip links, semantic HTML, keyboard navigation, `prefers-reduced-motion` support
+- **Performance**: Lazy loading, self-hosted covers with fixed aspect ratio (no layout shift), preconnect hints
+- **SEO**: Meta tags, Open Graph, Twitter Cards, canonical URLs, pre-rendered content
 - **PWA Ready**: Web manifest and favicon set with multiple sizes for all platforms
 - **Analytics**: [GoatCounter](https://www.goatcounter.com/) — privacy-friendly, no cookies, GDPR-compliant. Dashboard at [arjunvinod.goatcounter.com](https://arjunvinod.goatcounter.com)
+- **CI**: GitHub Actions runs linting, unit tests, Playwright smoke tests, and Lighthouse audits on every PR and push to master
 
 ## Structure
 
@@ -57,17 +59,27 @@ The site uses a modern minimalist design language:
 .
 ├── index.html              # Main page
 ├── books/
-│   └── index.html          # Reading list (served at /books/)
+│   └── index.html          # Reading list (served at /books/), list pre-rendered by scripts/render-books.js
 ├── 404.html                # Custom 404 page
 ├── sitemap.xml             # Sitemap for SEO
 ├── site.webmanifest        # PWA manifest
 ├── css/
 │   └── styles.css          # Shared styles and theme system
 ├── js/
-│   ├── books.js            # Book cover loading and ISBN fallback logic
+│   ├── books.js            # READING_LIST data, ISBN helpers, cover fallback wiring
 │   ├── menu.js             # Mobile menu dropdown logic
 │   └── theme.js            # Theme toggle and persistence
+├── scripts/
+│   ├── fetch-covers.js     # Downloads missing covers from Open Library into images/covers/
+│   └── render-books.js     # Bakes the reading list into books/index.html
+├── test/
+│   └── books.test.js       # Unit tests (node:test) for ISBN helpers and rendered-HTML freshness
+├── e2e/
+│   ├── home.spec.js        # Playwright smoke tests: timeline, theme toggle, menu, no-JS
+│   ├── books.spec.js       # Playwright smoke tests: covers, placeholders, no-JS
+│   └── utils.js            # Shared helpers (external request blocking, error tracking)
 ├── images/
+│   ├── covers/             # Self-hosted book covers, named by primary ISBN
 │   ├── favicon.ico
 │   ├── favicon-16x16.png
 │   ├── favicon-32x32.png
@@ -75,9 +87,13 @@ The site uses a modern minimalist design language:
 │   ├── android-chrome-192x192.png
 │   ├── android-chrome-512x512.png
 │   └── og-image.png
-├── package.json            # Dev dependencies (linting, Lighthouse)
+├── .github/workflows/
+│   └── ci.yml              # Lint, unit tests, e2e, and Lighthouse on every PR/push
+├── package.json            # Dev dependencies (linting, testing, Lighthouse)
 ├── .htmlhintrc             # HTMLHint configuration
 ├── .stylelintrc.json       # Stylelint configuration
+├── eslint.config.js        # ESLint flat configuration
+├── playwright.config.js    # Playwright configuration (starts its own server)
 └── lighthouserc.js         # Lighthouse CI configuration
 ```
 
@@ -91,14 +107,26 @@ python3 -m http.server 4000
 
 Then visit [http://localhost:4000](http://localhost:4000)
 
-### Linting & Auditing
+### Linting, Testing & Auditing
 
 ```bash
-npm run lint          # HTMLHint + Stylelint (HTML & CSS)
+npm run lint          # HTMLHint + Stylelint + ESLint (HTML, CSS & JS)
 npm run lint:html     # HTMLHint only
 npm run lint:css      # Stylelint only
+npm run lint:js       # ESLint only
+npm test              # Unit tests (node:test) for the ISBN helpers in js/books.js
+npm run test:e2e      # Playwright smoke tests; starts its own server on port 4000
 npm run lighthouse    # Lighthouse CI (requires local server on port 4000)
 ```
+
+All of the above also run in CI (`.github/workflows/ci.yml`) on every PR and push to master.
+
+### Adding a Book
+
+1. Add the entry to `READING_LIST` in `js/books.js`.
+2. Run `node scripts/fetch-covers.js` to download its cover into `images/covers/`.
+3. Run `node scripts/render-books.js` to bake the updated list into `books/index.html`.
+4. Commit the cover image and regenerated HTML together — unit tests fail if either is missing or stale.
 
 ### Dependency Overrides
 
@@ -121,8 +149,8 @@ Run `npm audit` after `npm install` to verify 0 vulnerabilities.
 - CSS3 with custom properties (CSS variables) for theming
 - Vanilla JavaScript (ES6+)
 - [Inter](https://fonts.google.com/specimen/Inter) and [JetBrains Mono](https://fonts.google.com/specimen/JetBrains+Mono) via Google Fonts
-- Open Library Covers API for book images
-- HTMLHint, Stylelint, and Lighthouse CI for quality assurance
+- Open Library Covers API for fetching book covers at build time (self-hosted thereafter)
+- HTMLHint, Stylelint, ESLint, node:test, Playwright, and Lighthouse CI for quality assurance
 
 ## Theme System
 
