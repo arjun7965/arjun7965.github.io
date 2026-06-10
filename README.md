@@ -88,8 +88,10 @@ The site uses a modern minimalist design language:
 │   ├── android-chrome-192x192.png
 │   ├── android-chrome-512x512.png
 │   └── og-image.png
-├── .github/workflows/
-│   └── ci.yml              # Lint, unit tests, e2e, and Lighthouse on every PR/push
+├── .github/
+│   ├── dependabot.yml      # Weekly grouped updates for npm dev deps and Actions
+│   └── workflows/
+│       └── ci.yml          # Lint, unit tests, e2e, and Lighthouse on every PR/push
 ├── package.json            # Dev dependencies (linting, testing, Lighthouse)
 ├── .htmlhintrc             # HTMLHint configuration
 ├── .stylelintrc.json       # Stylelint configuration
