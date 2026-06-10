@@ -68,9 +68,9 @@ function escapeHtml(text) {
         .replace(/'/g, '&apos;');
 }
 
-function buildIsbnCandidates(img) {
-    const provided = normalizeIsbn(img.dataset.isbn || '');
-    const manual = (img.dataset.altIsbns || '')
+function buildIsbnCandidates({ isbn, altIsbns }) {
+    const provided = normalizeIsbn(isbn || '');
+    const manual = (altIsbns || '')
         .split(',')
         .map(s => normalizeIsbn(s))
         .filter(Boolean);
@@ -92,9 +92,16 @@ function buildIsbnCandidates(img) {
     return unique(candidates);
 }
 
+// Used by scripts/fetch-covers.js (maintenance tool), not at runtime
 function openLibraryUrlForIsbn(isbn) {
     // default=false so a missing cover triggers error instead of generic placeholder
     return `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg?default=false`;
+}
+
+// Covers are self-hosted (downloaded once via scripts/fetch-covers.js),
+// named by each book's primary ISBN
+function localCoverPath(book) {
+    return `/images/covers/${normalizeIsbn(book.isbn)}.jpg`;
 }
 
 function generatePlaceholderDataURI(title, author) {
@@ -115,57 +122,12 @@ function generatePlaceholderDataURI(title, author) {
     return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
 }
 
-function tryLoadCover(img) {
-    const title = img.getAttribute('alt') || img.dataset.title || '';
+// Fallback for a missing/broken local cover: swap in a generated SVG
+function applyPlaceholder(img) {
+    const title = img.dataset.title || img.getAttribute('alt') || '';
     const author = img.dataset.author || '';
-    const isbns = buildIsbnCandidates(img);
-
-    if (isbns.length === 0) {
-        img.src = generatePlaceholderDataURI(title, author);
-        img.dataset.loaded = 'placeholder';
-        return;
-    }
-
-    const probes = [];
-
-    function cleanup() {
-        // Remove event handlers and references to avoid leaks
-        probes.forEach(probe => {
-            probe.onload = null;
-            probe.onerror = null;
-        });
-        probes.length = 0;
-    }
-
-    // Try ISBNs sequentially to ensure deterministic order
-    function tryNextIsbn(index) {
-        if (index >= isbns.length) {
-            // All ISBNs failed, use placeholder
-            img.src = generatePlaceholderDataURI(title, author);
-            img.dataset.loaded = 'placeholder';
-            return;
-        }
-        const isbn = isbns[index];
-        const testUrl = openLibraryUrlForIsbn(isbn);
-        const probe = new Image();
-        probes.push(probe);
-        probe.onload = function() {
-            // Check for 1x1 pixel placeholder images that some servers may return
-            // Only reject images that are exactly 1x1 pixels (common placeholder)
-            if (probe.naturalWidth === 1 && probe.naturalHeight === 1) {
-                tryNextIsbn(index + 1);
-                return;
-            }
-            img.src = testUrl;
-            img.dataset.loaded = isbn;
-            cleanup();
-        };
-        probe.onerror = function() {
-            tryNextIsbn(index + 1);
-        };
-        probe.src = testUrl;
-    }
-    tryNextIsbn(0);
+    img.src = generatePlaceholderDataURI(title, author);
+    img.dataset.loaded = 'placeholder';
 }
 
 const READING_LIST = [
@@ -274,7 +236,6 @@ function renderReadingList(container) {
     const shortTitleOf = book => book.shortTitle || book.title.split(':')[0].trim();
     const html = READING_LIST.map(section => {
         const books = section.books.map(book => {
-            const altIsbns = book.altIsbns ? ` data-alt-isbns="${escapeHtml(book.altIsbns)}"` : '';
             const badge = book.currentlyReading
                 ? '<span class="currently-reading-badge">Currently Reading</span>'
                 : '';
@@ -282,7 +243,7 @@ function renderReadingList(container) {
             <article class="book-item">
                 <div class="book-cover">
                     <a href="${escapeHtml(book.link)}" target="_blank" rel="noopener noreferrer">
-                        <img loading="lazy" decoding="async" data-isbn="${escapeHtml(book.isbn)}"${altIsbns} alt="${escapeHtml(book.altText)}" data-title="${escapeHtml(shortTitleOf(book))}" data-author="${escapeHtml(book.author)}">
+                        <img loading="lazy" decoding="async" src="${escapeHtml(localCoverPath(book))}" alt="${escapeHtml(book.altText)}" data-title="${escapeHtml(shortTitleOf(book))}" data-author="${escapeHtml(book.author)}">
                     </a>
                 </div>
                 <div class="book-details">
@@ -305,26 +266,13 @@ if (typeof document !== 'undefined') {
     // Render immediately so theme.js's DOMContentLoaded observer sees the items.
     // Safe under `defer`: the DOM is parsed before this script executes.
     const readingListContainer = document.querySelector('[data-reading-list]');
-    if (readingListContainer) renderReadingList(readingListContainer);
-
-    // Resolve book covers lazily: probing covers.openlibrary.org with Image()
-    // bypasses loading="lazy", so gate it on viewport proximity instead
-    window.addEventListener('DOMContentLoaded', () => {
-        const covers = document.querySelectorAll('.book-cover img[data-isbn]');
-        if ('IntersectionObserver' in window) {
-            const coverObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        coverObserver.unobserve(entry.target);
-                        tryLoadCover(entry.target);
-                    }
-                });
-            }, { rootMargin: '200px' });
-            covers.forEach(img => coverObserver.observe(img));
-        } else {
-            covers.forEach(img => tryLoadCover(img));
-        }
-    });
+    if (readingListContainer) {
+        renderReadingList(readingListContainer);
+        // Attached synchronously after render, before any image fetch can settle
+        readingListContainer.querySelectorAll('.book-cover img').forEach(img => {
+            img.addEventListener('error', () => applyPlaceholder(img), { once: true });
+        });
+    }
 
     // Listen for theme changes and regenerate placeholder images
     document.addEventListener('themeChanged', () => {
@@ -347,5 +295,7 @@ if (typeof module !== 'undefined' && module.exports) {
         escapeHtml,
         buildIsbnCandidates,
         openLibraryUrlForIsbn,
+        localCoverPath,
+        READING_LIST,
     };
 }

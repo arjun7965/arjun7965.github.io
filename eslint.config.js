@@ -19,7 +19,7 @@ module.exports = [
         },
     },
     {
-        files: ['test/**/*.js', 'e2e/**/*.js', '*.config.js', 'lighthouserc.js'],
+        files: ['test/**/*.js', 'e2e/**/*.js', 'scripts/**/*.js', '*.config.js', 'lighthouserc.js'],
         languageOptions: {
             sourceType: 'commonjs',
             globals: {

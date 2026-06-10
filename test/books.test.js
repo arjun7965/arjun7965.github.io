@@ -9,6 +9,8 @@ const {
     escapeHtml,
     buildIsbnCandidates,
     openLibraryUrlForIsbn,
+    localCoverPath,
+    READING_LIST,
 } = require('../js/books.js');
 
 // Known-good ISBN-10/ISBN-13 pairs used throughout:
@@ -90,26 +92,24 @@ test('unique removes duplicates and falsy values, preserving order', () => {
 });
 
 test('buildIsbnCandidates adds ISBN-13 conversion for an ISBN-10', () => {
-    const img = { dataset: { isbn: '0306406152' } };
+    const img = { isbn: '0306406152' };
     assert.deepEqual(buildIsbnCandidates(img), ['0306406152', '9780306406157']);
 });
 
 test('buildIsbnCandidates adds ISBN-10 conversion for a 978 ISBN-13', () => {
-    const img = { dataset: { isbn: '9780306406157' } };
+    const img = { isbn: '9780306406157' };
     assert.deepEqual(buildIsbnCandidates(img), ['9780306406157', '0306406152']);
 });
 
 test('buildIsbnCandidates does not convert 979 ISBN-13s', () => {
-    const img = { dataset: { isbn: '9798992242515' } };
+    const img = { isbn: '9798992242515' };
     assert.deepEqual(buildIsbnCandidates(img), ['9798992242515']);
 });
 
 test('buildIsbnCandidates puts manual alt ISBNs first, in given order', () => {
     const img = {
-        dataset: {
-            isbn: '9780306406157',
-            altIsbns: '9780646824857, 9784477308265',
-        },
+        isbn: '9780306406157',
+        altIsbns: '9780646824857, 9784477308265',
     };
     assert.deepEqual(buildIsbnCandidates(img), [
         '9780646824857',
@@ -121,16 +121,14 @@ test('buildIsbnCandidates puts manual alt ISBNs first, in given order', () => {
 
 test('buildIsbnCandidates deduplicates overlapping manual and derived ISBNs', () => {
     const img = {
-        dataset: {
-            isbn: '0306406152',
-            altIsbns: '9780306406157,0306406152',
-        },
+        isbn: '0306406152',
+        altIsbns: '9780306406157,0306406152',
     };
     assert.deepEqual(buildIsbnCandidates(img), ['9780306406157', '0306406152']);
 });
 
 test('buildIsbnCandidates returns empty array when no ISBNs are present', () => {
-    assert.deepEqual(buildIsbnCandidates({ dataset: {} }), []);
+    assert.deepEqual(buildIsbnCandidates({}), []);
 });
 
 test('openLibraryUrlForIsbn builds the large-cover URL with default=false', () => {
@@ -138,4 +136,19 @@ test('openLibraryUrlForIsbn builds the large-cover URL with default=false', () =
         openLibraryUrlForIsbn('9780306406157'),
         'https://covers.openlibrary.org/b/isbn/9780306406157-L.jpg?default=false'
     );
+});
+
+test('localCoverPath uses the normalized primary ISBN', () => {
+    assert.equal(localCoverPath({ isbn: '978-0-306-40615-7' }), '/images/covers/9780306406157.jpg');
+});
+
+test('every book in the reading list has a self-hosted cover image', () => {
+    const fs = require('node:fs');
+    const path = require('node:path');
+    for (const section of READING_LIST) {
+        for (const book of section.books) {
+            const file = path.join(__dirname, '..', localCoverPath(book));
+            assert.ok(fs.existsSync(file), `missing cover for "${book.title}" — run: node scripts/fetch-covers.js`);
+        }
+    }
 });

@@ -26,19 +26,25 @@ npm run lighthouse    # Lighthouse CI (requires local server on port 4000)
 
 A Claude Code hook auto-lints HTML/CSS files on edit, but always run the full `npm run lint` before pushing. CI (`.github/workflows/ci.yml`) runs lint, unit tests, and e2e smoke tests on every PR and push to master.
 
-The e2e tests block all non-localhost requests (Open Library, GoatCounter, fonts), so cover loading always falls back to SVG placeholders — they verify behavior, not Open Library availability.
+The e2e tests block all non-localhost requests (GoatCounter, fonts) so they are hermetic.
 
 ## Architecture
 
 **Two pages, one shared stylesheet:**
 - `index.html` — landing page with a two-lane vertical timeline (Experience / Education)
-- `books/index.html` — reading list (served at `/books/`) with book covers loaded from the Open Library Covers API
+- `books/index.html` — reading list (served at `/books/`) with self-hosted book covers (`images/covers/`, named by primary ISBN)
 - `css/styles.css` — all shared styles; page-specific overrides live in inline `<style>` blocks at the top of each HTML file
 
 **JavaScript files:**
 - `js/theme.js` — sets `data-theme` attribute on `<html>` immediately on load (top-level, not deferred logic), then attaches the toggle button listener on `DOMContentLoaded`. Fires a custom `themeChanged` event that the books page listens to for regenerating placeholder covers.
 - `js/menu.js` — dropdown toggle for the hamburger menu; handles outside-click, Escape, and iOS Safari quirks
-- `js/books.js` — book cover loading for the books page. Tries ISBNs sequentially against `covers.openlibrary.org`, falling back to an SVG placeholder generated as a `data:` URI. Each `<img>` carries `data-isbn` and optionally `data-alt-isbns` (comma-separated) for fallback ordering.
+- `js/books.js` — holds the `READING_LIST` data and renders the books page. Covers are served from `images/covers/<isbn>.jpg`; a broken/missing cover falls back to an SVG placeholder generated as a `data:` URI. Also exports the ISBN helpers used by `scripts/fetch-covers.js` and the unit tests.
+
+## Adding a Book
+
+1. Add the entry to `READING_LIST` in `js/books.js` (`isbn` is required; `altIsbns` is a comma-separated fallback list for the cover fetch).
+2. Run `node scripts/fetch-covers.js` to download its cover from Open Library into `images/covers/`.
+3. Commit the new cover image with the change — a unit test fails if a book has no self-hosted cover.
 
 ## Workflow
 
