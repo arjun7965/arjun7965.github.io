@@ -39,6 +39,17 @@ test('theme toggle switches theme, persists it, and survives reload', async ({ p
     expect(await page.evaluate(() => localStorage.getItem('theme'))).toBe('light');
 });
 
+test.describe('without JavaScript', () => {
+    test.use({ javaScriptEnabled: false });
+
+    test('timeline content is fully visible', async ({ page }) => {
+        await page.goto('/');
+        const firstNode = page.locator('.node').first();
+        await expect(firstNode).toBeVisible();
+        expect(await firstNode.evaluate(el => getComputedStyle(el).opacity)).toBe('1');
+    });
+});
+
 test('desktop nav links to the books page', async ({ page }) => {
     await page.goto('/');
     await expect(page.locator('.menu-button')).toBeHidden();

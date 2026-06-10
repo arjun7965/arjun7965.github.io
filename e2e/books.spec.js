@@ -43,6 +43,20 @@ test('a missing cover falls back to an SVG placeholder', async ({ page }) => {
     await expect(firstCover).toHaveAttribute('src', /^data:image\/svg\+xml/);
 });
 
+// The reading list is pre-rendered static HTML and the scroll-reveal's
+// hidden state is scoped to html.js, so the page works without JavaScript
+test.describe('without JavaScript', () => {
+    test.use({ javaScriptEnabled: false });
+
+    test('reading list is fully visible', async ({ page }) => {
+        await page.goto('/books/');
+        expect(await page.locator('.book-item').count()).toBeGreaterThanOrEqual(10);
+        const firstBook = page.locator('.book-item').first();
+        await expect(firstBook).toBeVisible();
+        expect(await firstBook.evaluate(el => getComputedStyle(el).opacity)).toBe('1');
+    });
+});
+
 test('placeholder covers regenerate when the theme changes', async ({ page }) => {
     await page.route('**/images/covers/**', route => route.abort());
     await page.goto('/books/');

@@ -625,14 +625,16 @@ footer {
 
 /* Slightly tighter spacing on small screens */
 
-/* Scroll-reveal animations */
-.node, .book-item {
+/* Scroll-reveal animations. The hidden initial state only applies when
+   theme.js has tagged <html> with .js, so content stays visible without
+   JavaScript (the books list is pre-rendered static HTML). */
+.js .node, .js .book-item {
   opacity: 0;
   transform: translateY(24px);
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
-.node.visible, .book-item.visible {
+.js .node.visible, .js .book-item.visible {
   opacity: 1;
   transform: translateY(0);
 }
@@ -652,8 +654,8 @@ footer {
     transition-duration: 0.01ms !important;
   }
 
-  .node,
-  .book-item {
+  .js .node,
+  .js .book-item {
     opacity: 1;
     transform: none;
   }
