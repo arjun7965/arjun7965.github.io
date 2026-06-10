@@ -10,7 +10,7 @@ python3 -m http.server 4000
 
 Then visit http://localhost:4000. No build step or bundler — the site is pure HTML/CSS/JS.
 
-## Linting & Auditing
+## Linting, Testing & Auditing
 
 Run before pushing changes:
 
@@ -18,10 +18,14 @@ Run before pushing changes:
 npm run lint          # HTMLHint + Stylelint (HTML & CSS)
 npm run lint:html     # HTMLHint only
 npm run lint:css      # Stylelint only
+npm test              # node:test unit tests (test/) for the pure helpers in js/books.js
+npm run test:e2e      # Playwright smoke tests (e2e/); starts its own server on port 4000
 npm run lighthouse    # Lighthouse CI (requires local server on port 4000)
 ```
 
-A Claude Code hook auto-lints HTML/CSS files on edit, but always run the full `npm run lint` before pushing.
+A Claude Code hook auto-lints HTML/CSS files on edit, but always run the full `npm run lint` before pushing. CI (`.github/workflows/ci.yml`) runs lint, unit tests, and e2e smoke tests on every PR and push to master.
+
+The e2e tests block all non-localhost requests (Open Library, GoatCounter, fonts), so cover loading always falls back to SVG placeholders — they verify behavior, not Open Library availability.
 
 ## Architecture
 

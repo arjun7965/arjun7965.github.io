@@ -4,3 +4,5 @@ node_modules/
 .playwright-mcp/
 .env
 .env.*
+test-results/
+playwright-report/
