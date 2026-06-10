@@ -11,6 +11,10 @@ const savedTheme = localStorage.getItem('theme');
 const currentTheme = savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
 document.documentElement.setAttribute('data-theme', currentTheme);
 
+// Mark that JS is running: CSS scopes the scroll-reveal's hidden initial
+// state to .js so pre-rendered content stays visible without JavaScript
+document.documentElement.classList.add('js');
+
 function updateIcon(theme) {
     const svg = document.querySelector('.theme-toggle-slider .icon-moon');
     if (!svg) return;

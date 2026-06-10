@@ -27,4 +27,14 @@ module.exports = [
             },
         },
     },
+    {
+        // Playwright specs also contain browser-context code inside
+        // page.evaluate()/locator.evaluate() callbacks
+        files: ['e2e/**/*.js'],
+        languageOptions: {
+            globals: {
+                ...globals.browser,
+            },
+        },
+    },
 ];

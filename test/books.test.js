@@ -10,6 +10,7 @@ const {
     buildIsbnCandidates,
     openLibraryUrlForIsbn,
     localCoverPath,
+    readingListHtml,
     READING_LIST,
 } = require('../js/books.js');
 
@@ -140,6 +141,16 @@ test('openLibraryUrlForIsbn builds the large-cover URL with default=false', () =
 
 test('localCoverPath uses the normalized primary ISBN', () => {
     assert.equal(localCoverPath({ isbn: '978-0-306-40615-7' }), '/images/covers/9780306406157.jpg');
+});
+
+test('books/index.html contains the current pre-rendered reading list', () => {
+    const fs = require('node:fs');
+    const path = require('node:path');
+    const html = fs.readFileSync(path.join(__dirname, '..', 'books', 'index.html'), 'utf8');
+    assert.ok(
+        html.includes(readingListHtml()),
+        'books/index.html is stale — run: node scripts/render-books.js'
+    );
 });
 
 test('every book in the reading list has a self-hosted cover image', () => {

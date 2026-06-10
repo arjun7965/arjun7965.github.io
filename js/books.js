@@ -232,9 +232,12 @@ const READING_LIST = [
     },
 ];
 
-function renderReadingList(container) {
+// Pure HTML generator for the reading list. Not called in the browser:
+// scripts/render-books.js bakes its output into books/index.html so the
+// list is visible to crawlers and no-JS visitors.
+function readingListHtml() {
     const shortTitleOf = book => book.shortTitle || book.title.split(':')[0].trim();
-    const html = READING_LIST.map(section => {
+    return READING_LIST.map(section => {
         const books = section.books.map(book => {
             const badge = book.currentlyReading
                 ? '<span class="currently-reading-badge">Currently Reading</span>'
@@ -258,21 +261,17 @@ function renderReadingList(container) {
             <p class="section-description">${escapeHtml(section.description)}</p>
             ${books}`;
     }).join('');
-    container.insertAdjacentHTML('beforeend', html);
 }
 
 // Browser-only wiring; skipped when loaded in Node for unit tests
 if (typeof document !== 'undefined') {
-    // Render immediately so theme.js's DOMContentLoaded observer sees the items.
-    // Safe under `defer`: the DOM is parsed before this script executes.
-    const readingListContainer = document.querySelector('[data-reading-list]');
-    if (readingListContainer) {
-        renderReadingList(readingListContainer);
-        // Attached synchronously after render, before any image fetch can settle
-        readingListContainer.querySelectorAll('.book-cover img').forEach(img => {
-            img.addEventListener('error', () => applyPlaceholder(img), { once: true });
-        });
-    }
+    // The list itself is pre-rendered static HTML. Wire up the cover
+    // fallbacks; a cover may have already failed before this deferred
+    // script ran, so check the settled state too.
+    document.querySelectorAll('.book-cover img').forEach(img => {
+        img.addEventListener('error', () => applyPlaceholder(img), { once: true });
+        if (img.complete && img.naturalWidth === 0) applyPlaceholder(img);
+    });
 
     // Listen for theme changes and regenerate placeholder images
     document.addEventListener('themeChanged', () => {
@@ -296,6 +295,7 @@ if (typeof module !== 'undefined' && module.exports) {
         buildIsbnCandidates,
         openLibraryUrlForIsbn,
         localCoverPath,
+        readingListHtml,
         READING_LIST,
     };
 }
