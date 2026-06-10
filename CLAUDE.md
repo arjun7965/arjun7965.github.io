@@ -15,9 +15,10 @@ Then visit http://localhost:4000. No build step or bundler — the site is pure 
 Run before pushing changes:
 
 ```bash
-npm run lint          # HTMLHint + Stylelint (HTML & CSS)
+npm run lint          # HTMLHint + Stylelint + ESLint (HTML, CSS & JS)
 npm run lint:html     # HTMLHint only
 npm run lint:css      # Stylelint only
+npm run lint:js       # ESLint only
 npm test              # node:test unit tests (test/) for the pure helpers in js/books.js
 npm run test:e2e      # Playwright smoke tests (e2e/); starts its own server on port 4000
 npm run lighthouse    # Lighthouse CI (requires local server on port 4000)
