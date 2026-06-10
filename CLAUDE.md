@@ -37,6 +37,7 @@ The e2e tests block all non-localhost requests (GoatCounter, fonts) so they are 
 
 **JavaScript files:**
 - `js/theme.js` — sets `data-theme` attribute on `<html>` immediately on load (top-level, not deferred logic), then attaches the toggle button listener on `DOMContentLoaded`. Fires a custom `themeChanged` event that the books page listens to for regenerating placeholder covers.
+- `js/site.js` — shared page enhancements: copyright-year updater and the scroll-reveal IntersectionObserver for `.node`/`.book-item`
 - `js/menu.js` — dropdown toggle for the hamburger menu; handles outside-click, Escape, and iOS Safari quirks
 - `js/books.js` — holds the `READING_LIST` data (source of truth for the books page). The list itself is pre-rendered into `books/index.html` by `scripts/render-books.js`; at runtime this script only wires cover-error fallbacks (broken/missing cover → generated SVG placeholder as a `data:` URI). Also exports the ISBN helpers used by `scripts/fetch-covers.js` and the unit tests.
 

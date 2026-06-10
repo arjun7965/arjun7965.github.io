@@ -68,6 +68,7 @@ The site uses a modern minimalist design language:
 ├── js/
 │   ├── books.js            # READING_LIST data, ISBN helpers, cover fallback wiring
 │   ├── menu.js             # Mobile menu dropdown logic
+│   ├── site.js             # Copyright year and scroll-reveal animations
 │   └── theme.js            # Theme toggle and persistence
 ├── scripts/
 │   ├── fetch-covers.js     # Downloads missing covers from Open Library into images/covers/
