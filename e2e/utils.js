@@ -1,6 +1,7 @@
-// Block every non-localhost request (Open Library covers, GoatCounter,
-// Google Fonts) so smoke tests are hermetic and deterministic: cover loads
-// always fail over to the SVG placeholder, and no analytics are sent.
+// Block every non-localhost request (Open Library covers, GoatCounter) so
+// smoke tests are hermetic and deterministic: cover loads always fail over
+// to the SVG placeholder, and no analytics are sent. Fonts are self-hosted,
+// so they load normally.
 async function blockExternalRequests(page) {
     await page.route(/^https?:\/\/(?!localhost)/, route => route.abort());
 }
