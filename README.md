@@ -1,5 +1,9 @@
 # arjun7965.github.io
 
+[![CI](https://github.com/arjun7965/arjun7965.github.io/actions/workflows/ci.yml/badge.svg)](https://github.com/arjun7965/arjun7965.github.io/actions/workflows/ci.yml)
+[![GitHub Pages](https://github.com/arjun7965/arjun7965.github.io/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/arjun7965/arjun7965.github.io/actions/workflows/pages/pages-build-deployment)
+[![Website](https://img.shields.io/website?url=https%3A%2F%2Farjunvinod.com&label=arjunvinod.com)](https://arjunvinod.com)
+
 Personal website for Arjun Vinod, a Firmware Engineer based in Silicon Valley.
 
 🔗 **Live Site**: [https://arjunvinod.com](https://arjunvinod.com)
@@ -37,21 +41,21 @@ Reading list with:
 The site uses a modern minimalist design language:
 
 - **Color Palette**: Navy blue (#0f4c75) primary with teal (#14b8a6) accents
-- **Typography**: Inter (Google Fonts) with JetBrains Mono for monospace, system font stack as fallback
+- **Typography**: Self-hosted Inter and JetBrains Mono (latin woff2 subsets in `fonts/`), system font stack as fallback
 - **Icons**: Inline SVGs for social links and UI elements
 - **Timeline**: Vertical timeline with gradient connecting lines and glowing dots
 - **Cards**: Subtle shadows with hover animations and gradient accent bars
-- **Accessibility**: High contrast colors in both light and dark modes
+- **Accessibility**: WCAG 2.1 AA color contrast in both themes, enforced by axe-core scans in CI
 
 ## Technical Features
 
 - **No Build Process**: Pure HTML/CSS/JavaScript - no frameworks or bundlers required
-- **Accessibility**: ARIA labels, skip links, semantic HTML, keyboard navigation, `prefers-reduced-motion` support
-- **Performance**: Lazy loading, self-hosted covers with fixed aspect ratio (no layout shift), preconnect hints
+- **Accessibility**: ARIA labels, skip links, semantic HTML, keyboard navigation, `prefers-reduced-motion` support, axe-core WCAG 2.1 A/AA checks in CI
+- **Performance**: Lazy loading, self-hosted covers with fixed aspect ratio (no layout shift), self-hosted fonts (no third-party requests)
 - **SEO**: Meta tags, Open Graph, Twitter Cards, canonical URLs, pre-rendered content
 - **PWA Ready**: Web manifest and favicon set with multiple sizes for all platforms
 - **Analytics**: [GoatCounter](https://www.goatcounter.com/) — privacy-friendly, no cookies, GDPR-compliant. Dashboard at [arjunvinod.goatcounter.com](https://arjunvinod.goatcounter.com)
-- **CI**: GitHub Actions runs linting, unit tests, Playwright smoke tests, and Lighthouse audits on every PR and push to master
+- **CI**: GitHub Actions runs linting, unit tests, Playwright smoke and accessibility tests, and Lighthouse audits on every PR and push to master
 
 ## Structure
 
@@ -64,7 +68,8 @@ The site uses a modern minimalist design language:
 ├── sitemap.xml             # Sitemap for SEO
 ├── site.webmanifest        # PWA manifest
 ├── css/
-│   └── styles.css          # Shared styles and theme system
+│   └── styles.css          # Shared styles, theme system, @font-face rules
+├── fonts/                  # Self-hosted Inter (variable) and JetBrains Mono woff2
 ├── js/
 │   ├── books.js            # READING_LIST data, ISBN helpers, cover fallback wiring
 │   ├── menu.js             # Mobile menu dropdown logic
@@ -78,6 +83,8 @@ The site uses a modern minimalist design language:
 ├── e2e/
 │   ├── home.spec.js        # Playwright smoke tests: timeline, theme toggle, menu, no-JS
 │   ├── books.spec.js       # Playwright smoke tests: covers, placeholders, no-JS
+│   ├── not-found.spec.js   # Playwright smoke tests: 404 page from nested URLs
+│   ├── a11y.spec.js        # axe-core WCAG 2.1 A/AA scans, both themes, all pages
 │   └── utils.js            # Shared helpers (external request blocking, error tracking)
 ├── images/
 │   ├── covers/             # Self-hosted book covers, named by primary ISBN
@@ -151,7 +158,7 @@ Run `npm audit` after `npm install` to verify 0 vulnerabilities.
 - HTML5 with semantic markup
 - CSS3 with custom properties (CSS variables) for theming
 - Vanilla JavaScript (ES6+)
-- [Inter](https://fonts.google.com/specimen/Inter) and [JetBrains Mono](https://fonts.google.com/specimen/JetBrains+Mono) via Google Fonts
+- [Inter](https://rsms.me/inter/) and [JetBrains Mono](https://www.jetbrains.com/lp/mono/), self-hosted as latin woff2 subsets
 - Open Library Covers API for fetching book covers at build time (self-hosted thereafter)
 - HTMLHint, Stylelint, ESLint, node:test, Playwright, and Lighthouse CI for quality assurance
 
