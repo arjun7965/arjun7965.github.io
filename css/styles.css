@@ -3,11 +3,12 @@
   --color-primary: #0f4c75;      /* Navy blue */
   --color-accent: #14b8a6;       /* Teal */
   --color-accent-hover: #0d9488;
+  --color-accent-text: #0f766e;  /* Darker teal: 4.5:1+ on white for small accent text */
   --bg-color: #fafbfc;
   --container-bg: #fff;
   --text-primary: #1a202c;
   --text-secondary: #4a5568;
-  --text-muted: #718096;
+  --text-muted: #64748b;
   --border-color: #e2e8f0;
   --link-color: #14b8a6;
 }
@@ -16,11 +17,12 @@
   --color-primary: #38bdf8;      /* Lighter blue for dark mode */
   --color-accent: #2dd4bf;       /* Lighter teal for dark mode */
   --color-accent-hover: #5eead4;
+  --color-accent-text: #2dd4bf;  /* Already 4.5:1+ on dark backgrounds */
   --bg-color: #0a0a0a;
   --container-bg: #141414;
   --text-primary: #ededed;
   --text-secondary: #a1a1a1;
-  --text-muted: #6b6b6b;
+  --text-muted: #8f8f8f;
   --border-color: #262626;
   --link-color: #2dd4bf;
 }
@@ -148,7 +150,7 @@ header {
 
 /* Active page indicator */
 .menu-dropdown a.active {
-  color: var(--color-accent);
+  color: var(--color-accent-text);
   font-weight: 600;
   background-color: rgb(20 184 166 / 8%);
 }
@@ -398,7 +400,7 @@ footer {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  color: var(--color-accent);
+  color: var(--color-accent-text);
   margin: 0 0 1.25rem;
 }
 
@@ -573,12 +575,14 @@ footer {
   gap: 0.35rem;
   font-size: 0.75rem;
   font-weight: 600;
-  color: #22c55e;
+  color: #15803d; /* Darker green: 4.5:1+ on the tinted badge background */
   background: rgb(34 197 94 / 10%);
   padding: 0.15rem 0.6rem;
   border-radius: 12px;
   letter-spacing: 0.02em;
 }
+
+[data-theme="dark"] .current-badge { color: #22c55e; }
 
 .current-badge::before {
   content: '';
