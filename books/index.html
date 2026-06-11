@@ -35,10 +35,11 @@
             padding: 0;
             margin: -1px;
             overflow: hidden;
-            clip: rect(0, 0, 0, 0);
+            clip-path: inset(50%);
             white-space: nowrap;
             border: 0;
         }
+
         h2 {
             color: var(--text-primary);
             font-size: 1.3rem;
@@ -47,13 +48,17 @@
             padding-bottom: 0.5rem;
             border-bottom: 2px solid var(--border-color);
         }
+
         .copyright {
             text-align: center;
+
             /* Removed hardcoded margin-left: 200px for better responsiveness */
         }
+
         .footer-email {
             font-size: 0.9rem;
         }
+
         .currently-reading-badge {
             display: inline-flex;
             align-items: center;
@@ -63,6 +68,7 @@
             color: var(--text-secondary);
             font-weight: 500;
         }
+
         .currently-reading-badge::before {
             content: '';
             display: inline-block;
