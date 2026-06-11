@@ -50,6 +50,28 @@ test.describe('without JavaScript', () => {
     });
 });
 
+// The inline <head> snippet arms the scroll-reveal pre-paint; its CSP
+// sha256 hash silently stops matching if the snippet is edited (theme.js
+// would mask that as the old flash behavior), so assert it really ran
+test('inline head snippet passes CSP and un-hides content if site.js never loads', async ({ page }) => {
+    const cspErrors = [];
+    page.on('console', msg => {
+        if (msg.text().includes('Content Security Policy')) cspErrors.push(msg.text());
+    });
+
+    // With every external script blocked, only the inline snippet can add .js
+    await page.route('**/js/*.js', route => route.abort());
+    await page.goto('/');
+    await expect(page.locator('html')).toHaveClass(/js/);
+    expect(cspErrors).toEqual([]);
+
+    // site.js never set its flag, so the snippet's timeout must un-hide
+    // the content instead of leaving the page blank
+    await expect(page.locator('html')).not.toHaveClass(/js/, { timeout: 5000 });
+    const firstNode = page.locator('.node').first();
+    expect(await firstNode.evaluate(el => getComputedStyle(el).opacity)).toBe('1');
+});
+
 test('desktop nav links to the books page', async ({ page }) => {
     await page.goto('/');
     await expect(page.locator('.menu-button')).toBeHidden();

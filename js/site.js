@@ -1,5 +1,10 @@
 // Shared page enhancements: copyright year and scroll-reveal animations
 
+// Signals the inline <head> snippet that the scroll-reveal will run; without
+// this flag the snippet un-hides all content after a timeout so a failed
+// script load can't leave the page blank
+window.siteJsLoaded = true;
+
 window.addEventListener('DOMContentLoaded', () => {
     // Auto-update copyright year
     document.querySelectorAll('.copyright-year').forEach(el => {

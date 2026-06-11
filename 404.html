@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://gc.zgo.at; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://arjunvinod.goatcounter.com;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-rnS2XmH/rdRx4xVD1R3osXdDlm6LQTZI7TtlCGQqteU=' https://gc.zgo.at; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://arjunvinod.goatcounter.com;">
     <title>Page Not Found | Arjun Vinod</title>
     <link rel="manifest" href="/site.webmanifest">
     <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
@@ -53,6 +53,14 @@
         .copyright { text-align: center; }
         .footer-email { font-size: 0.9rem; }
     </style>
+    <!-- Arms the scroll-reveal hidden state (.js) and theme before first paint
+         so a hard refresh neither flashes content out nor flashes the light
+         theme for dark-mode users. Must stay byte-identical across all pages
+         and match the sha256- hash in the CSP script-src above; recompute the
+         hash (base64 of the sha256 of the bytes between the script tags) if
+         this snippet ever changes. site.js sets window.siteJsLoaded; if it
+         never loads, the timeout un-hides the content as a fallback. -->
+    <script>document.documentElement.classList.add('js');try{document.documentElement.setAttribute('data-theme',localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'))}catch(e){}setTimeout(function(){if(!window.siteJsLoaded)document.documentElement.classList.remove('js')},3000);</script>
     <script src="/js/theme.js" defer></script>
     <script src="/js/site.js" defer></script>
     <script src="/js/menu.js" defer></script>
