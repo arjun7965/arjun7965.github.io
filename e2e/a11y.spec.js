@@ -25,6 +25,11 @@ const PAGES = [
 
 test.beforeEach(async ({ page }) => {
     await blockExternalRequests(page);
+    // The stylesheet honors prefers-reduced-motion by collapsing transitions
+    // to 0.01ms. Without this, axe can scan while the scroll-reveal fade-in
+    // is mid-transition and measure blended (wrong) text colors — flaky on
+    // slow CI runners.
+    await page.emulateMedia({ reducedMotion: 'reduce' });
 });
 
 for (const theme of ['light', 'dark']) {
