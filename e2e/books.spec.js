@@ -63,9 +63,29 @@ test('placeholder covers regenerate when the theme changes', async ({ page }) =>
     const firstCover = page.locator('.book-cover img').first();
     await expect(firstCover).toHaveAttribute('data-loaded', 'placeholder');
     const lightSrc = await firstCover.getAttribute('src');
+    const lightSvg = decodeURIComponent(lightSrc.split(',')[1]);
 
     await page.locator('.theme-toggle').click();
 
     await expect(firstCover).toHaveAttribute('src', /^data:image\/svg\+xml/);
-    expect(await firstCover.getAttribute('src')).not.toBe(lightSrc);
+    const darkSrc = await firstCover.getAttribute('src');
+    const darkSvg = decodeURIComponent(darkSrc.split(',')[1]);
+
+    expect(darkSrc).not.toBe(lightSrc);
+    expect(lightSvg).toContain('>My Stroke of Insight<');
+    expect(darkSvg).toContain('>My Stroke of Insight<');
+    expect(lightSvg).toContain('fill="#e9eef3"');
+    expect(darkSvg).toContain('fill="#2d2d2d"');
+});
+
+test('theme changes do not replace successfully loaded covers', async ({ page }) => {
+    await page.goto('/books/');
+    const firstCover = page.locator('.book-cover img').first();
+    const originalSrc = await firstCover.getAttribute('src');
+
+    await expect.poll(() => firstCover.evaluate(img => img.complete && img.naturalWidth > 1)).toBe(true);
+    await page.locator('.theme-toggle').click();
+
+    await expect(firstCover).toHaveAttribute('src', originalSrc);
+    await expect(firstCover).not.toHaveAttribute('data-loaded', 'placeholder');
 });

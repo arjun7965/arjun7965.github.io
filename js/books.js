@@ -277,7 +277,7 @@ if (typeof document !== 'undefined') {
     document.addEventListener('themeChanged', () => {
         // Only regenerate placeholder images, not real book covers
         document.querySelectorAll('.book-cover img[data-loaded="placeholder"]').forEach(img => {
-            const title = img.getAttribute('alt') || img.dataset.title || '';
+            const title = img.dataset.title || img.getAttribute('alt') || '';
             const author = img.dataset.author || '';
             img.src = generatePlaceholderDataURI(title, author);
         });
