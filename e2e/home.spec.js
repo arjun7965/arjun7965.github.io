@@ -39,6 +39,17 @@ test('theme toggle switches theme, persists it, and survives reload', async ({ p
     expect(await page.evaluate(() => localStorage.getItem('theme'))).toBe('light');
 });
 
+test.describe('system theme preference', () => {
+    test.use({ colorScheme: 'dark' });
+
+    test('defaults to dark when no preference is stored', async ({ page }) => {
+        await page.goto('/');
+        await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+        await expect(page.locator('.theme-toggle')).toHaveAttribute('aria-checked', 'true');
+        await expect(page.locator('.theme-toggle')).toHaveAttribute('aria-label', 'Switch to light mode');
+    });
+});
+
 test.describe('without JavaScript', () => {
     test.use({ javaScriptEnabled: false });
 

@@ -163,3 +163,72 @@ test('every book in the reading list has a self-hosted cover image', () => {
         }
     }
 });
+
+test('reading list records have required fields, valid ISBNs, and unique primary ISBNs', () => {
+    const requiredFields = ['title', 'author', 'altText', 'link', 'isbn', 'notes'];
+    const seenIsbns = new Set();
+
+    function hasValidCheckDigit(isbn) {
+        if (/^\d{13}$/.test(isbn)) {
+            const sum = [...isbn].reduce((total, digit, index) =>
+                total + Number(digit) * (index % 2 === 0 ? 1 : 3), 0);
+            return sum % 10 === 0;
+        }
+        if (/^\d{9}[\dX]$/.test(isbn)) {
+            const sum = [...isbn].reduce((total, digit, index) =>
+                total + (digit === 'X' ? 10 : Number(digit)) * (10 - index), 0);
+            return sum % 11 === 0;
+        }
+        return false;
+    }
+
+    for (const section of READING_LIST) {
+        assert.ok(Number.isInteger(section.year), 'section year must be an integer');
+        assert.ok(section.description.trim(), `${section.year} is missing a description`);
+        assert.ok(section.books.length > 0, `${section.year} must contain at least one book`);
+
+        for (const book of section.books) {
+            for (const field of requiredFields) {
+                assert.equal(typeof book[field], 'string', `"${book.title || 'untitled'}" has a non-string ${field}`);
+                assert.ok(book[field].trim(), `"${book.title || 'untitled'}" is missing ${field}`);
+            }
+
+            const isbn = normalizeIsbn(book.isbn);
+            assert.ok(hasValidCheckDigit(isbn), `"${book.title}" has an invalid ISBN: ${book.isbn}`);
+            assert.ok(!seenIsbns.has(isbn), `"${book.title}" duplicates primary ISBN ${isbn}`);
+            seenIsbns.add(isbn);
+
+            assert.doesNotThrow(() => new URL(book.link), `"${book.title}" has an invalid link`);
+            assert.match(book.link, /^https:\/\//, `"${book.title}" link must use HTTPS`);
+            if (book.currentlyReading !== undefined) {
+                assert.equal(typeof book.currentlyReading, 'boolean');
+            }
+        }
+    }
+});
+
+test('reading list sections are newest first and generated markup has one article per book', () => {
+    const years = READING_LIST.map(section => section.year);
+    const sortedYears = [...years].sort((a, b) => b - a);
+    assert.deepEqual(years, sortedYears);
+    assert.equal(new Set(years).size, years.length, 'section years must be unique');
+
+    const bookCount = READING_LIST.reduce((total, section) => total + section.books.length, 0);
+    const articleCount = (readingListHtml().match(/<article class="book-item">/g) || []).length;
+    assert.equal(articleCount, bookCount);
+});
+
+test('self-hosted covers are non-trivial JPEG files', () => {
+    const fs = require('node:fs');
+    const path = require('node:path');
+
+    for (const section of READING_LIST) {
+        for (const book of section.books) {
+            const file = path.join(__dirname, '..', localCoverPath(book));
+            const cover = fs.readFileSync(file);
+            assert.ok(cover.length >= 1024, `cover for "${book.title}" is suspiciously small`);
+            assert.deepEqual([...cover.subarray(0, 2)], [0xff, 0xd8], `cover for "${book.title}" is not a JPEG`);
+            assert.deepEqual([...cover.subarray(-2)], [0xff, 0xd9], `cover for "${book.title}" is truncated`);
+        }
+    }
+});
