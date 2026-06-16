@@ -1,4 +1,4 @@
-/* Self-hosted fonts (latin subsets from Google Fonts; see TODO in repo docs).
+/* Self-hosted fonts (latin subsets from Google Fonts).
    Inter is a variable font — one file covers every weight the site uses.
    JetBrains Mono is only ever rendered at 600/700, which both resolve to
    the single 700 face. unicode-range matches Google's latin subset so
