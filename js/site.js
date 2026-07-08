@@ -11,6 +11,17 @@ window.addEventListener('DOMContentLoaded', () => {
         el.textContent = new Date().getFullYear();
     });
 
+    const revealTargets = document.querySelectorAll('.node, .book-item');
+
+    // Keep content visible in browsers that do not support IntersectionObserver.
+    if (typeof IntersectionObserver !== 'function') {
+        revealTargets.forEach(el => {
+            el.style.transition = 'none';
+            el.classList.add('visible');
+        });
+        return;
+    }
+
     // Scroll-reveal animations
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry, i) => {
@@ -22,7 +33,7 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     }, { threshold: 0.1 });
 
-    document.querySelectorAll('.node, .book-item').forEach(el => {
+    revealTargets.forEach(el => {
         // Elements already on screen are shown instantly: theme.js arms the
         // hidden state only after first paint, so animating these would make
         // a hard refresh flash content out and slowly fade it back in. Only

@@ -66,5 +66,16 @@ jobs:
       - name: Start local server
         run: python3 -m http.server 4000 &
 
+      - name: Wait for local server
+        run: |
+          for attempt in {1..20}; do
+            if curl --silent --fail http://localhost:4000/ > /dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "Local server did not become ready on port 4000"
+          exit 1
+
       - name: Run Lighthouse CI
         run: npm run lighthouse

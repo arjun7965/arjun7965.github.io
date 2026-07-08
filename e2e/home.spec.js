@@ -83,6 +83,20 @@ test('inline head snippet passes CSP and un-hides content if site.js never loads
     expect(await firstNode.evaluate(el => getComputedStyle(el).opacity)).toBe('1');
 });
 
+test('scroll reveal keeps content visible without IntersectionObserver', async ({ page }) => {
+    const errors = trackPageErrors(page);
+    await page.addInitScript(() => {
+        window.IntersectionObserver = undefined;
+    });
+
+    await page.goto('/');
+
+    const firstNode = page.locator('.node').first();
+    await expect(firstNode).toBeVisible();
+    expect(await firstNode.evaluate(el => getComputedStyle(el).opacity)).toBe('1');
+    expect(errors).toEqual([]);
+});
+
 test('desktop nav links to the books page', async ({ page }) => {
     await page.goto('/');
     await expect(page.locator('.menu-button')).toBeHidden();

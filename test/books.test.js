@@ -218,6 +218,17 @@ test('reading list sections are newest first and generated markup has one articl
     assert.equal(articleCount, bookCount);
 });
 
+test('reading list has at most one currently reading book', () => {
+    const currentBooks = READING_LIST
+        .flatMap(section => section.books)
+        .filter(book => book.currentlyReading);
+
+    assert.ok(
+        currentBooks.length <= 1,
+        `expected at most one currently reading book, found: ${currentBooks.map(book => book.title).join(', ')}`
+    );
+});
+
 test('self-hosted covers are non-trivial JPEG files', () => {
     const fs = require('node:fs');
     const path = require('node:path');
