@@ -136,6 +136,17 @@ const READING_LIST = [
         description: "Starting fresh in 2026 with explorations into psychology, philosophy, and personal growth.",
         books: [
             {
+                title: "Thinking in Bets: Making Smarter Decisions When You Don't Have All the Facts",
+                author: "Annie Duke",
+                shortTitle: "Thinking in Bets",
+                altText: "Thinking in Bets by Annie Duke",
+                link: "https://www.thriftbooks.com/w/thinking-in-bets-making-smarter-decisions-when-you-dont-have-all-the-facts_annie-duke/18603016/?resultid=74d7743c-3e5d-4c55-a850-24840b148172#edition=20707873&idiq=41576266",
+                isbn: "9780735216372",
+                altIsbns: "0735216371,9780735216358,0735216355",
+                notes: "A decision-making guide from former professional poker player Annie Duke, using lessons from probability, uncertainty, and poker to show how to separate decision quality from outcomes, think in bets, and make smarter choices when the facts are incomplete.",
+                currentlyReading: true,
+            },
+            {
                 title: "My Stroke of Insight: A Brain Scientist's Personal Journey",
                 author: "Jill Bolte Taylor",
                 shortTitle: "My Stroke of Insight",
@@ -143,7 +154,6 @@ const READING_LIST = [
                 link: "https://www.thriftbooks.com/w/my-stroke-of-insight-a-brain-scientists-personal-journey_jill-bolte-taylor/249568/#isbn=0670020745",
                 isbn: "9780670020744",
                 notes: "A Harvard-trained neuroanatomist's first-person account of suffering a massive left-hemisphere stroke at age 37 — and what the experience revealed about the brain's two hemispheres, consciousness, and the nature of inner peace. Both a clinical case study and a deeply personal meditation on recovery.",
-                currentlyReading: true,
             },
             {
                 title: "The Stranger",

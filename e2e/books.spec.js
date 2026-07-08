@@ -13,7 +13,8 @@ test('books page renders all year sections and books without JS errors', async (
 
     await expect(page.locator('h2').first()).toHaveText('2026');
     await expect(page.locator('h2')).toHaveCount(2);
-    expect(await page.locator('.book-item').count()).toBeGreaterThanOrEqual(10);
+    expect(await page.locator('.book-item').count()).toBeGreaterThanOrEqual(11);
+    await expect(page.locator('.book-title').first()).toContainText('Thinking in Bets');
     await expect(page.locator('.currently-reading-badge')).toHaveText('Currently Reading');
 
     expect(errors).toEqual([]);
@@ -72,8 +73,8 @@ test('placeholder covers regenerate when the theme changes', async ({ page }) =>
     const darkSvg = decodeURIComponent(darkSrc.split(',')[1]);
 
     expect(darkSrc).not.toBe(lightSrc);
-    expect(lightSvg).toContain('>My Stroke of Insight<');
-    expect(darkSvg).toContain('>My Stroke of Insight<');
+    expect(lightSvg).toContain('>Thinking in Bets<');
+    expect(darkSvg).toContain('>Thinking in Bets<');
     expect(lightSvg).toContain('fill="#e9eef3"');
     expect(darkSvg).toContain('fill="#2d2d2d"');
 });
