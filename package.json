@@ -12,15 +12,15 @@
     "lighthouse": "lhci autorun"
   },
   "devDependencies": {
-    "@axe-core/playwright": "^4.11.3",
+    "@axe-core/playwright": "^4.12.1",
     "@eslint/js": "^10.0.1",
     "@lhci/cli": "^0.15.0",
-    "@playwright/test": "^1.60.0",
-    "eslint": "^10.4.1",
-    "globals": "^17.6.0",
+    "@playwright/test": "^1.61.1",
+    "eslint": "^10.6.0",
+    "globals": "^17.7.0",
     "htmlhint": "^1.1.4",
     "postcss-html": "^1.8.1",
-    "stylelint": "^17.13.0",
+    "stylelint": "^17.14.0",
     "stylelint-config-standard": "^40.0.0"
   },
   "overrides": {
