@@ -3,14 +3,16 @@
 ## Project Structure & Module Organization
 
 This is a static personal site with no bundler or build step. `index.html` is
-the landing page, `books/index.html` is the pre-rendered reading list, and
-`404.html` is the GitHub Pages fallback page. Shared styles live in
+the landing page with a two-lane Experience/Education timeline,
+`books/index.html` is the pre-rendered reading list, and `404.html` is the
+GitHub Pages fallback page. Shared styles live in
 `css/styles.css`; page-specific CSS stays in small inline `<style>` blocks.
 Browser scripts live in `js/`: `theme.js` sets `data-theme`, `site.js` handles
 copyright and scroll reveal, `menu.js` owns the mobile dropdown, and `books.js`
-is the `READING_LIST` source of truth. Covers are in `images/covers/`; fonts are
-in `fonts/`. Unit tests are in `test/`; Playwright smoke and accessibility tests
-are in `e2e/`.
+is the `READING_LIST` source of truth, runtime cover-fallback handler, and ISBN
+helper export for scripts/tests. Covers are in `images/covers/` and named by
+primary ISBN; fonts are in `fonts/`. Unit tests are in `test/`; Playwright smoke
+and accessibility tests are in `e2e/`.
 
 ## Build, Test, and Development Commands
 
@@ -21,6 +23,10 @@ are in `e2e/`.
 - `npm test`: run Node unit tests for book helpers and site invariants.
 - `npm run test:e2e`: run Playwright tests; it starts its own server.
 - `npm run lighthouse`: run Lighthouse CI; start the local server first.
+- `node scripts/fetch-covers.js`: download missing self-hosted book covers from
+  Open Library.
+- `node scripts/render-books.js`: regenerate `books/index.html` from
+  `READING_LIST`.
 - `node scripts/render-books.js --check`: verify `books/index.html` matches
   `READING_LIST`.
 
@@ -35,9 +41,13 @@ in `books/index.html`.
 
 Run the narrowest relevant check while editing, then `npm run lint` before
 pushing. CI runs lint, unit tests, Playwright, and Lighthouse on each PR and
-push to `master`. For book changes, run `node scripts/fetch-covers.js`,
+push to `master`. E2E tests block external requests, so avoid runtime
+third-party calls.
+
+For book changes, add entries to `READING_LIST` in `js/books.js` with a required
+`isbn` and optional comma-separated `altIsbns`. Run `node scripts/fetch-covers.js`,
 `node scripts/render-books.js`, and `npm test`; commit covers and rendered HTML
-together. E2E tests block external requests, so avoid runtime third-party calls.
+together. Do not leave the rendered page stale after editing `READING_LIST`.
 
 ## Commit & Pull Request Guidelines
 
@@ -51,6 +61,9 @@ ready-for-review unless a draft is intentional. Exclude unrelated files such as
 ## Architecture Notes
 
 Themes use `data-theme="dark"` on `<html>` and CSS custom properties in
-`css/styles.css`. The inline head bootstrap must remain byte-identical across
-HTML pages and authorized by each page's CSP hash. If it changes, update every
-copy and the corresponding `script-src` hash.
+`css/styles.css`; the user's choice is persisted in `localStorage` under the
+`theme` key. `js/theme.js` sets the initial attribute immediately and fires a
+`themeChanged` event after toggles so placeholder book covers can regenerate.
+The inline head bootstrap must remain byte-identical across HTML pages and
+authorized by each page's CSP hash. If it changes, update every copy and the
+corresponding `script-src` hash.
