@@ -23,6 +23,23 @@ test('landing page renders hero and timeline without JS errors', async ({ page }
     expect(errors).toEqual([]);
 });
 
+test('hero social logos keep their intended dimensions', async ({ page }) => {
+    await page.goto('/');
+    const dimensions = await page.locator('.hero-links .icon').evaluateAll(icons =>
+        icons.map(icon => {
+            const { width, height } = icon.getBoundingClientRect();
+            return { width, height };
+        })
+    );
+
+    expect(dimensions).toHaveLength(3);
+    for (const { width, height } of dimensions) {
+        expect(width).toBeGreaterThanOrEqual(16);
+        expect(height).toBeGreaterThanOrEqual(16);
+        expect(Math.abs(width - height)).toBeLessThan(1);
+    }
+});
+
 test('theme toggle switches theme, persists it, and survives reload', async ({ page }) => {
     await page.goto('/');
     const html = page.locator('html');
