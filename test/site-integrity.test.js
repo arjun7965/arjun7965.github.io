@@ -49,6 +49,12 @@ test('404 page uses root-absolute URLs for local navigation and assets', () => {
 
 test('web manifest references existing icon files', () => {
     const manifest = JSON.parse(read('site.webmanifest'));
+    assert.equal(manifest.id, '/');
+    assert.equal(manifest.start_url, '/');
+    assert.equal(manifest.scope, '/');
+    assert.equal(manifest.lang, 'en');
+    assert.ok(manifest.description.trim());
+    assert.ok(manifest.categories.includes('portfolio'));
     assert.ok(Array.isArray(manifest.icons) && manifest.icons.length > 0);
 
     for (const icon of manifest.icons) {
@@ -57,4 +63,37 @@ test('web manifest references existing icon files', () => {
         assert.ok(fs.existsSync(file), `manifest icon does not exist: ${icon.src}`);
         assert.ok(fs.statSync(file).size > 0, `manifest icon is empty: ${icon.src}`);
     }
+});
+
+test('all pages provide theme-color metadata and persistent navigation', () => {
+    for (const file of HTML_FILES) {
+        const html = read(file);
+        assert.match(html, /<meta name="theme-color" content="#fafbfc">/, `${file} is missing theme-color metadata`);
+        assert.match(html, /<nav class="site-nav" aria-label="Primary navigation">/, `${file} is missing persistent navigation`);
+        assert.doesNotMatch(html, /menu\.js|menu-button|menu-dropdown/, `${file} still contains mobile-menu code`);
+    }
+});
+
+test('sitemap lists both canonical content pages with valid modification dates', () => {
+    const sitemap = read('sitemap.xml');
+    const locations = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match => match[1]);
+    const modified = [...sitemap.matchAll(/<lastmod>([^<]+)<\/lastmod>/g)].map(match => match[1]);
+
+    assert.deepEqual(locations, [
+        'https://arjunvinod.com/',
+        'https://arjunvinod.com/books/',
+    ]);
+    assert.equal(modified.length, locations.length);
+    for (const date of modified) {
+        assert.match(date, /^\d{4}-\d{2}-\d{2}$/);
+        assert.ok(!Number.isNaN(Date.parse(`${date}T00:00:00Z`)), `invalid sitemap date: ${date}`);
+    }
+});
+
+test('secret-dependent Claude reviews skip Dependabot pull requests', () => {
+    const workflow = read('.github/workflows/claude-code-review.yml');
+
+    assert.match(workflow, /if: github\.event\.pull_request\.user\.login != 'dependabot\[bot\]'/);
+    assert.doesNotMatch(workflow, /if: github\.actor != 'dependabot\[bot\]'/);
+    assert.match(workflow, /claude_code_oauth_token: \$\{\{ secrets\.CLAUDE_CODE_OAUTH_TOKEN \}\}/);
 });

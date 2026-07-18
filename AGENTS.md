@@ -8,11 +8,11 @@ the landing page with a two-lane Experience/Education timeline,
 GitHub Pages fallback page. Shared styles live in
 `css/styles.css`; page-specific CSS stays in small inline `<style>` blocks.
 Browser scripts live in `js/`: `theme.js` sets `data-theme`, `site.js` handles
-copyright and scroll reveal, `menu.js` owns the mobile dropdown, and `books.js`
-is the `READING_LIST` source of truth, runtime cover-fallback handler, and ISBN
-helper export for scripts/tests. Covers are in `images/covers/` and named by
-primary ISBN; fonts are in `fonts/`. Unit tests are in `test/`; Playwright smoke
-and accessibility tests are in `e2e/`.
+copyright and scroll reveal, and `books.js` is the `READING_LIST` source of
+truth, runtime cover-fallback handler, and ISBN helper export for scripts/tests.
+Covers are in `images/covers/` and named by primary ISBN; fonts are in `fonts/`.
+Unit tests are in `test/`; Playwright smoke and accessibility tests are in
+`e2e/`.
 
 ## Build, Test, and Development Commands
 

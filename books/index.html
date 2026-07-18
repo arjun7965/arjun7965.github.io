@@ -6,6 +6,7 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-rnS2XmH/rdRx4xVD1R3osXdDlm6LQTZI7TtlCGQqteU=' https://gc.zgo.at; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://arjunvinod.goatcounter.com;">
     <meta name="description" content="Books read by Arjun Vinod — psychology, philosophy, macroeconomics, and monetary history.">
     <meta name="author" content="Arjun Vinod">
+    <meta name="theme-color" content="#fafbfc">
     <title>Books | Arjun Vinod</title>
     <link rel="canonical" href="https://arjunvinod.com/books/">
     <meta property="og:title" content="Books | Arjun Vinod">
@@ -24,17 +25,21 @@
     <link rel="icon" href="/images/favicon.ico">
     <link rel="stylesheet" href="/css/styles.css">
     <style>
-        /* Visually hidden but accessible to screen readers and search engines */
-        .visually-hidden {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip-path: inset(50%);
-            white-space: nowrap;
-            border: 0;
+        .books-intro {
+            margin-bottom: 2.5rem;
+        }
+
+        .books-title {
+            margin: 0 0 0.5rem;
+            color: var(--text-primary);
+            font-size: clamp(2rem, 1.75rem + 1vw, 2.75rem);
+            letter-spacing: -0.035em;
+        }
+
+        .books-intro p {
+            max-width: 620px;
+            margin: 0;
+            color: var(--text-secondary);
         }
 
         h2 {
@@ -56,25 +61,6 @@
             font-size: 0.9rem;
         }
 
-        .currently-reading-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-left: 0.5rem;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        .currently-reading-badge::before {
-            content: '';
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background-color: #22c55e;
-            border-radius: 50%;
-            animation: blink 1.5s ease-in-out infinite;
-        }
     </style>
     <!-- Arms the scroll-reveal hidden state (.js) and theme before first paint
          so a hard refresh neither flashes content out nor flashes the light
@@ -87,7 +73,6 @@
     <script src="/js/theme.js" defer></script>
     <script src="/js/site.js" defer></script>
     <script src="/js/books.js" defer></script>
-    <script src="/js/menu.js" defer></script>
 </head>
 <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -95,20 +80,15 @@
         <div class="header-content">
             <div class="site-logo"><a href="/">Arjun Vinod</a></div>
             <div class="header-right">
-                <div class="menu-wrapper">
-                    <button class="menu-button" type="button" aria-label="Menu" aria-haspopup="true" aria-expanded="false" aria-controls="menu-dropdown">
-                        <svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" d="M0 96c0-17.7 14.3-32 32-32h384c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zm0 160c0-17.7 14.3-32 32-32h384c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zm448 160c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32h384c17.7 0 32 14.3 32 32z"/></svg>
-                    </button>
-                    <nav class="menu-dropdown" id="menu-dropdown" role="navigation" aria-label="Primary Navigation">
-                        <a href="/">Home</a>
-                        <a href="/books/" class="active">Books</a>
-                    </nav>
-                </div>
+                <nav class="site-nav" aria-label="Primary navigation">
+                    <a href="/">Home</a>
+                    <a href="/books/" class="active" aria-current="page">Books</a>
+                </nav>
                 <div class="theme-toggle-wrapper">
                     <button class="theme-toggle" aria-label="Toggle theme" role="switch" aria-checked="false">
-                        <div class="theme-toggle-slider">
+                        <span class="theme-toggle-slider">
                             <svg class="icon icon-moon" viewBox="0 0 384 512" aria-hidden="true"><path fill="currentColor" d="M223.5 32C100 32 0 132.3 0 256s100 224 223.5 224c60.6 0 115.5-24.2 155.8-63.4 5-4.9 6.3-12.5 3.1-18.7s-10.1-9.7-17-8.5c-9.8 1.7-19.8 2.6-30.1 2.6-96.9 0-175.5-78.8-175.5-176 0-65.8 36-123.1 89.3-153.3 6.1-3.5 9.2-10.5 7.7-17.3s-7.3-11.9-14.3-12.5c-6.3-.5-12.6-.8-19-.8z"/></svg>
-                        </div>
+                        </span>
                     </button>
                 </div>
             </div>
@@ -116,7 +96,10 @@
     </header>
     <main id="main">
         <div class="container">
-            <h1 class="visually-hidden">Reading List</h1>
+            <section class="books-intro" aria-labelledby="books-title">
+                <h1 class="books-title" id="books-title">Bookshelf</h1>
+                <p>A running list of books shaping how I think about decision-making, philosophy, technology, and money.</p>
+            </section>
             <div data-reading-list>
             <!-- BEGIN reading-list: generated by scripts/render-books.js; edit js/books.js instead -->
             <h2>2026</h2>
@@ -125,11 +108,11 @@
             <article class="book-item">
                 <div class="book-cover">
                     <a href="https://www.thriftbooks.com/w/thinking-in-bets-making-smarter-decisions-when-you-dont-have-all-the-facts_annie-duke/18603016/?resultid=74d7743c-3e5d-4c55-a850-24840b148172#edition=20707873&amp;idiq=41576266" target="_blank" rel="noopener noreferrer">
-                        <img loading="lazy" decoding="async" src="/images/covers/9780735216372.jpg" alt="Thinking in Bets by Annie Duke" data-title="Thinking in Bets" data-author="Annie Duke">
+                        <img loading="eager" fetchpriority="high" decoding="async" src="/images/covers/9780735216372.jpg" alt="Thinking in Bets by Annie Duke" data-title="Thinking in Bets" data-author="Annie Duke">
                     </a>
                 </div>
                 <div class="book-details">
-                    <h3 class="book-title">Thinking in Bets: Making Smarter Decisions When You Don&apos;t Have All the Facts<span class="currently-reading-badge">Currently Reading</span></h3>
+                    <h3 class="book-title"><a class="book-title-link" href="https://www.thriftbooks.com/w/thinking-in-bets-making-smarter-decisions-when-you-dont-have-all-the-facts_annie-duke/18603016/?resultid=74d7743c-3e5d-4c55-a850-24840b148172#edition=20707873&amp;idiq=41576266" target="_blank" rel="noopener noreferrer">Thinking in Bets: Making Smarter Decisions When You Don&apos;t Have All the Facts</a><span class="currently-reading-badge">Currently Reading</span></h3>
                     <div class="book-author">by Annie Duke</div>
                     <p class="book-notes">A decision-making guide from former professional poker player Annie Duke, using lessons from probability, uncertainty, and poker to show how to separate decision quality from outcomes, think in bets, and make smarter choices when the facts are incomplete.</p>
                 </div>
@@ -141,7 +124,7 @@
                     </a>
                 </div>
                 <div class="book-details">
-                    <h3 class="book-title">My Stroke of Insight: A Brain Scientist&apos;s Personal Journey</h3>
+                    <h3 class="book-title"><a class="book-title-link" href="https://www.thriftbooks.com/w/my-stroke-of-insight-a-brain-scientists-personal-journey_jill-bolte-taylor/249568/#isbn=0670020745" target="_blank" rel="noopener noreferrer">My Stroke of Insight: A Brain Scientist&apos;s Personal Journey</a></h3>
                     <div class="book-author">by Jill Bolte Taylor</div>
                     <p class="book-notes">A Harvard-trained neuroanatomist&apos;s first-person account of suffering a massive left-hemisphere stroke at age 37 — and what the experience revealed about the brain&apos;s two hemispheres, consciousness, and the nature of inner peace. Both a clinical case study and a deeply personal meditation on recovery.</p>
                 </div>
@@ -153,7 +136,7 @@
                     </a>
                 </div>
                 <div class="book-details">
-                    <h3 class="book-title">The Stranger</h3>
+                    <h3 class="book-title"><a class="book-title-link" href="https://www.thriftbooks.com/w/the-stranger-by-albert-camus/247130/#isbn=0679720200" target="_blank" rel="noopener noreferrer">The Stranger</a></h3>
                     <div class="book-author">by Albert Camus (translated by Matthew Ward)</div>
                     <p class="book-notes">Camus&apos;s iconic existentialist novel follows Meursault, an indifferent Algerian man whose emotional detachment leads to a fateful act of violence and a confrontation with mortality. A meditation on the absurd — the conflict between our desire for meaning and the universe&apos;s silence.</p>
                 </div>
@@ -165,7 +148,7 @@
                     </a>
                 </div>
                 <div class="book-details">
-                    <h3 class="book-title">Mind to Matter: The Astonishing Science of How Your Brain Creates Material Reality</h3>
+                    <h3 class="book-title"><a class="book-title-link" href="https://www.thriftbooks.com/w/mind-to-matter-the-astonishing-science-of-how-your-brain-creates-material-reality_dawson-church/18645933/?resultid=2de6c45e-dd46-4b5c-92e6-cf8019dea194#edition=19846831&amp;idiq=32358812" target="_blank" rel="noopener noreferrer">Mind to Matter: The Astonishing Science of How Your Brain Creates Material Reality</a></h3>
                     <div class="book-author">by Dawson Church</div>
                     <p class="book-notes">An exploration of the mind-body connection, revealing scientific evidence for how consciousness and intention can influence physical reality, healing, and the material world around us.</p>
                 </div>
@@ -177,7 +160,7 @@
                     </a>
                 </div>
                 <div class="book-details">
-                    <h3 class="book-title">The Courage to Be Disliked</h3>
+                    <h3 class="book-title"><a class="book-title-link" href="https://www.thriftbooks.com/w/the-courage-to-be-disliked_ichiro-kishimi_fumitake-koga/10893847/?resultid=d93bd8ae-8fc6-4db4-880f-134d5c931410#edition=73839563&amp;idiq=85807882" target="_blank" rel="noopener noreferrer">The Courage to Be Disliked</a></h3>
                     <div class="book-author">by Ichiro Kishimi and Fumitake Koga</div>
                     <p class="book-notes">A groundbreaking dialogue that reimagines Adlerian psychology through modern conversations, exploring how we can break free from past trauma, embrace our potential, and live authentically by having the courage to be disliked. Introduces Alfred Adler&apos;s revolutionary teleology approach—the idea that we are driven by future goals rather than past causes (etiology)—challenging the notion that our history determines our destiny.</p>
                 </div>
@@ -192,7 +175,7 @@
                     </a>
                 </div>
                 <div class="book-details">
-                    <h3 class="book-title">Paper Soldiers: How the Weaponization of the Dollar Changed the World Order</h3>
+                    <h3 class="book-title"><a class="book-title-link" href="https://www.thriftbooks.com/w/paper-soldiers-how-the-weaponization-of-the-dollar-changed-the-world-order_saleha-mohsin/55037738/?resultid=b45c7b57-ac03-4945-9e3d-74a29ea8aab4#edition=67591091&amp;idiq=57992781" target="_blank" rel="noopener noreferrer">Paper Soldiers: How the Weaponization of the Dollar Changed the World Order</a></h3>
                     <div class="book-author">by Saleha Mohsin</div>
                     <p class="book-notes">An inside look at how the U.S. dollar became a powerful geopolitical weapon through financial sanctions and economic warfare, reshaping global power dynamics and raising questions about the future of American financial dominance.</p>
                 </div>
@@ -204,7 +187,7 @@
                     </a>
                 </div>
                 <div class="book-details">
-                    <h3 class="book-title">The Case Against the Fed</h3>
+                    <h3 class="book-title"><a class="book-title-link" href="https://www.thriftbooks.com/w/the-case-against-the-fed_murray-n-rothbard/343797/#edition=4404863&amp;idiq=4178217" target="_blank" rel="noopener noreferrer">The Case Against the Fed</a></h3>
                     <div class="book-author">by Murray N. Rothbard</div>
                     <p class="book-notes">A foundational critique of the Federal Reserve System, examining its origins, operations, and effects on the economy while arguing for a return to free-market banking and sound money backed by gold.</p>
                 </div>
@@ -216,7 +199,7 @@
                     </a>
                 </div>
                 <div class="book-details">
-                    <h3 class="book-title">The Big Print: What Happened to America and How Sound Money Will Fix It</h3>
+                    <h3 class="book-title"><a class="book-title-link" href="https://www.amazon.com/dp/B0F2NCPQ2K" target="_blank" rel="noopener noreferrer">The Big Print: What Happened to America and How Sound Money Will Fix It</a></h3>
                     <div class="book-author">by Lawrence Lepard</div>
                     <p class="book-notes">A compelling analysis of how decades of monetary expansion and currency debasement have eroded American prosperity, and a call for returning to sound money principles to restore economic stability and opportunity.</p>
                 </div>
@@ -228,7 +211,7 @@
                     </a>
                 </div>
                 <div class="book-details">
-                    <h3 class="book-title">The Price of Tomorrow: Why Deflation Is the Key to an Abundant Future</h3>
+                    <h3 class="book-title"><a class="book-title-link" href="https://www.amazon.com/Price-Tomorrow-Deflation-Abundant-Future/dp/1999257405" target="_blank" rel="noopener noreferrer">The Price of Tomorrow: Why Deflation Is the Key to an Abundant Future</a></h3>
                     <div class="book-author">by Jeff Booth</div>
                     <p class="book-notes">A thought-provoking exploration of how exponential technological advancement is creating deflation in a world built on inflationary economic systems, and why embracing this shift could unlock unprecedented prosperity.</p>
                 </div>
@@ -240,7 +223,7 @@
                     </a>
                 </div>
                 <div class="book-details">
-                    <h3 class="book-title">Layered Money: From Gold and Dollars to Bitcoin and Central Bank Digital Currencies</h3>
+                    <h3 class="book-title"><a class="book-title-link" href="https://www.amazon.com/Layered-Money-Dollars-Bitcoin-Currencies/dp/1736110527" target="_blank" rel="noopener noreferrer">Layered Money: From Gold and Dollars to Bitcoin and Central Bank Digital Currencies</a></h3>
                     <div class="book-author">by Nik Bhatia</div>
                     <p class="book-notes">An innovative framework for understanding money as a layered system, tracing its evolution from gold-backed currencies through modern banking to cryptocurrencies and the future of digital central bank money.</p>
                 </div>
@@ -252,7 +235,7 @@
                     </a>
                 </div>
                 <div class="book-details">
-                    <h3 class="book-title">The Deficit Myth: Modern Monetary Theory and the Birth of the People&apos;s Economy</h3>
+                    <h3 class="book-title"><a class="book-title-link" href="https://www.amazon.com/Deficit-Myth-Monetary-Peoples-Economy/dp/1541736184" target="_blank" rel="noopener noreferrer">The Deficit Myth: Modern Monetary Theory and the Birth of the People&apos;s Economy</a></h3>
                     <div class="book-author">by Stephanie Kelton</div>
                     <p class="book-notes">A leading economist challenges conventional deficit thinking and explains how Modern Monetary Theory reveals the true power and limitations of sovereign currencies in advancing the public good.</p>
                 </div>

@@ -6,7 +6,7 @@ const path = require('path');
 
 const NOT_FOUND_HTML = fs.readFileSync(path.join(__dirname, '..', '404.html'), 'utf8');
 
-const WCAG_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'];
+const WCAG_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 
 const PAGES = [
     { name: 'landing page', goto: page => page.goto('/') },
@@ -35,7 +35,7 @@ test.beforeEach(async ({ page }) => {
 for (const theme of ['light', 'dark']) {
     test.describe(`${theme} theme`, () => {
         for (const { name, goto } of PAGES) {
-            test(`${name} has no WCAG 2.1 A/AA violations`, async ({ page }) => {
+            test(`${name} has no WCAG 2.2 A/AA violations`, async ({ page }) => {
                 await page.addInitScript(t => localStorage.setItem('theme', t), theme);
                 await goto(page);
                 await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
