@@ -93,6 +93,7 @@ test('sitemap lists both canonical content pages with valid modification dates',
 test('secret-dependent Claude reviews skip Dependabot pull requests', () => {
     const workflow = read('.github/workflows/claude-code-review.yml');
 
-    assert.match(workflow, /if: github\.actor != 'dependabot\[bot\]'/);
+    assert.match(workflow, /if: github\.event\.pull_request\.user\.login != 'dependabot\[bot\]'/);
+    assert.doesNotMatch(workflow, /if: github\.actor != 'dependabot\[bot\]'/);
     assert.match(workflow, /claude_code_oauth_token: \$\{\{ secrets\.CLAUDE_CODE_OAUTH_TOKEN \}\}/);
 });
