@@ -89,3 +89,10 @@ test('sitemap lists both canonical content pages with valid modification dates',
         assert.ok(!Number.isNaN(Date.parse(`${date}T00:00:00Z`)), `invalid sitemap date: ${date}`);
     }
 });
+
+test('secret-dependent Claude reviews skip Dependabot pull requests', () => {
+    const workflow = read('.github/workflows/claude-code-review.yml');
+
+    assert.match(workflow, /if: github\.actor != 'dependabot\[bot\]'/);
+    assert.match(workflow, /claude_code_oauth_token: \$\{\{ secrets\.CLAUDE_CODE_OAUTH_TOKEN \}\}/);
+});
