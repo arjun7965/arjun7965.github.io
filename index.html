@@ -6,6 +6,7 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-rnS2XmH/rdRx4xVD1R3osXdDlm6LQTZI7TtlCGQqteU=' https://gc.zgo.at; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://arjunvinod.goatcounter.com;">
     <meta name="description" content="Arjun's Personal Website - Firmware Engineer">
     <meta name="author" content="Arjun Vinod">
+    <meta name="theme-color" content="#fafbfc">
     <title>Arjun Vinod | Firmware Engineer</title>
     <link rel="canonical" href="https://arjunvinod.com/">
     <meta property="og:title" content="Arjun Vinod | Firmware Engineer">
@@ -38,7 +39,6 @@
     <script>document.documentElement.classList.add('js');try{document.documentElement.setAttribute('data-theme',localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'))}catch(e){}setTimeout(function(){if(!window.siteJsLoaded)document.documentElement.classList.remove('js')},3000);</script>
     <script src="js/theme.js" defer></script>
     <script src="js/site.js" defer></script>
-    <script src="js/menu.js" defer></script>
 </head>
 <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -46,20 +46,15 @@
         <div class="header-content">
             <div class="site-logo"><a href="/">Arjun Vinod</a></div>
             <div class="header-right">
-                <div class="menu-wrapper">
-                    <button class="menu-button" type="button" aria-label="Menu" aria-haspopup="true" aria-expanded="false" aria-controls="menu-dropdown">
-                        <svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" d="M0 96c0-17.7 14.3-32 32-32h384c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zm0 160c0-17.7 14.3-32 32-32h384c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zm448 160c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32h384c17.7 0 32 14.3 32 32z"/></svg>
-                    </button>
-                    <nav class="menu-dropdown" id="menu-dropdown" role="navigation" aria-label="Primary Navigation">
-                        <a href="/" class="active">Home</a>
-                        <a href="/books/">Books</a>
-                    </nav>
-                </div>
+                <nav class="site-nav" aria-label="Primary navigation">
+                    <a href="/" class="active" aria-current="page">Home</a>
+                    <a href="/books/">Books</a>
+                </nav>
                 <div class="theme-toggle-wrapper">
                     <button class="theme-toggle" aria-label="Toggle theme" role="switch" aria-checked="false">
-                        <div class="theme-toggle-slider">
+                        <span class="theme-toggle-slider">
                             <svg class="icon icon-moon" viewBox="0 0 384 512" aria-hidden="true"><path fill="currentColor" d="M223.5 32C100 32 0 132.3 0 256s100 224 223.5 224c60.6 0 115.5-24.2 155.8-63.4 5-4.9 6.3-12.5 3.1-18.7s-10.1-9.7-17-8.5c-9.8 1.7-19.8 2.6-30.1 2.6-96.9 0-175.5-78.8-175.5-176 0-65.8 36-123.1 89.3-153.3 6.1-3.5 9.2-10.5 7.7-17.3s-7.3-11.9-14.3-12.5c-6.3-.5-12.6-.8-19-.8z"/></svg>
-                        </div>
+                        </span>
                     </button>
                 </div>
             </div>
@@ -71,7 +66,11 @@
             <h1 class="hero-name">Arjun Vinod</h1>
             <p class="hero-role">Firmware Engineer</p>
             <p class="hero-desc">Building high-performance embedded systems for data center connectivity in Silicon Valley.</p>
-            <div class="hero-links">
+            <div class="hero-actions">
+                <a class="button button-primary" href="mailto:arjun@arjunvinod.com">Get in touch</a>
+                <a class="button button-secondary" href="#experience">View experience</a>
+            </div>
+            <nav class="hero-links" aria-label="Social profiles">
                 <a href="https://github.com/arjun7965" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
                     <svg class="icon" viewBox="0 0 496 512" aria-hidden="true"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8z"/></svg>
                 </a>
@@ -81,21 +80,41 @@
                 <a href="https://twitter.com/arjun7965" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
                     <svg class="icon" viewBox="0 0 512 512" aria-hidden="true"><path fill="currentColor" d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8l164.9-188.5L26.8 48h145.6l100.5 132.9L389.2 48zm-24.8 373.8h39.1L151.1 88h-42L364.4 421.8z"/></svg>
                 </a>
-            </div>
+            </nav>
         </div>
-        
-        <section aria-label="Experience and education" class="roadmap-section">
+
+        <section class="expertise-section" aria-labelledby="expertise-title">
+            <p class="section-eyebrow">What I do</p>
+            <h2 class="section-heading" id="expertise-title">Firmware built close to the hardware</h2>
+            <p class="section-intro">I turn hardware requirements into reliable embedded software, from early architecture through validation and production.</p>
+            <div class="expertise-grid">
+                <article class="expertise-card">
+                    <h3>Data center connectivity</h3>
+                    <p>Firmware for high-speed connectivity products and the infrastructure that keeps modern data centers moving.</p>
+                </article>
+                <article class="expertise-card">
+                    <h3>Embedded systems</h3>
+                    <p>Device-level software across Wi-Fi platforms, sensor integration, and autonomous flight-control systems.</p>
+                </article>
+                <article class="expertise-card">
+                    <h3>Technical leadership</h3>
+                    <p>Driving firmware execution across hardware requirements, implementation, automated validation, and delivery.</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="experience" aria-label="Experience and education" class="roadmap-section">
             <div class="roadmap">
                 <div class="lane lane-experience">
-                    <h3 class="lane-title">Experience</h3>
+                    <h2 class="lane-title">Experience</h2>
 
-                    <div class="node">
+                    <div class="node is-current">
                         <span class="dot" aria-hidden="true"></span>
                         <article class="rm-card">
-                            <h4 class="rm-title"><a href="https://www.asteralabs.com/" target="_blank" rel="noopener noreferrer">Astera Labs</a> <span class="current-badge">Current</span></h4>
+                            <h3 class="rm-title"><a href="https://www.asteralabs.com/" target="_blank" rel="noopener noreferrer">Astera Labs</a> <span class="current-badge">Current</span></h3>
                             <div class="rm-body">
                                 <div class="rm-role-line">Firmware Engineer, Technical Lead <span class="rm-meta">Feb 2023 – Present</span></div>
-                                <p class="rm-desc">Developing cutting-edge firmware solutions for high-speed connectivity and data center infrastructure.</p>
+                                <p class="rm-desc">Leading firmware development for high-speed data center connectivity products, from hardware requirements through production-ready embedded software.</p>
                             </div>
                         </article>
                     </div>
@@ -103,15 +122,15 @@
                     <div class="node">
                         <span class="dot" aria-hidden="true"></span>
                         <article class="rm-card">
-                            <h4 class="rm-title"><a href="https://www.qualcomm.com/products/internet-of-things/networking/wi-fi-networks" target="_blank" rel="noopener noreferrer">Qualcomm Atheros</a></h4>
+                            <h3 class="rm-title"><a href="https://www.qualcomm.com/products/internet-of-things/networking/wi-fi-networks" target="_blank" rel="noopener noreferrer">Qualcomm Atheros</a></h3>
                             <div class="rm-body">
                                 <div class="rm-stint">
                                     <div class="rm-role-line">Senior Embedded Software Engineer <span class="rm-meta">Nov 2021 – Feb 2023</span></div>
-                                    <p class="rm-desc">Developed embedded software for enterprise WiFi platforms. Implemented advanced TX power control features for Qualcomm's WiFi chipsets.</p>
+                                    <p class="rm-desc">Built enterprise Wi-Fi platform firmware and delivered advanced TX power-control capabilities for Qualcomm Wi-Fi chipsets.</p>
                                 </div>
                                 <div>
                                     <div class="rm-role-line">Embedded Software Engineer <span class="rm-meta">Jan 2020 – Nov 2021</span></div>
-                                    <p class="rm-desc">Contributed to WiFi physical layer firmware development and implemented automated test framework for regression testing.</p>
+                                    <p class="rm-desc">Developed Wi-Fi physical-layer firmware and an automated regression test framework for continuous validation.</p>
                                 </div>
                             </div>
                         </article>
@@ -120,10 +139,10 @@
                     <div class="node">
                         <span class="dot" aria-hidden="true"></span>
                         <article class="rm-card">
-                            <h4 class="rm-title"><a href="https://www.greensightag.com/" target="_blank" rel="noopener noreferrer">GreenSight Agronomics</a></h4>
+                            <h3 class="rm-title"><a href="https://www.greensightag.com/" target="_blank" rel="noopener noreferrer">GreenSight Agronomics</a></h3>
                             <div class="rm-body">
                                 <div class="rm-role-line">Embedded Software Engineer <span class="rm-meta">Jan 2018 – Dec 2019</span></div>
-                                <p class="rm-desc">Built embedded systems for autonomous agricultural drones. Developed sensor integration, flight control software for precision agriculture applications.</p>
+                                <p class="rm-desc">Developed sensor integration and flight-control software for autonomous agricultural drones used in precision agriculture.</p>
                             </div>
                         </article>
                     </div>
@@ -132,12 +151,12 @@
                 <div class="rail" aria-hidden="true"></div>
 
                 <div class="lane lane-education">
-                    <h3 class="lane-title">Education</h3>
+                    <h2 class="lane-title">Education</h2>
 
                     <div class="node">
                         <span class="dot" aria-hidden="true"></span>
                         <article class="rm-card">
-                            <h4 class="rm-title"><a href="https://ecs.syracuse.edu/" target="_blank" rel="noopener noreferrer">Syracuse University</a></h4>
+                            <h3 class="rm-title"><a href="https://ecs.syracuse.edu/" target="_blank" rel="noopener noreferrer">Syracuse University</a></h3>
                             <div class="rm-body">
                                 <div class="rm-role-line">Master of Science (MS), Computer Engineering</div>
                             </div>
@@ -147,7 +166,7 @@
                     <div class="node">
                         <span class="dot" aria-hidden="true"></span>
                         <article class="rm-card">
-                            <h4 class="rm-title"><a href="https://kcgcollege.ac.in/" target="_blank" rel="noopener noreferrer">KCG College of Technology, Anna University</a></h4>
+                            <h3 class="rm-title"><a href="https://kcgcollege.ac.in/" target="_blank" rel="noopener noreferrer">KCG College of Technology, Anna University</a></h3>
                             <div class="rm-body">
                                 <div class="rm-role-line">Bachelor of Engineering (B.E.), Electrical, Electronics and Communications Engineering</div>
                             </div>

@@ -247,20 +247,25 @@ const READING_LIST = [
 // list is visible to crawlers and no-JS visitors.
 function readingListHtml() {
     const shortTitleOf = book => book.shortTitle || book.title.split(':')[0].trim();
+    let bookIndex = 0;
     return READING_LIST.map(section => {
         const books = section.books.map(book => {
             const badge = book.currentlyReading
                 ? '<span class="currently-reading-badge">Currently Reading</span>'
                 : '';
+            const loadingAttributes = bookIndex === 0
+                ? 'loading="eager" fetchpriority="high"'
+                : 'loading="lazy"';
+            bookIndex += 1;
             return `
             <article class="book-item">
                 <div class="book-cover">
                     <a href="${escapeHtml(book.link)}" target="_blank" rel="noopener noreferrer">
-                        <img loading="lazy" decoding="async" src="${escapeHtml(localCoverPath(book))}" alt="${escapeHtml(book.altText)}" data-title="${escapeHtml(shortTitleOf(book))}" data-author="${escapeHtml(book.author)}">
+                        <img ${loadingAttributes} decoding="async" src="${escapeHtml(localCoverPath(book))}" alt="${escapeHtml(book.altText)}" data-title="${escapeHtml(shortTitleOf(book))}" data-author="${escapeHtml(book.author)}">
                     </a>
                 </div>
                 <div class="book-details">
-                    <h3 class="book-title">${escapeHtml(book.title)}${badge}</h3>
+                    <h3 class="book-title"><a class="book-title-link" href="${escapeHtml(book.link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(book.title)}</a>${badge}</h3>
                     <div class="book-author">by ${escapeHtml(book.author)}</div>
                     <p class="book-notes">${escapeHtml(book.notes)}</p>
                 </div>

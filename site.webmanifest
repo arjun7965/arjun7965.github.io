@@ -1,6 +1,12 @@
 {
   "name": "Arjun Vinod",
   "short_name": "Arjun Vinod",
+  "description": "Portfolio and reading list of firmware engineer Arjun Vinod.",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["portfolio", "technology"],
   "icons": [
     {
       "src": "/images/android-chrome-192x192.png",

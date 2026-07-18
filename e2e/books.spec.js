@@ -11,6 +11,8 @@ test('books page renders all year sections and books without JS errors', async (
     const errors = trackPageErrors(page);
     await page.goto('/books/');
 
+    await expect(page.getByRole('heading', { level: 1, name: 'Bookshelf' })).toBeVisible();
+    await expect(page.locator('.site-nav a', { hasText: 'Books' })).toHaveAttribute('aria-current', 'page');
     await expect(page.locator('h2').first()).toHaveText('2026');
     await expect(page.locator('h2')).toHaveCount(2);
     expect(await page.locator('.book-item').count()).toBeGreaterThanOrEqual(11);
@@ -32,7 +34,23 @@ test('covers are served self-hosted and actually load', async ({ page }) => {
 
     // The first (above-the-fold) cover decodes to real pixels
     const firstCover = covers.first();
+    await expect(firstCover).toHaveAttribute('loading', 'eager');
+    await expect(firstCover).toHaveAttribute('fetchpriority', 'high');
+    await expect(covers.nth(1)).toHaveAttribute('loading', 'lazy');
     await expect.poll(() => firstCover.evaluate(img => img.complete && img.naturalWidth > 1)).toBe(true);
+});
+
+test('book titles link to the same destinations as their covers', async ({ page }) => {
+    await page.goto('/books/');
+    const cards = page.locator('.book-item');
+
+    for (let i = 0; i < await cards.count(); i++) {
+        const card = cards.nth(i);
+        await expect(card.locator('.book-title-link')).toHaveAttribute(
+            'href',
+            await card.locator('.book-cover a').getAttribute('href')
+        );
+    }
 });
 
 test('a missing cover falls back to an SVG placeholder', async ({ page }) => {
@@ -89,4 +107,17 @@ test('theme changes do not replace successfully loaded covers', async ({ page })
 
     await expect(firstCover).toHaveAttribute('src', originalSrc);
     await expect(firstCover).not.toHaveAttribute('data-loaded', 'placeholder');
+});
+
+test.describe('mobile books layout', () => {
+    test.use({ viewport: { width: 390, height: 844 } });
+
+    test('gives book notes the full card width', async ({ page }) => {
+        await page.goto('/books/');
+        const firstCard = page.locator('.book-item').first();
+        const notes = firstCard.locator('.book-notes');
+
+        expect(await notes.evaluate(el => el.getBoundingClientRect().width)).toBeGreaterThan(300);
+        expect(await firstCard.locator('.book-cover').evaluate(el => el.getBoundingClientRect().width)).toBe(76);
+    });
 });
