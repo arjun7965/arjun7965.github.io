@@ -218,6 +218,15 @@ test('reading list sections are newest first and generated markup has one articl
     assert.equal(articleCount, bookCount);
 });
 
+test('generated reading list links titles and prioritizes only the first cover', () => {
+    const html = readingListHtml();
+    const bookCount = READING_LIST.reduce((total, section) => total + section.books.length, 0);
+
+    assert.equal((html.match(/class="book-title-link"/g) || []).length, bookCount);
+    assert.equal((html.match(/loading="eager" fetchpriority="high"/g) || []).length, 1);
+    assert.equal((html.match(/loading="lazy"/g) || []).length, bookCount - 1);
+});
+
 test('reading list has at most one currently reading book', () => {
     const currentBooks = READING_LIST
         .flatMap(section => section.books)
