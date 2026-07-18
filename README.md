@@ -45,12 +45,12 @@ The site uses a modern minimalist design language:
 - **Icons**: Inline SVGs for social links and UI elements
 - **Timeline**: Vertical timeline with gradient connecting lines and glowing dots
 - **Cards**: Subtle shadows with hover animations and gradient accent bars
-- **Accessibility**: WCAG 2.1 AA color contrast in both themes, enforced by axe-core scans in CI
+- **Accessibility**: WCAG 2.2 AA color contrast in both themes, enforced by axe-core scans in CI
 
 ## Technical Features
 
 - **No Build Process**: Pure HTML/CSS/JavaScript - no frameworks or bundlers required
-- **Accessibility**: ARIA labels, skip links, semantic HTML, keyboard navigation, `prefers-reduced-motion` support, axe-core WCAG 2.1 A/AA checks in CI
+- **Accessibility**: ARIA labels, skip links, semantic HTML, keyboard navigation, `prefers-reduced-motion` support, axe-core WCAG 2.2 A/AA checks in CI
 - **Performance**: Lazy loading, self-hosted covers with fixed aspect ratio (no layout shift), self-hosted fonts (no third-party requests)
 - **SEO**: Meta tags, Open Graph, Twitter Cards, canonical URLs, pre-rendered content
 - **PWA Ready**: Web manifest and favicon set with multiple sizes for all platforms
@@ -72,7 +72,6 @@ The site uses a modern minimalist design language:
 ├── fonts/                  # Self-hosted Inter (variable) and JetBrains Mono woff2
 ├── js/
 │   ├── books.js            # READING_LIST data, ISBN helpers, cover fallback wiring
-│   ├── menu.js             # Mobile menu dropdown logic
 │   ├── site.js             # Copyright year and scroll-reveal animations
 │   └── theme.js            # Theme toggle and persistence
 ├── scripts/
@@ -84,7 +83,7 @@ The site uses a modern minimalist design language:
 │   ├── home.spec.js        # Playwright smoke tests: timeline, theme toggle, menu, no-JS
 │   ├── books.spec.js       # Playwright smoke tests: covers, placeholders, no-JS
 │   ├── not-found.spec.js   # Playwright smoke tests: 404 page from nested URLs
-│   ├── a11y.spec.js        # axe-core WCAG 2.1 A/AA scans, both themes, all pages
+│   ├── a11y.spec.js        # axe-core WCAG 2.2 A/AA scans, both themes, all pages
 │   └── utils.js            # Shared helpers (external request blocking, error tracking)
 ├── images/
 │   ├── covers/             # Self-hosted book covers, named by primary ISBN

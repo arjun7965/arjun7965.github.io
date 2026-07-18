@@ -28,7 +28,9 @@ test('404 page styles and scripts load from a nested URL', async ({ page }) => {
     await page.goto('/some/deep/missing/path');
 
     await expect(page).toHaveTitle(/Page Not Found/);
+    await expect(page.getByRole('heading', { level: 1, name: 'Page not found' })).toBeVisible();
     await expect(page.locator('.error-code')).toBeVisible();
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex');
 
     // styles.css resolved and applied (it sets the custom-property palette)
     expect(await page.evaluate(() =>

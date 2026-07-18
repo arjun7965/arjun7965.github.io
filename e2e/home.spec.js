@@ -11,8 +11,13 @@ test('landing page renders hero and timeline without JS errors', async ({ page }
 
     await expect(page).toHaveTitle(/Arjun Vinod/);
     await expect(page.locator('.hero-name')).toHaveText('Arjun Vinod');
+    await expect(page.locator('.hero-actions a')).toHaveCount(2);
+    await expect(page.locator('.hero-actions a').first()).toHaveAttribute('href', 'mailto:arjun@arjunvinod.com');
+    await expect(page.locator('.expertise-card')).toHaveCount(3);
     await expect(page.locator('.lane-experience .node')).toHaveCount(3);
     await expect(page.locator('.lane-education .node')).toHaveCount(2);
+    await expect(page.locator('.node.is-current')).toHaveCount(1);
+    await expect(page.locator('.lane-education .node.is-current')).toHaveCount(0);
     await expect(page.locator('.copyright-year')).toHaveText(String(new Date().getFullYear()));
 
     expect(errors).toEqual([]);
@@ -22,20 +27,25 @@ test('theme toggle switches theme, persists it, and survives reload', async ({ p
     await page.goto('/');
     const html = page.locator('html');
     const toggle = page.locator('.theme-toggle');
+    const themeColor = page.locator('meta[name="theme-color"]');
 
     await expect(html).toHaveAttribute('data-theme', 'light');
     await expect(toggle).toHaveAttribute('aria-checked', 'false');
+    await expect(themeColor).toHaveAttribute('content', '#fafbfc');
 
     await toggle.click();
     await expect(html).toHaveAttribute('data-theme', 'dark');
     await expect(toggle).toHaveAttribute('aria-checked', 'true');
+    await expect(themeColor).toHaveAttribute('content', '#0a0a0a');
     expect(await page.evaluate(() => localStorage.getItem('theme'))).toBe('dark');
 
     await page.reload();
     await expect(html).toHaveAttribute('data-theme', 'dark');
+    await expect(themeColor).toHaveAttribute('content', '#0a0a0a');
 
     await toggle.click();
     await expect(html).toHaveAttribute('data-theme', 'light');
+    await expect(themeColor).toHaveAttribute('content', '#fafbfc');
     expect(await page.evaluate(() => localStorage.getItem('theme'))).toBe('light');
 });
 
@@ -97,54 +107,46 @@ test('scroll reveal keeps content visible without IntersectionObserver', async (
     expect(errors).toEqual([]);
 });
 
-test('desktop nav links to the books page', async ({ page }) => {
+test('navigation marks the current page and links to books', async ({ page }) => {
     await page.goto('/');
-    await expect(page.locator('.menu-button')).toBeHidden();
-    await page.locator('#menu-dropdown a', { hasText: 'Books' }).click();
+    await expect(page.locator('.site-nav a', { hasText: 'Home' })).toHaveAttribute('aria-current', 'page');
+    await page.locator('.site-nav a', { hasText: 'Books' }).click();
     await expect(page).toHaveURL(/\/books\/$/);
     await expect(page).toHaveTitle(/Books/);
 });
 
-// The hamburger menu only exists at mobile widths (<= 480px)
-test.describe('mobile menu', () => {
-    test.use({ viewport: { width: 400, height: 800 } });
+test('home page uses a sequential heading hierarchy', async ({ page }) => {
+    await page.goto('/');
+    const headingLevels = await page.locator('h1, h2, h3, h4').evaluateAll(headings =>
+        headings.map(heading => Number(heading.tagName.slice(1)))
+    );
 
-    test('opens, moves focus to first link, and closes on Escape', async ({ page }) => {
+    expect(headingLevels[0]).toBe(1);
+    expect(headingLevels).not.toContain(4);
+    for (let i = 1; i < headingLevels.length; i++) {
+        expect(headingLevels[i] - headingLevels[i - 1]).toBeLessThanOrEqual(1);
+    }
+});
+
+test('interactive elements have a custom keyboard focus indicator', async ({ page }) => {
+    await page.goto('/');
+    const primaryAction = page.locator('.button-primary');
+    await primaryAction.focus();
+
+    expect(await primaryAction.evaluate(el => getComputedStyle(el).outlineStyle)).toBe('solid');
+    expect(await primaryAction.evaluate(el => getComputedStyle(el).outlineWidth)).toBe('3px');
+});
+
+test.describe('mobile navigation', () => {
+    test.use({ viewport: { width: 320, height: 720 } });
+
+    test('keeps both destinations visible and navigable', async ({ page }) => {
         await page.goto('/');
-        const button = page.locator('.menu-button');
-        const dropdown = page.locator('#menu-dropdown');
+        await expect(page.locator('.site-nav a', { hasText: 'Home' })).toBeVisible();
+        await expect(page.locator('.site-nav a', { hasText: 'Books' })).toBeVisible();
+        await expect(page.locator('.theme-toggle')).toBeVisible();
 
-        await button.click();
-        await expect(dropdown).toHaveClass(/show/);
-        await expect(button).toHaveAttribute('aria-expanded', 'true');
-        await expect(dropdown.locator('a').first()).toBeFocused();
-
-        await page.keyboard.press('Escape');
-        await expect(dropdown).not.toHaveClass(/show/);
-        await expect(button).toHaveAttribute('aria-expanded', 'false');
-        await expect(button).toBeFocused();
-    });
-
-    test('closes when clicking outside', async ({ page }) => {
-        await page.goto('/');
-        const button = page.locator('.menu-button');
-        const dropdown = page.locator('#menu-dropdown');
-
-        await button.click();
-        await expect(dropdown).toHaveClass(/show/);
-
-        // Raw click on empty space left of the dropdown (the dropdown
-        // overlays centered content at mobile width)
-        await page.mouse.click(10, 400);
-        await expect(dropdown).not.toHaveClass(/show/);
-        await expect(button).toHaveAttribute('aria-expanded', 'false');
-    });
-
-    test('navigates to the books page', async ({ page }) => {
-        await page.goto('/');
-        await page.locator('.menu-button').click();
-        await page.locator('#menu-dropdown a', { hasText: 'Books' }).click();
+        await page.locator('.site-nav a', { hasText: 'Books' }).click();
         await expect(page).toHaveURL(/\/books\/$/);
-        await expect(page).toHaveTitle(/Books/);
     });
 });
