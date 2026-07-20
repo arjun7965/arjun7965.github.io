@@ -14,6 +14,8 @@ test('landing page renders hero and timeline without JS errors', async ({ page }
     await expect(page.locator('.hero-actions a')).toHaveCount(2);
     await expect(page.locator('.hero-actions a').first()).toHaveAttribute('href', 'mailto:arjun@arjunvinod.com');
     await expect(page.locator('.expertise-card')).toHaveCount(3);
+    await expect(page.locator('.expertise-icon')).toHaveCount(3);
+    await expect(page.locator('.lane-eyebrow')).toHaveText(['Career path', 'Academic background']);
     await expect(page.locator('.lane-experience .node')).toHaveCount(3);
     await expect(page.locator('.lane-education .node')).toHaveCount(2);
     await expect(page.locator('.node.is-current')).toHaveCount(1);
@@ -25,6 +27,12 @@ test('landing page renders hero and timeline without JS errors', async ({ page }
 
 test('hero social logos keep their intended dimensions', async ({ page }) => {
     await page.goto('/');
+    const linkDimensions = await page.locator('.hero-links a').evaluateAll(links =>
+        links.map(link => {
+            const { width, height } = link.getBoundingClientRect();
+            return { width, height };
+        })
+    );
     const dimensions = await page.locator('.hero-links .icon').evaluateAll(icons =>
         icons.map(icon => {
             const { width, height } = icon.getBoundingClientRect();
@@ -32,12 +40,26 @@ test('hero social logos keep their intended dimensions', async ({ page }) => {
         })
     );
 
+    expect(linkDimensions).toHaveLength(3);
+    for (const { width, height } of linkDimensions) {
+        expect(width).toBe(44);
+        expect(height).toBe(44);
+    }
     expect(dimensions).toHaveLength(3);
     for (const { width, height } of dimensions) {
-        expect(width).toBeGreaterThanOrEqual(16);
-        expect(height).toBeGreaterThanOrEqual(16);
+        expect(width).toBeGreaterThanOrEqual(19);
+        expect(height).toBeGreaterThanOrEqual(19);
         expect(Math.abs(width - height)).toBeLessThan(1);
     }
+});
+
+test('timeline dates stack below roles on mobile', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/');
+
+    const date = page.locator('.rm-meta').first();
+    expect(await date.evaluate(element => getComputedStyle(element).display)).toBe('block');
+    expect(await date.evaluate(element => getComputedStyle(element, '::before').content)).toBe('none');
 });
 
 test('theme toggle switches theme, persists it, and survives reload', async ({ page }) => {
