@@ -22,8 +22,6 @@ duplication costs less than the tooling.
 
 ## 2. Visual design refinements
 
-- [x] Add a subtle, responsive circuit/network motif beside the landing-page
-  hero copy
 - [x] Separate the hero, expertise, and timeline into alternating tinted
   section bands
 - [ ] Add small self-hosted company and education marks to the timeline

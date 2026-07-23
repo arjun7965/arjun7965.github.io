@@ -14,7 +14,7 @@ test('landing page renders hero and timeline without JS errors', async ({ page }
     await expect(page.locator('.hero-actions a')).toHaveCount(2);
     await expect(page.locator('.hero-actions a').first()).toHaveAttribute('href', 'mailto:arjun@arjunvinod.com');
     await expect(page.locator('.home-band')).toHaveCount(3);
-    await expect(page.locator('.circuit-illustration')).toBeVisible();
+    await expect(page.locator('.hero-visual')).toHaveCount(0);
     await expect(page.locator('.expertise-card')).toHaveCount(3);
     await expect(page.locator('.expertise-icon')).toHaveCount(3);
     await expect(page.locator('.lane-eyebrow')).toHaveText(['Career path', 'Academic background']);
@@ -25,22 +25,6 @@ test('landing page renders hero and timeline without JS errors', async ({ page }
     await expect(page.locator('.copyright-year')).toHaveText(String(new Date().getFullYear()));
 
     expect(errors).toEqual([]);
-});
-
-test('hero circuit motif adapts from a side panel to a mobile watermark', async ({ page }) => {
-    await page.goto('/');
-
-    const copyBox = await page.locator('.hero-copy').boundingBox();
-    const visualBox = await page.locator('.hero-visual').boundingBox();
-    expect(visualBox.x).toBeGreaterThan(copyBox.x);
-    expect(visualBox.width).toBeGreaterThanOrEqual(230);
-    expect(await page.locator('.hero-visual').evaluate(element => getComputedStyle(element).position)).toBe('relative');
-
-    await page.setViewportSize({ width: 390, height: 844 });
-
-    const mobileVisual = page.locator('.hero-visual');
-    expect(await mobileVisual.evaluate(element => getComputedStyle(element).position)).toBe('absolute');
-    expect(Number(await mobileVisual.evaluate(element => getComputedStyle(element).opacity))).toBeLessThan(0.5);
 });
 
 test('hero social logos keep their intended dimensions', async ({ page }) => {
