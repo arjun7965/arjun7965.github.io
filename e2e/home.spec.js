@@ -13,6 +13,8 @@ test('landing page renders hero and timeline without JS errors', async ({ page }
     await expect(page.locator('.hero-name')).toHaveText('Arjun Vinod');
     await expect(page.locator('.hero-actions a')).toHaveCount(2);
     await expect(page.locator('.hero-actions a').first()).toHaveAttribute('href', 'mailto:arjun@arjunvinod.com');
+    await expect(page.locator('.home-band')).toHaveCount(3);
+    await expect(page.locator('.hero-visual')).toHaveCount(0);
     await expect(page.locator('.expertise-card')).toHaveCount(3);
     await expect(page.locator('.expertise-icon')).toHaveCount(3);
     await expect(page.locator('.lane-eyebrow')).toHaveText(['Career path', 'Academic background']);
