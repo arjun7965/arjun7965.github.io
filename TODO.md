@@ -24,9 +24,9 @@ duplication costs less than the tooling.
 
 - [x] Separate the hero, expertise, and timeline into alternating tinted
   section bands
-- [x] Add small company and school logos to the timeline
+- [ ] Add small company and school logos to the timeline
   - Self-host SVG or PNG assets and place them in consistent 24–32px frames
-  - Keep native logo colors with restrained framing and suitable dark-mode
+  - Use restrained monochrome or muted treatments with suitable dark-mode
     contrast
   - Keep organization names as visible text and treat duplicate logos as
     decorative for assistive technology
