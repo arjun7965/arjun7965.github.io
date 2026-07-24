@@ -38,6 +38,16 @@ test('features the current book above a two-column desktop grid', async ({ page 
     expect(Math.abs(firstRegularBox.y - secondRegularBox.y)).toBeLessThan(2);
 });
 
+test('book reveal delays stay restrained across long reading lists', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 450 });
+    await page.goto('/books/');
+
+    const delays = await page.locator('.book-grid').first().locator('.book-item').evaluateAll(cards =>
+        cards.map(card => getComputedStyle(card).getPropertyValue('--reveal-delay').trim())
+    );
+    expect(delays).toEqual(['0ms', '70ms', '140ms', '210ms', '210ms']);
+});
+
 test('covers are served self-hosted and actually load', async ({ page }) => {
     await page.goto('/books/');
     const covers = page.locator('.book-cover img');

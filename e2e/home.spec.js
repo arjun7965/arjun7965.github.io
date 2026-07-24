@@ -64,6 +64,19 @@ test('timeline dates stack below roles on mobile', async ({ page }) => {
     expect(await date.evaluate(element => getComputedStyle(element, '::before').content)).toBe('none');
 });
 
+test('reveal groups use deterministic, capped stagger delays', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 450 });
+    await page.goto('/');
+
+    const delays = locator => locator.evaluateAll(elements =>
+        elements.map(element => getComputedStyle(element).getPropertyValue('--reveal-delay').trim())
+    );
+
+    expect(await delays(page.locator('.expertise-card'))).toEqual(['0ms', '70ms', '140ms']);
+    expect(await delays(page.locator('.lane-experience .node'))).toEqual(['0ms', '70ms', '140ms']);
+    expect(await delays(page.locator('.lane-education .node'))).toEqual(['0ms', '70ms']);
+});
+
 test('theme toggle switches theme, persists it, and survives reload', async ({ page }) => {
     await page.goto('/');
     const html = page.locator('html');
@@ -107,8 +120,11 @@ test.describe('without JavaScript', () => {
     test('timeline content is fully visible', async ({ page }) => {
         await page.goto('/');
         const firstNode = page.locator('.node').first();
+        const firstExpertiseCard = page.locator('.expertise-card').first();
         await expect(firstNode).toBeVisible();
+        await expect(firstExpertiseCard).toBeVisible();
         expect(await firstNode.evaluate(el => getComputedStyle(el).opacity)).toBe('1');
+        expect(await firstExpertiseCard.evaluate(el => getComputedStyle(el).opacity)).toBe('1');
     });
 });
 
@@ -143,9 +159,23 @@ test('scroll reveal keeps content visible without IntersectionObserver', async (
     await page.goto('/');
 
     const firstNode = page.locator('.node').first();
+    const firstExpertiseCard = page.locator('.expertise-card').first();
     await expect(firstNode).toBeVisible();
+    await expect(firstExpertiseCard).toBeVisible();
     expect(await firstNode.evaluate(el => getComputedStyle(el).opacity)).toBe('1');
+    expect(await firstExpertiseCard.evaluate(el => getComputedStyle(el).opacity)).toBe('1');
     expect(errors).toEqual([]);
+});
+
+test('reduced motion removes reveal delays and keeps content visible', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.setViewportSize({ width: 1280, height: 450 });
+    await page.goto('/');
+
+    const card = page.locator('.expertise-card').last();
+    expect(await card.evaluate(element => getComputedStyle(element).opacity)).toBe('1');
+    expect(await card.evaluate(element => getComputedStyle(element).transform)).toBe('none');
+    expect(await card.evaluate(element => getComputedStyle(element).transitionDelay)).toBe('0s');
 });
 
 test('navigation marks the current page and links to books', async ({ page }) => {
