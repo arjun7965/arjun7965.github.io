@@ -24,8 +24,14 @@ duplication costs less than the tooling.
 
 - [x] Separate the hero, expertise, and timeline into alternating tinted
   section bands
-- [ ] Add small self-hosted company and education marks to the timeline
-- [ ] Feature the currently reading title and use a two-column desktop book
+- [ ] Add small company and school logos to the timeline
+  - Self-host SVG or PNG assets and place them in consistent 24–32px frames
+  - Use restrained monochrome or muted treatments with suitable dark-mode
+    contrast
+  - Keep organization names as visible text and treat duplicate logos as
+    decorative for assistive technology
+  - Avoid oversized branded cards or inconsistent logo proportions
+- [x] Feature the currently reading title and use a two-column desktop book
   grid
 - [ ] Add a Selected Work section with two or three non-confidential
   engineering case studies

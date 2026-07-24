@@ -214,8 +214,11 @@ test('reading list sections are newest first and generated markup has one articl
     assert.equal(new Set(years).size, years.length, 'section years must be unique');
 
     const bookCount = READING_LIST.reduce((total, section) => total + section.books.length, 0);
-    const articleCount = (readingListHtml().match(/<article class="book-item">/g) || []).length;
+    const html = readingListHtml();
+    const articleCount = (html.match(/<article class="book-item(?: book-item-featured)?">/g) || []).length;
     assert.equal(articleCount, bookCount);
+    assert.equal((html.match(/class="reading-year"/g) || []).length, READING_LIST.length);
+    assert.equal((html.match(/class="book-grid"/g) || []).length, READING_LIST.length);
 });
 
 test('generated reading list links titles and prioritizes only the first cover', () => {
@@ -235,6 +238,10 @@ test('reading list has at most one currently reading book', () => {
     assert.ok(
         currentBooks.length <= 1,
         `expected at most one currently reading book, found: ${currentBooks.map(book => book.title).join(', ')}`
+    );
+    assert.equal(
+        (readingListHtml().match(/class="book-item book-item-featured"/g) || []).length,
+        currentBooks.length
     );
 });
 
