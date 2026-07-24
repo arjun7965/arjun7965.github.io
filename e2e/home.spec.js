@@ -56,6 +56,19 @@ test('timeline organization logos are local, decorative, and consistently sized'
         expect(detail.width).toBe(32);
         expect(detail.height).toBe(32);
     }
+
+    await expect(page.locator('.org-logo[src="images/organizations/qualcomm.svg"]')).toHaveCount(1);
+    const experienceLogoSizes = await page.locator('.lane-experience .org-logo').evaluateAll(images =>
+        images.map(image => {
+            const { width, height } = image.getBoundingClientRect();
+            return { width, height };
+        })
+    );
+    expect(experienceLogoSizes).toEqual([
+        { width: 24, height: 24 },
+        { width: 24, height: 24 },
+        { width: 24, height: 24 }
+    ]);
 });
 
 test('timeline logos retain native colors at rest and on hover', async ({ page }) => {
