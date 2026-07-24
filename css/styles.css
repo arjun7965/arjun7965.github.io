@@ -788,6 +788,57 @@ footer {
   transition: color 0.25s ease;
 }
 
+.rm-title .org-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-width: 0;
+}
+
+.org-mark {
+  display: inline-grid;
+  flex: 0 0 2rem;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  overflow: hidden;
+  background: var(--container-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.org-logo {
+  display: block;
+  width: 1.5rem;
+  height: 1.5rem;
+  object-fit: contain;
+}
+
+.org-logo-compact {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.org-logo-seal {
+  width: 1.65rem;
+  height: 1.65rem;
+}
+
+.rm-card:hover .org-mark,
+.rm-card:focus-within .org-mark {
+  background: #fff;
+  border-color: rgb(20 184 166 / 45%);
+  box-shadow: 0 0 0 3px rgb(20 184 166 / 10%);
+}
+
+[data-theme="dark"] .org-mark { background: rgb(255 255 255 / 6%); }
+
+[data-theme="dark"] .rm-card:hover .org-mark,
+[data-theme="dark"] .rm-card:focus-within .org-mark {
+  background: rgb(255 255 255 / 12%);
+}
+
 .rm-title a:hover {
   color: var(--color-accent);
 }
