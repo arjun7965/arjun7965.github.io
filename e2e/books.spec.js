@@ -15,11 +15,27 @@ test('books page renders all year sections and books without JS errors', async (
     await expect(page.locator('.site-nav a', { hasText: 'Books' })).toHaveAttribute('aria-current', 'page');
     await expect(page.locator('h2').first()).toHaveText('2026');
     await expect(page.locator('h2')).toHaveCount(2);
+    await expect(page.locator('.reading-year')).toHaveCount(2);
+    await expect(page.locator('.book-grid')).toHaveCount(2);
     expect(await page.locator('.book-item').count()).toBeGreaterThanOrEqual(11);
     await expect(page.locator('.book-title').first()).toContainText('Thinking in Bets');
     await expect(page.locator('.currently-reading-badge')).toHaveText('Currently Reading');
+    await expect(page.locator('.book-item-featured')).toHaveCount(1);
 
     expect(errors).toEqual([]);
+});
+
+test('features the current book above a two-column desktop grid', async ({ page }) => {
+    await page.goto('/books/');
+    const firstYear = page.locator('.reading-year').first();
+    const featuredBox = await firstYear.locator('.book-item-featured').boundingBox();
+    const regularCards = firstYear.locator('.book-item:not(.book-item-featured)');
+    const firstRegularBox = await regularCards.nth(0).boundingBox();
+    const secondRegularBox = await regularCards.nth(1).boundingBox();
+
+    expect(featuredBox.width).toBeGreaterThan(firstRegularBox.width * 1.8);
+    expect(firstRegularBox.x).toBeLessThan(secondRegularBox.x);
+    expect(Math.abs(firstRegularBox.y - secondRegularBox.y)).toBeLessThan(2);
 });
 
 test('covers are served self-hosted and actually load', async ({ page }) => {
@@ -116,8 +132,10 @@ test.describe('mobile books layout', () => {
         await page.goto('/books/');
         const firstCard = page.locator('.book-item').first();
         const notes = firstCard.locator('.book-notes');
+        const regularCards = page.locator('.book-item:not(.book-item-featured)');
 
         expect(await notes.evaluate(el => el.getBoundingClientRect().width)).toBeGreaterThan(300);
         expect(await firstCard.locator('.book-cover').evaluate(el => el.getBoundingClientRect().width)).toBe(76);
+        expect((await regularCards.nth(0).boundingBox()).x).toBe((await regularCards.nth(1).boundingBox()).x);
     });
 });

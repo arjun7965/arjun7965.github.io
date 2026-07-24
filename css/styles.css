@@ -313,14 +313,26 @@ footer {
 .site-logo a:hover::after { width: 100%; }
 
 /* Books Page Shared Elements */
+.reading-year + .reading-year {
+  margin-top: clamp(2.5rem, 6vw, 4rem);
+}
+
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+  align-items: stretch;
+}
+
 .book-item { 
-  margin-bottom: 1.5rem; 
-  padding: 1.5rem;
+  height: 100%;
+  margin: 0;
+  padding: 1.25rem;
   border: 1px solid var(--border-color);
   background: var(--container-bg);
   border-radius: 12px;
   display: flex; 
-  gap: 1.5rem; 
+  gap: 1.25rem;
   align-items: flex-start;
   transition: all 0.25s ease;
 }
@@ -332,7 +344,7 @@ footer {
 
 .book-cover { 
   flex-shrink: 0; 
-  width: 100px;
+  width: 84px;
 }
 
 .book-cover a { 
@@ -353,6 +365,30 @@ footer {
   box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
 }
 .book-details { flex: 1; }
+
+.book-item-featured {
+  grid-column: 1 / -1;
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 2.5rem);
+  padding: clamp(1.5rem, 4vw, 2.25rem);
+  border-color: rgb(20 184 166 / 36%);
+  background:
+    radial-gradient(circle at 88% 18%, rgb(20 184 166 / 15%), transparent 34%),
+    linear-gradient(135deg, var(--surface-accent), var(--container-bg) 72%);
+  box-shadow: 0 18px 42px rgb(15 76 117 / 10%);
+}
+
+.book-item-featured .book-cover {
+  width: clamp(112px, 16vw, 140px);
+}
+
+.book-item-featured .book-title {
+  font-size: clamp(1.2rem, 1rem + 0.7vw, 1.5rem);
+}
+
+.book-item-featured .book-notes {
+  max-width: 620px;
+}
 
 .book-title { 
   color: var(--text-primary); 
@@ -393,9 +429,13 @@ footer {
   align-items: center;
   gap: 0.4rem;
   margin-left: 0.5rem;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid rgb(20 184 166 / 28%);
+  border-radius: 999px;
+  background: rgb(20 184 166 / 10%);
   font-size: 0.8rem;
-  color: var(--text-secondary);
-  font-weight: 500;
+  color: var(--color-accent-text);
+  font-weight: 650;
   white-space: nowrap;
 }
 
@@ -833,6 +873,8 @@ footer {
   .expertise-grid { grid-template-columns: 1fr; }
 
   .expertise-card { padding: 1rem; }
+
+  .book-grid { grid-template-columns: 1fr; }
 }
 
 @media (width <= 600px) {
@@ -857,6 +899,8 @@ footer {
     width: 76px;
   }
 
+  .book-item-featured .book-cover { width: 76px; }
+
   .book-details { display: contents; }
 
   .book-title {
@@ -877,6 +921,7 @@ footer {
 
   .currently-reading-badge {
     margin: 0.35rem 0 0;
+    white-space: normal;
   }
 
   .footer-content {
@@ -976,6 +1021,15 @@ footer {
 
   .home-container {
     display: block;
+  }
+
+  .book-grid {
+    display: block;
+  }
+
+  .book-item {
+    height: auto;
+    margin-bottom: 1rem;
   }
 
   .home-band {

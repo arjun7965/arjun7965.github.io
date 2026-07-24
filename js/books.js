@@ -250,6 +250,7 @@ function readingListHtml() {
     let bookIndex = 0;
     return READING_LIST.map(section => {
         const books = section.books.map(book => {
+            const featuredClass = book.currentlyReading ? ' book-item-featured' : '';
             const badge = book.currentlyReading
                 ? '<span class="currently-reading-badge">Currently Reading</span>'
                 : '';
@@ -258,23 +259,26 @@ function readingListHtml() {
                 : 'loading="lazy"';
             bookIndex += 1;
             return `
-            <article class="book-item">
-                <div class="book-cover">
-                    <a href="${escapeHtml(book.link)}" target="_blank" rel="noopener noreferrer">
-                        <img ${loadingAttributes} decoding="async" src="${escapeHtml(localCoverPath(book))}" alt="${escapeHtml(book.altText)}" data-title="${escapeHtml(shortTitleOf(book))}" data-author="${escapeHtml(book.author)}">
-                    </a>
-                </div>
-                <div class="book-details">
-                    <h3 class="book-title"><a class="book-title-link" href="${escapeHtml(book.link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(book.title)}</a>${badge}</h3>
-                    <div class="book-author">by ${escapeHtml(book.author)}</div>
-                    <p class="book-notes">${escapeHtml(book.notes)}</p>
-                </div>
-            </article>`;
+                    <article class="book-item${featuredClass}">
+                        <div class="book-cover">
+                            <a href="${escapeHtml(book.link)}" target="_blank" rel="noopener noreferrer">
+                                <img ${loadingAttributes} decoding="async" src="${escapeHtml(localCoverPath(book))}" alt="${escapeHtml(book.altText)}" data-title="${escapeHtml(shortTitleOf(book))}" data-author="${escapeHtml(book.author)}">
+                            </a>
+                        </div>
+                        <div class="book-details">
+                            <h3 class="book-title"><a class="book-title-link" href="${escapeHtml(book.link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(book.title)}</a>${badge}</h3>
+                            <div class="book-author">by ${escapeHtml(book.author)}</div>
+                            <p class="book-notes">${escapeHtml(book.notes)}</p>
+                        </div>
+                    </article>`;
         }).join('');
         return `
-            <h2>${section.year}</h2>
-            <p class="section-description">${escapeHtml(section.description)}</p>
-            ${books}`;
+            <section class="reading-year" aria-labelledby="reading-year-${section.year}">
+                <h2 id="reading-year-${section.year}">${section.year}</h2>
+                <p class="section-description">${escapeHtml(section.description)}</p>
+                <div class="book-grid">${books}
+                </div>
+            </section>`;
     }).join('');
 }
 
