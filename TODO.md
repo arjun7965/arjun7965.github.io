@@ -35,4 +35,4 @@ duplication costs less than the tooling.
   grid
 - [ ] Add a Selected Work section with two or three non-confidential
   engineering case studies
-- [ ] Add restrained staggered motion while preserving reduced-motion support
+- [x] Add restrained staggered motion while preserving reduced-motion support

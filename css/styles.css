@@ -853,19 +853,29 @@ footer {
 
 /* Slightly tighter spacing on small screens */
 
-/* Scroll-reveal animations. The hidden initial state only applies when
-   theme.js has tagged <html> with .js, so content stays visible without
-   JavaScript (the books list is pre-rendered static HTML). */
-.js .node, .js .book-item {
+/* Scroll-reveal animations. The hidden initial state only applies when the
+   inline head bootstrap has tagged <html> with .js, so content stays visible
+   without JavaScript. site.js assigns short, capped delays within each group. */
+.js .expertise-card,
+.js .node,
+.js .book-item {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transform: translateY(16px);
+  transition:
+    opacity 0.5s ease-out var(--reveal-delay, 0ms),
+    transform 0.5s ease-out var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
 }
 
-.js .node.visible, .js .book-item.visible {
+.js .expertise-card.visible,
+.js .node.visible,
+.js .book-item.visible {
   opacity: 1;
   transform: translateY(0);
+  will-change: auto;
 }
+
+.js .expertise-card.visible:hover { transform: translateY(-3px); }
 
 @media (width <= 720px) {
   .node { padding-left: 1.5rem; }
@@ -972,10 +982,12 @@ footer {
     transition-duration: 0.01ms !important;
   }
 
+  .js .expertise-card,
   .js .node,
   .js .book-item {
     opacity: 1;
     transform: none;
+    transition-delay: 0ms !important;
   }
 }
 
@@ -1013,6 +1025,7 @@ footer {
     background: #fff;
   }
 
+  .js .expertise-card,
   .js .node,
   .js .book-item {
     opacity: 1;
