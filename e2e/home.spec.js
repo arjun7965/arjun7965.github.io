@@ -27,6 +27,70 @@ test('landing page renders hero and timeline without JS errors', async ({ page }
     expect(errors).toEqual([]);
 });
 
+test('timeline organization logos are local, decorative, and consistently sized', async ({ page }) => {
+    await page.goto('/');
+
+    const marks = page.locator('.org-mark');
+    const logos = marks.locator('img');
+    await expect(marks).toHaveCount(5);
+    await expect(logos).toHaveCount(5);
+
+    const details = await marks.evaluateAll(elements => elements.map(mark => {
+        const image = mark.querySelector('img');
+        const { width, height } = mark.getBoundingClientRect();
+        return {
+            ariaHidden: mark.getAttribute('aria-hidden'),
+            alt: image.getAttribute('alt'),
+            src: image.getAttribute('src'),
+            loaded: image.complete && image.naturalWidth > 0,
+            width,
+            height
+        };
+    }));
+
+    for (const detail of details) {
+        expect(detail.ariaHidden).toBe('true');
+        expect(detail.alt).toBe('');
+        expect(detail.src).toMatch(/^images\/organizations\//);
+        expect(detail.loaded).toBe(true);
+        expect(detail.width).toBe(32);
+        expect(detail.height).toBe(32);
+    }
+
+    await expect(page.locator('.org-logo[src="images/organizations/qualcomm.svg"]')).toHaveCount(1);
+    const experienceLogoSizes = await page.locator('.lane-experience .org-logo').evaluateAll(images =>
+        images.map(image => {
+            const { width, height } = image.getBoundingClientRect();
+            return { width, height };
+        })
+    );
+    expect(experienceLogoSizes).toEqual([
+        { width: 24, height: 24 },
+        { width: 24, height: 24 },
+        { width: 24, height: 24 }
+    ]);
+});
+
+test('timeline logos retain native colors at rest and on hover', async ({ page }) => {
+    await page.goto('/');
+
+    for (const theme of ['light', 'dark']) {
+        if (await page.locator('html').getAttribute('data-theme') !== theme) {
+            await page.locator('.theme-toggle').click();
+        }
+
+        for (const card of await page.locator('.rm-card').all()) {
+            const logo = card.locator('.org-logo');
+            expect(await logo.evaluate(element => getComputedStyle(element).filter)).toBe('none');
+            expect(await logo.evaluate(element => getComputedStyle(element).opacity)).toBe('1');
+
+            await card.hover();
+            expect(await logo.evaluate(element => getComputedStyle(element).filter)).toBe('none');
+            expect(await logo.evaluate(element => getComputedStyle(element).opacity)).toBe('1');
+        }
+    }
+});
+
 test('hero social logos keep their intended dimensions', async ({ page }) => {
     await page.goto('/');
     const linkDimensions = await page.locator('.hero-links a').evaluateAll(links =>
