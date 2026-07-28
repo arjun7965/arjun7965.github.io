@@ -146,7 +146,7 @@ test('localCoverPath uses the normalized primary ISBN', () => {
 test('books/index.html contains the current pre-rendered reading list', () => {
     const fs = require('node:fs');
     const path = require('node:path');
-    const html = fs.readFileSync(path.join(__dirname, '..', 'books', 'index.html'), 'utf8');
+    const html = fs.readFileSync(path.join(__dirname, '..', 'books', 'index.html'), 'utf8').replace(/\r\n?/g, '\n');
     assert.ok(
         html.includes(readingListHtml()),
         'books/index.html is stale — run: node scripts/render-books.js'

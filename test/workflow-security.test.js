@@ -47,6 +47,6 @@ test('workflow checkouts do not persist credentials', () => {
 });
 
 test('CI jobs receive read-only repository contents permission', () => {
-    const workflow = fs.readFileSync(path.join(WORKFLOW_DIR, 'ci.yml'), 'utf8');
+    const workflow = fs.readFileSync(path.join(WORKFLOW_DIR, 'ci.yml'), 'utf8').replace(/\r\n?/g, '\n');
     assert.match(workflow, /^permissions:\n {2}contents: read$/m);
 });
