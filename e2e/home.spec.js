@@ -128,6 +128,40 @@ test('timeline dates stack below roles on mobile', async ({ page }) => {
     expect(await date.evaluate(element => getComputedStyle(element, '::before').content)).toBe('none');
 });
 
+test('timeline rails terminate at their dots and respond to keyboard focus', async ({ page }) => {
+    await page.goto('/');
+
+    const railGeometry = await page.locator('.lane').evaluateAll(lanes => lanes.map(lane => {
+        const nodes = [...lane.querySelectorAll('.node')];
+        const firstNode = nodes[0];
+        const lastNode = nodes.at(-1);
+        const firstDot = firstNode.querySelector('.dot').getBoundingClientRect();
+        const lastDot = lastNode.querySelector('.dot').getBoundingClientRect();
+        const firstNodeRect = firstNode.getBoundingClientRect();
+        const lastNodeRect = lastNode.getBoundingClientRect();
+        const firstRail = getComputedStyle(firstNode, '::before');
+        const lastRail = getComputedStyle(lastNode, '::before');
+
+        return {
+            startDelta: Math.abs(firstNodeRect.top + Number(firstRail.top.replace('px', '')) - (firstDot.top + firstDot.height / 2)),
+            endDelta: Math.abs(lastNodeRect.bottom - Number(lastRail.bottom.replace('px', '')) - (lastDot.top + lastDot.height / 2))
+        };
+    }));
+
+    for (const { startDelta, endDelta } of railGeometry) {
+        expect(startDelta).toBeLessThan(1);
+        expect(endDelta).toBeLessThan(1);
+    }
+
+    const secondNode = page.locator('.lane-experience .node').nth(1);
+    const secondDot = secondNode.locator('.dot');
+    const restingColor = await secondDot.evaluate(element => getComputedStyle(element).backgroundColor);
+    await secondNode.locator('.org-link').focus();
+
+    expect(await secondNode.evaluate(element => element.matches(':focus-within'))).toBe(true);
+    expect(await secondDot.evaluate(element => getComputedStyle(element).backgroundColor)).not.toBe(restingColor);
+});
+
 test('reveal groups use deterministic, capped stagger delays', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 450 });
     await page.goto('/');

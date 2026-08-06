@@ -740,11 +740,28 @@ footer {
   width: 2px;
   background: var(--border-color);
   border-radius: 1px;
+  transition: background 0.25s ease;
 }
 
-/* Last node - shorter line */
+/* Start and end the rail at the centers of its endpoint dots. */
+.lane-heading + .node::before {
+  top: calc(1.35rem + 6px);
+}
+
 .node:last-child::before {
-  bottom: calc(100% - 2rem);
+  bottom: calc(100% - 1.35rem - 6px);
+}
+
+/* Fade the active segment into the neutral history rail. */
+.node.is-current::before,
+.node:hover::before,
+.node:focus-within::before {
+  background: linear-gradient(
+    to bottom,
+    var(--color-accent),
+    rgb(var(--accent-rgb) / 35%) 55%,
+    var(--border-color)
+  );
 }
 
 /* Timeline dot */
@@ -754,24 +771,36 @@ footer {
   top: 1.35rem;
   width: 12px;
   height: 12px;
-  background: var(--border-color);
+  background: var(--container-bg);
   border: 2px solid var(--border-color);
   border-radius: 50%;
+  box-shadow: 0 0 0 3px var(--container-bg);
   z-index: 2;
-  transition: all 0.3s ease;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
 }
 
 /* Active/current position indicator */
 .node.is-current .dot {
   background: var(--color-accent);
   border-color: var(--color-accent);
-  box-shadow: 0 0 0 3px rgb(var(--accent-rgb) / 20%);
+  box-shadow:
+    0 0 0 3px var(--container-bg),
+    0 0 0 6px rgb(var(--accent-rgb) / 18%);
 }
 
-/* Hover effect on dots */
-.node:hover .dot {
+/* Match pointer and keyboard interaction on the rail. */
+.node:hover .dot,
+.node:focus-within .dot {
   border-color: var(--color-accent);
   background: var(--color-accent);
+  box-shadow:
+    0 0 0 3px var(--container-bg),
+    0 0 0 6px rgb(var(--accent-rgb) / 18%);
+  transform: scale(1.08);
 }
 
 .rm-card {
