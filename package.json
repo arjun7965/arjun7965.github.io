@@ -15,12 +15,12 @@
     "lighthouse": "lhci autorun"
   },
   "devDependencies": {
-    "@axe-core/playwright": "^4.12.1",
+    "@axe-core/playwright": "^4.13.0",
     "@eslint/js": "^10.0.1",
     "@lhci/cli": "^0.15.0",
     "@playwright/test": "^1.62.1",
-    "eslint": "^10.8.1",
-    "globals": "^17.9.0",
+    "eslint": "^10.9.0",
+    "globals": "^17.11.0",
     "htmlhint": "^1.1.4",
     "postcss-html": "^2.0.0",
     "stylelint": "^17.14.1",
