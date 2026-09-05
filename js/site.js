@@ -49,10 +49,8 @@ window.addEventListener('DOMContentLoaded', () => {
     }, { threshold: 0.1 });
 
     revealTargets.forEach(el => {
-        // Elements already on screen are shown instantly: theme.js arms the
-        // hidden state only after first paint, so animating these would make
-        // a hard refresh flash content out and slowly fade it back in. Only
-        // elements that scroll in later get the reveal animation.
+        // Show elements already on screen instantly after the head bootstrap
+        // hides them. Only later arrivals need the scroll-reveal animation.
         const rect = el.getBoundingClientRect();
         if (rect.top < window.innerHeight && rect.bottom > 0) {
             el.style.transition = 'none';
