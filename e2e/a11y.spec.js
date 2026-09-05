@@ -55,5 +55,20 @@ for (const theme of ['light', 'dark']) {
                 expect(results.violations).toEqual([]);
             });
         }
+
+        test('primary action retains accessible text contrast on hover', async ({ page }) => {
+            await page.addInitScript(t => localStorage.setItem('theme', t), theme);
+            await page.goto('/');
+            const action = page.locator('.button-primary');
+            await action.hover();
+            expect(await action.evaluate(element => element.matches(':hover'))).toBe(true);
+
+            const results = await new AxeBuilder({ page })
+                .include('.button-primary')
+                .withRules(['color-contrast'])
+                .analyze();
+            expect(results.incomplete).toEqual([]);
+            expect(results.violations).toEqual([]);
+        });
     });
 }

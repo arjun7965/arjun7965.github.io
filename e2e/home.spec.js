@@ -1,4 +1,4 @@
-const { test, expect } = require('@playwright/test');
+const { test, expect, devices } = require('@playwright/test');
 const { blockExternalRequests, trackPageErrors } = require('./utils');
 
 test.beforeEach(async ({ page }) => {
@@ -226,9 +226,8 @@ test.describe('without JavaScript', () => {
     });
 });
 
-// The inline <head> snippet arms the scroll-reveal pre-paint; its CSP
-// sha256 hash silently stops matching if the snippet is edited (theme.js
-// would mask that as the old flash behavior), so assert it really ran
+// The head snippet must remain CSP-authorized so it can set the initial
+// theme and scroll-reveal state before first paint.
 test('inline head snippet passes CSP and un-hides content if site.js never loads', async ({ page }) => {
     const cspErrors = [];
     page.on('console', msg => {
@@ -319,3 +318,32 @@ test.describe('mobile navigation', () => {
         await expect(page).toHaveURL(/\/books\/$/);
     });
 });
+
+for (const width of [320, 390, 1440]) {
+    test.describe(`experience navigation at ${width}px`, () => {
+        const device = width < 600 ? devices['Pixel 7'] : devices['Desktop Chrome'];
+        test.use({
+            userAgent: device.userAgent,
+            deviceScaleFactor: device.deviceScaleFactor,
+            isMobile: device.isMobile,
+            hasTouch: device.hasTouch,
+            viewport: { width, height: 844 },
+        });
+
+        test('experience links leave the section below the sticky header', async ({ page, isMobile }) => {
+            for (const navigation of ['click', 'direct link']) {
+                await page.goto(navigation === 'click' ? '/' : '/#experience');
+                await page.evaluate(() => document.fonts.ready);
+                if (navigation === 'click') {
+                    const link = page.getByRole('link', { name: 'View experience' });
+                    if (isMobile) await link.tap();
+                    else await link.click();
+                }
+                await expect(page).toHaveURL(/\/#experience$/);
+                const header = await page.locator('body > header').boundingBox();
+                const section = await page.locator('#experience').boundingBox();
+                expect(section.y, `${navigation} at ${width}px`).toBeGreaterThanOrEqual(header.y + header.height);
+            }
+        });
+    });
+}

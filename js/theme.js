@@ -11,18 +11,18 @@ const THEME_COLORS = {
     dark: '#0a0a0a',
 };
 
-// Check for saved theme preference or default to light mode. The inline
+// Check for saved theme preference or use the system theme. The inline
 // <head> snippet on each page already does this before first paint; this
 // repeat is a fallback in case that snippet is ever blocked (e.g. a stale
 // CSP hash)
-const savedTheme = localStorage.getItem('theme');
+let savedTheme = null;
+try {
+    savedTheme = localStorage.getItem('theme');
+} catch {
+    // Storage can be disabled; the system theme still works.
+}
 const currentTheme = savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
 document.documentElement.setAttribute('data-theme', currentTheme);
-
-// Mark that JS is running: CSS scopes the scroll-reveal's hidden initial
-// state to .js so pre-rendered content stays visible without JavaScript.
-// Also a fallback — the inline <head> snippet normally adds this pre-paint
-document.documentElement.classList.add('js');
 
 function updateIcon(theme) {
     const svg = document.querySelector('.theme-toggle-slider .icon-moon');
@@ -47,7 +47,11 @@ function toggleTheme() {
     const newTheme = theme === 'light' ? 'dark' : 'light';
 
     document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
+    try {
+        localStorage.setItem('theme', newTheme);
+    } catch {
+        // Keep the control and cover updates working without persistence.
+    }
 
     // Update icon
     updateIcon(newTheme);
