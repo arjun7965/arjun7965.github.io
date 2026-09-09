@@ -3,7 +3,7 @@
   "private": true,
   "description": "Personal portfolio site",
   "engines": {
-    "node": "^22.12.0 || >=24.0.0"
+    "node": "^22.19.0 || >=24.0.0"
   },
   "scripts": {
     "lint:html": "htmlhint index.html books/index.html",
@@ -35,6 +35,7 @@
     "basic-ftp": "^5.3.1",
     "postcss": "^8.5.25",
     "chrome-launcher": "^1.2.1",
+    "lighthouse": "13.4.1",
     "qs": "^6.16.0"
   }
 }
