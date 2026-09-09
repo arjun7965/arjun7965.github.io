@@ -159,7 +159,7 @@ test('timeline rails terminate at their dots and respond to keyboard focus', asy
     await secondNode.locator('.org-link').focus();
 
     expect(await secondNode.evaluate(element => element.matches(':focus-within'))).toBe(true);
-    expect(await secondDot.evaluate(element => getComputedStyle(element).backgroundColor)).not.toBe(restingColor);
+    await expect(secondDot).not.toHaveCSS('background-color', restingColor);
 });
 
 test('reveal groups use deterministic, capped stagger delays', async ({ page }) => {
