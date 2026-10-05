@@ -27,6 +27,18 @@ test('all pages fit desktop and mobile viewports without horizontal scrolling', 
     }
 });
 
+test('keyboard skip links move focus past navigation on every page', async ({ page }) => {
+    for (const url of ['/', '/books/', '/layout-audit-missing']) {
+        await page.goto(url);
+        await page.keyboard.press('Tab');
+        await expect(page.getByRole('link', { name: 'Skip to content' })).toBeFocused();
+        await page.keyboard.press('Enter');
+        await expect(page.locator('main')).toBeFocused();
+        await page.keyboard.press('Tab');
+        await expect(page.locator('main a').first()).toBeFocused();
+    }
+});
+
 test('mobile footer content is centered', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto('/');
