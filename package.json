@@ -15,15 +15,15 @@
     "lighthouse": "lhci autorun"
   },
   "devDependencies": {
-    "@axe-core/playwright": "^4.13.0",
+    "@axe-core/playwright": "^4.14.0",
     "@eslint/js": "^10.0.1",
-    "@lhci/cli": "^0.15.0",
-    "@playwright/test": "^1.64.0",
-    "eslint": "^10.12.0",
-    "globals": "^17.13.0",
+    "@lhci/cli": "^0.16.1",
+    "@playwright/test": "^1.65.1",
+    "eslint": "^10.15.0",
+    "globals": "^17.14.0",
     "htmlhint": "^1.1.4",
-    "postcss-html": "^2.0.0",
-    "proxy-agent": "8.0.2",
+    "postcss-html": "^2.0.1",
+    "proxy-agent": "8.0.3",
     "stylelint": "^17.16.0",
     "stylelint-config-standard": "^40.0.0"
   },
