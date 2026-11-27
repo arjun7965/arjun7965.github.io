@@ -83,7 +83,18 @@ for (const theme of ['light', 'dark']) {
                 const target = page.locator(selector).first();
                 await target.scrollIntoViewIfNeeded();
                 await target.hover();
-                const ratio = await target.evaluate(el => {
+                const { hovered, ratio } = await target.evaluate(async el => {
+                    // Even under prefers-reduced-motion (0.01ms transitions),
+                    // Chromium starts the transition on the next frame; wait for
+                    // all finite transitions to settle (allSettled ignores
+                    // AbortError from previous hover-out cancellations).
+                    await new Promise(resolve => requestAnimationFrame(resolve));
+                    const transitions = document.getAnimations().filter(animation =>
+                        Number.isFinite(animation.effect.getComputedTiming().endTime)
+                    );
+                    await Promise.allSettled(transitions.map(animation => animation.finished));
+                    await new Promise(resolve => requestAnimationFrame(resolve));
+
                     const parseRgba = value => {
                         const match = value.match(/rgba?\(([^)]+)\)/);
                         if (!match) return [0, 0, 0, 0];
@@ -121,8 +132,12 @@ for (const theme of ['light', 'dark']) {
                     const effectiveFg = blend(fg, effectiveBg);
                     const l1 = luminance(effectiveFg);
                     const l2 = luminance(effectiveBg);
-                    return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+                    return {
+                        hovered: el.matches(':hover'),
+                        ratio: (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05),
+                    };
                 });
+                expect(hovered, `${selector} stayed hovered`).toBe(true);
                 expect(ratio, `${selector} hover contrast in ${theme} theme`).toBeGreaterThanOrEqual(minRatio);
             }
         });

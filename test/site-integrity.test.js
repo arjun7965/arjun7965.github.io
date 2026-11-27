@@ -104,7 +104,8 @@ test('favicon.ico uses a valid ICO container header', () => {
 
 test('HTML linter script covers every HTML page', () => {
     const pkg = JSON.parse(read('package.json'));
-    for (const file of HTML_FILES) {
-        assert.ok(pkg.scripts['lint:html'].includes(file), `lint:html is missing ${file}`);
-    }
+    const args = pkg.scripts['lint:html'].trim().split(/\s+/);
+    assert.equal(args[0], 'htmlhint');
+    const fileArgs = args.slice(1).filter(arg => !arg.startsWith('-'));
+    assert.deepEqual([...fileArgs].sort(), [...HTML_FILES].sort());
 });
