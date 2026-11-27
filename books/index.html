@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-rnS2XmH/rdRx4xVD1R3osXdDlm6LQTZI7TtlCGQqteU=' https://gc.zgo.at; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://arjunvinod.goatcounter.com;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-qFh+Hcfz3hUwpx7k4+trKo7dr1syT1SAI+b4Lj1QilI=' https://gc.zgo.at; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://arjunvinod.goatcounter.com;">
     <meta name="description" content="Books read by Arjun Vinod — psychology, philosophy, macroeconomics, and monetary history.">
     <meta name="author" content="Arjun Vinod">
     <meta name="theme-color" content="#fafbfc">
@@ -50,17 +50,6 @@
             padding-bottom: 0.5rem;
             border-bottom: 2px solid var(--border-color);
         }
-
-        .copyright {
-            text-align: center;
-
-            /* Removed hardcoded margin-left: 200px for better responsiveness */
-        }
-
-        .footer-email {
-            font-size: 0.9rem;
-        }
-
     </style>
     <!-- Arms the scroll-reveal hidden state (.js) and theme before first paint
          so a hard refresh neither flashes content out nor flashes the light
@@ -69,7 +58,7 @@
          hash (base64 of the sha256 of the bytes between the script tags) if
          this snippet ever changes. site.js sets window.siteJsLoaded; if it
          never loads, the timeout un-hides the content as a fallback. -->
-    <script>document.documentElement.classList.add('js');try{document.documentElement.setAttribute('data-theme',localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'))}catch(e){}setTimeout(function(){if(!window.siteJsLoaded)document.documentElement.classList.remove('js')},3000);</script>
+    <script>document.documentElement.classList.add('js');try{var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t==='dark'||t==='light'?t:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')}catch(e){}setTimeout(function(){if(!window.siteJsLoaded)document.documentElement.classList.remove('js')},3000);</script>
     <script src="/js/theme.js" defer></script>
     <script src="/js/site.js" defer></script>
     <script src="/js/books.js" defer></script>

@@ -50,3 +50,16 @@ test('CI jobs receive read-only repository contents permission', () => {
     const workflow = fs.readFileSync(path.join(WORKFLOW_DIR, 'ci.yml'), 'utf8').replace(/\r\n?/g, '\n');
     assert.match(workflow, /^permissions:\n {2}contents: read$/m);
 });
+
+test('Claude workflow defaults to empty top-level permissions and gates external triggers', () => {
+    const workflow = fs.readFileSync(path.join(WORKFLOW_DIR, 'claude.yml'), 'utf8').replace(/\r\n?/g, '\n');
+    assert.match(workflow, /^permissions:\s*\{\}$/m);
+    assert.match(workflow, /^\s+contents:\s+read$/m);
+    for (const field of [
+        'github.event.comment.author_association',
+        'github.event.review.author_association',
+        'github.event.issue.author_association',
+    ]) {
+        assert.ok(workflow.includes(field), `claude.yml must gate ${field}`);
+    }
+});

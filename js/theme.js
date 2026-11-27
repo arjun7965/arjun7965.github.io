@@ -11,17 +11,30 @@ const THEME_COLORS = {
     dark: '#0a0a0a',
 };
 
+function isValidTheme(value) {
+    return value === 'light' || value === 'dark';
+}
+
+function getSystemTheme() {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
+function resolveTheme(value) {
+    return isValidTheme(value) ? value : getSystemTheme();
+}
+
 // Check for saved theme preference or use the system theme. The inline
 // <head> snippet on each page already does this before first paint; this
 // repeat is a fallback in case that snippet is ever blocked (e.g. a stale
 // CSP hash)
 let savedTheme = null;
 try {
-    savedTheme = localStorage.getItem('theme');
+    const stored = localStorage.getItem('theme');
+    if (isValidTheme(stored)) savedTheme = stored;
 } catch {
     // Storage can be disabled; the system theme still works.
 }
-const currentTheme = savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+const currentTheme = savedTheme || getSystemTheme();
 document.documentElement.setAttribute('data-theme', currentTheme);
 
 function updateIcon(theme) {
@@ -38,12 +51,13 @@ function updateIcon(theme) {
 }
 
 function updateThemeColor(theme) {
+    const safeTheme = resolveTheme(theme);
     const meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute('content', THEME_COLORS[theme]);
+    if (meta) meta.setAttribute('content', THEME_COLORS[safeTheme]);
 }
 
 function toggleTheme() {
-    const theme = document.documentElement.getAttribute('data-theme');
+    const theme = resolveTheme(document.documentElement.getAttribute('data-theme'));
     const newTheme = theme === 'light' ? 'dark' : 'light';
 
     document.documentElement.setAttribute('data-theme', newTheme);
@@ -70,7 +84,8 @@ function toggleTheme() {
 
 // Set initial icon and aria-label on page load
 window.addEventListener('DOMContentLoaded', () => {
-    const theme = document.documentElement.getAttribute('data-theme');
+    const theme = resolveTheme(document.documentElement.getAttribute('data-theme'));
+    document.documentElement.setAttribute('data-theme', theme);
     updateIcon(theme);
     updateThemeColor(theme);
 

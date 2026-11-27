@@ -46,6 +46,7 @@ test('isbn10to13 accepts hyphenated input', () => {
 
 test('isbn10to13 rejects input that is not 10 digits', () => {
     assert.equal(isbn10to13('9780306406157'), null);
+    assert.equal(isbn10to13('0X06406152'), null);
     assert.equal(isbn10to13('12345'), null);
     assert.equal(isbn10to13(''), null);
 });
@@ -66,6 +67,7 @@ test('isbn13to10 rejects 979-prefixed ISBNs (no ISBN-10 equivalent)', () => {
 
 test('isbn13to10 rejects input that is not 13 digits', () => {
     assert.equal(isbn13to10('0306406152'), null);
+    assert.equal(isbn13to10('9780X06406157'), null);
     assert.equal(isbn13to10(''), null);
 });
 
@@ -153,19 +155,27 @@ test('books/index.html contains the current pre-rendered reading list', () => {
     );
 });
 
-test('every book in the reading list has a self-hosted cover image', () => {
+test('every book in the reading list has a self-hosted cover image and no orphans exist', () => {
     const fs = require('node:fs');
     const path = require('node:path');
+    const expectedFiles = new Set();
     for (const section of READING_LIST) {
         for (const book of section.books) {
-            const file = path.join(__dirname, '..', localCoverPath(book));
+            const relPath = localCoverPath(book);
+            const file = path.join(__dirname, '..', relPath);
             assert.ok(fs.existsSync(file), `missing cover for "${book.title}" — run: node scripts/fetch-covers.js`);
+            expectedFiles.add(path.basename(file));
         }
+    }
+    const actualFiles = fs.readdirSync(path.join(__dirname, '..', 'images', 'covers'));
+    for (const file of actualFiles) {
+        assert.ok(expectedFiles.has(file), `orphaned cover image in images/covers/: ${file}`);
     }
 });
 
 test('reading list records have required fields, valid ISBNs, and unique primary ISBNs', () => {
     const requiredFields = ['title', 'author', 'altText', 'link', 'isbn', 'notes'];
+    const allowedFields = new Set([...requiredFields, 'shortTitle', 'altIsbns', 'currentlyReading']);
     const seenIsbns = new Set();
 
     function hasValidCheckDigit(isbn) {
@@ -188,6 +198,9 @@ test('reading list records have required fields, valid ISBNs, and unique primary
         assert.ok(section.books.length > 0, `${section.year} must contain at least one book`);
 
         for (const book of section.books) {
+            for (const key of Object.keys(book)) {
+                assert.ok(allowedFields.has(key), `"${book.title || 'untitled'}" has unknown field "${key}"`);
+            }
             for (const field of requiredFields) {
                 assert.equal(typeof book[field], 'string', `"${book.title || 'untitled'}" has a non-string ${field}`);
                 assert.ok(book[field].trim(), `"${book.title || 'untitled'}" is missing ${field}`);
@@ -197,6 +210,15 @@ test('reading list records have required fields, valid ISBNs, and unique primary
             assert.ok(hasValidCheckDigit(isbn), `"${book.title}" has an invalid ISBN: ${book.isbn}`);
             assert.ok(!seenIsbns.has(isbn), `"${book.title}" duplicates primary ISBN ${isbn}`);
             seenIsbns.add(isbn);
+
+            if (book.altIsbns !== undefined) {
+                assert.equal(typeof book.altIsbns, 'string', `"${book.title}" altIsbns must be a string`);
+                const alts = book.altIsbns.split(',').map(s => normalizeIsbn(s)).filter(Boolean);
+                assert.ok(alts.length > 0, `"${book.title}" altIsbns must not be empty`);
+                for (const alt of alts) {
+                    assert.ok(hasValidCheckDigit(alt), `"${book.title}" has an invalid altIsbn: ${alt}`);
+                }
+            }
 
             assert.doesNotThrow(() => new URL(book.link), `"${book.title}" has an invalid link`);
             assert.match(book.link, /^https:\/\//, `"${book.title}" link must use HTTPS`);

@@ -83,7 +83,6 @@
   vertical-align: -0.125em;
   fill: currentcolor;
 }
-.lane-title .icon { width: 1rem; height: 1rem; }
 .theme-toggle-slider .icon { width: 0.75rem; height: 0.75rem; color: var(--color-primary); transition: color 0.3s ease; }
 [data-theme="dark"] .theme-toggle-slider .icon { color: #fbbf24; }
 
@@ -201,10 +200,6 @@ header {
   background: var(--color-accent);
   border-radius: 999px;
 }
-header h1 { margin: 0; font-size: 1.2rem; font-weight: 500; }
-header h1 a { position: relative; text-decoration: none; color: inherit; }
-header h1 a::after { content: ''; position: absolute; width: 100%; height: 1px; bottom: -2px; left: 0; background-color: var(--link-color); transform: scaleX(0); transform-origin: bottom right; transition: transform 0.2s ease-out; }
-header h1 a:hover::after { transform: scaleX(1); transform-origin: bottom left; }
 nav a { color: var(--text-primary); text-decoration: none; font-size: 0.95rem; padding: 0.5rem 1rem; border-radius: 5px; transition: background-color 0.3s ease, color 0.3s ease; }
 nav a:hover { background-color: var(--border-color); }
 
@@ -292,8 +287,8 @@ footer {
 }
 
 .footer-links a:hover {
-  color: var(--color-accent);
-  border-color: var(--color-accent);
+  color: var(--color-accent-text);
+  border-color: var(--color-accent-text);
   background: rgb(var(--accent-rgb) / 10%);
 }
 
@@ -309,7 +304,9 @@ footer {
 }
 
 /* Footer Specific */
+.copyright { text-align: center; }
 .footer-copyright { margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-muted); }
+.footer-email { font-size: 0.9rem; }
 .footer-email-link { color: var(--text-muted); text-decoration: none; }
 .footer-email-link:hover { text-decoration: underline; }
 
@@ -354,7 +351,7 @@ footer {
   display: flex; 
   gap: 1.25rem;
   align-items: flex-start;
-  transition: all 0.25s ease;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .book-item:hover {
@@ -578,8 +575,8 @@ footer {
 }
 
 .hero-links a:hover {
-  color: var(--color-accent);
-  border-color: var(--color-accent);
+  color: var(--color-accent-text);
+  border-color: var(--color-accent-text);
   background: rgb(var(--accent-rgb) / 10%);
   transform: translateY(-2px);
 }
@@ -689,10 +686,6 @@ footer {
   grid-template-columns: 1fr;
   gap: clamp(2rem, 4vw, 3rem);
   align-items: start;
-}
-
-.rail {
-  display: none;
 }
 
 .lane { 
@@ -885,7 +878,7 @@ footer {
 }
 
 .rm-title a:hover {
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 
 /* Current position badge */
@@ -952,9 +945,9 @@ footer {
 /* Scroll-reveal animations. The hidden initial state only applies when the
    inline head bootstrap has tagged <html> with .js, so content stays visible
    without JavaScript. site.js assigns short, capped delays within each group. */
-.js .expertise-card,
-.js .node,
-.js .book-item {
+.js .expertise-card:not(.reveal-complete),
+.js .node:not(.reveal-complete),
+.js .book-item:not(.reveal-complete) {
   opacity: 0;
   transform: translateY(16px);
   transition:
@@ -963,15 +956,14 @@ footer {
   will-change: opacity, transform;
 }
 
-.js .expertise-card.visible,
-.js .node.visible,
-.js .book-item.visible {
+.js .expertise-card.visible:not(.reveal-complete),
+.js .node.visible:not(.reveal-complete),
+.js .book-item.visible:not(.reveal-complete) {
   opacity: 1;
   transform: translateY(0);
-  will-change: auto;
 }
 
-.js .expertise-card.visible:hover { transform: translateY(-3px); }
+.js .expertise-card.visible:not(.reveal-complete):hover { transform: translateY(-3px); }
 
 @media (width <= 720px) {
   .node { padding-left: 1.5rem; }
@@ -1083,9 +1075,9 @@ footer {
     transition-duration: 0.01ms !important;
   }
 
-  .js .expertise-card,
-  .js .node,
-  .js .book-item {
+  .js .expertise-card:not(.reveal-complete),
+  .js .node:not(.reveal-complete),
+  .js .book-item:not(.reveal-complete) {
     opacity: 1;
     transform: none;
     transition-delay: 0ms !important;
@@ -1126,9 +1118,9 @@ footer {
     background: #fff;
   }
 
-  .js .expertise-card,
-  .js .node,
-  .js .book-item {
+  .js .expertise-card:not(.reveal-complete),
+  .js .node:not(.reveal-complete),
+  .js .book-item:not(.reveal-complete) {
     opacity: 1;
     transform: none;
   }

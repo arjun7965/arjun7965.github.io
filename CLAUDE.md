@@ -26,7 +26,7 @@ npm run lighthouse    # Lighthouse CI (requires local server on port 4000)
 
 A Claude Code hook auto-lints HTML/CSS files on edit, but always run the full `npm run lint` before pushing. CI (`.github/workflows/ci.yml`) runs lint, unit tests, e2e smoke tests, and Lighthouse on every PR and push to master.
 
-The e2e tests block all non-localhost requests (GoatCounter, fonts) so they are hermetic.
+The e2e tests block all non-localhost requests (such as GoatCounter analytics) so they are hermetic.
 
 ## Architecture
 
