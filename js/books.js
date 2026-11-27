@@ -9,7 +9,7 @@ function normalizeIsbn(isbn) {
 // then recalculating the check digit using the EAN-13 algorithm.
 function isbn10to13(isbn10) {
     const clean = normalizeIsbn(isbn10);
-    if (clean.length !== 10) return null;
+    if (!/^\d{9}[\dX]$/.test(clean)) return null;
 
     // Take first 9 digits of ISBN-10 and prepend '978' to create 12-digit base
     const core = '978' + clean.slice(0, 9);
@@ -32,7 +32,7 @@ function isbn10to13(isbn10) {
 // the ISBN-10 system was deprecated.
 function isbn13to10(isbn13) {
     const clean = normalizeIsbn(isbn13);
-    if (clean.length !== 13 || !clean.startsWith('978')) return null;
+    if (!/^978\d{10}$/.test(clean)) return null;
 
     // Extract the 9 core digits (removing '978' prefix and check digit)
     const core9 = clean.slice(3, 12);
@@ -168,7 +168,6 @@ const READING_LIST = [
                 title: "Mind to Matter: The Astonishing Science of How Your Brain Creates Material Reality",
                 author: "Dawson Church",
                 shortTitle: "Mind to Matter",
-                authorAlt: "Dawson Church",
                 altText: "Mind to Matter by Dawson Church",
                 link: "https://www.thriftbooks.com/w/mind-to-matter-the-astonishing-science-of-how-your-brain-creates-material-reality_dawson-church/18645933/?resultid=2de6c45e-dd46-4b5c-92e6-cf8019dea194#edition=19846831&idiq=32358812",
                 isbn: "9781788171151",
@@ -195,7 +194,6 @@ const READING_LIST = [
                 altText: "Paper Soldiers by Saleha Mohsin",
                 link: "https://www.thriftbooks.com/w/paper-soldiers-how-the-weaponization-of-the-dollar-changed-the-world-order_saleha-mohsin/55037738/?resultid=b45c7b57-ac03-4945-9e3d-74a29ea8aab4#edition=67591091&idiq=57992781",
                 isbn: "9780593539118",
-                altIsbns: "9780593197543,059319754X",
                 notes: "An inside look at how the U.S. dollar became a powerful geopolitical weapon through financial sanctions and economic warfare, reshaping global power dynamics and raising questions about the future of American financial dominance.",
             },
             {

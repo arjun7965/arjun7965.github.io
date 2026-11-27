@@ -89,3 +89,23 @@ test('sitemap lists both canonical content pages with valid modification dates',
         assert.ok(!Number.isNaN(Date.parse(`${date}T00:00:00Z`)), `invalid sitemap date: ${date}`);
     }
 });
+
+test('robots.txt advertises the canonical sitemap', () => {
+    const robots = read('robots.txt');
+    assert.match(robots, /^User-agent:\s+\*$/m);
+    assert.match(robots, /^Sitemap:\s+https:\/\/arjunvinod\.com\/sitemap\.xml$/m);
+});
+
+test('favicon.ico uses a valid ICO container header', () => {
+    const ico = fs.readFileSync(path.join(ROOT, 'images', 'favicon.ico'));
+    assert.deepEqual([...ico.subarray(0, 4)], [0x00, 0x00, 0x01, 0x00]);
+    assert.ok(ico.readUInt16LE(4) >= 1, 'favicon.ico must contain at least one icon entry');
+});
+
+test('HTML linter script covers every HTML page', () => {
+    const pkg = JSON.parse(read('package.json'));
+    const args = pkg.scripts['lint:html'].trim().split(/\s+/);
+    assert.equal(args[0], 'htmlhint');
+    const fileArgs = args.slice(1).filter(arg => !arg.startsWith('-'));
+    assert.deepEqual([...fileArgs].sort(), [...HTML_FILES].sort());
+});

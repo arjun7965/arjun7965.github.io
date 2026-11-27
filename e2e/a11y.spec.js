@@ -70,5 +70,76 @@ for (const theme of ['light', 'dark']) {
             expect(results.incomplete).toEqual([]);
             expect(results.violations).toEqual([]);
         });
+
+        test('timeline and social links retain WCAG AA contrast on hover', async ({ page }) => {
+            await page.addInitScript(t => localStorage.setItem('theme', t), theme);
+            await page.goto('/');
+
+            for (const { selector, minRatio } of [
+                { selector: '.rm-title a', minRatio: 4.5 },
+                { selector: '.hero-links a', minRatio: 3.0 },
+                { selector: '.footer-links a', minRatio: 3.0 },
+            ]) {
+                const target = page.locator(selector).first();
+                await target.scrollIntoViewIfNeeded();
+                await target.hover();
+                const { hovered, ratio } = await target.evaluate(async el => {
+                    // Even under prefers-reduced-motion (0.01ms transitions),
+                    // Chromium starts the transition on the next frame; wait for
+                    // all finite transitions to settle (allSettled ignores
+                    // AbortError from previous hover-out cancellations).
+                    await new Promise(resolve => requestAnimationFrame(resolve));
+                    const transitions = document.getAnimations().filter(animation =>
+                        Number.isFinite(animation.effect.getComputedTiming().endTime)
+                    );
+                    await Promise.allSettled(transitions.map(animation => animation.finished));
+                    await new Promise(resolve => requestAnimationFrame(resolve));
+
+                    const parseRgba = value => {
+                        const match = value.match(/rgba?\(([^)]+)\)/);
+                        if (!match) return [0, 0, 0, 0];
+                        const parts = match[1].split(/[\s,/]+/).filter(Boolean).map(Number);
+                        return [parts[0], parts[1], parts[2], parts[3] ?? 1];
+                    };
+                    const blend = (fg, bg) => {
+                        const a = fg[3];
+                        return [
+                            fg[0] * a + bg[0] * (1 - a),
+                            fg[1] * a + bg[1] * (1 - a),
+                            fg[2] * a + bg[2] * (1 - a),
+                            1,
+                        ];
+                    };
+                    const luminance = rgb => {
+                        const [r, g, b] = rgb.slice(0, 3).map(v => {
+                            const c = v / 255;
+                            return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+                        });
+                        return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+                    };
+
+                    const fg = parseRgba(getComputedStyle(el).color);
+                    const layers = [];
+                    for (let node = el; node && node.nodeType === 1; node = node.parentElement) {
+                        const bg = parseRgba(getComputedStyle(node).backgroundColor);
+                        if (bg[3] > 0) layers.push(bg);
+                        if (bg[3] === 1) break;
+                    }
+                    const base = getComputedStyle(document.documentElement).colorScheme === 'dark'
+                        ? [9, 17, 18, 1]
+                        : [255, 255, 255, 1];
+                    const effectiveBg = layers.reduceRight((acc, layer) => blend(layer, acc), base);
+                    const effectiveFg = blend(fg, effectiveBg);
+                    const l1 = luminance(effectiveFg);
+                    const l2 = luminance(effectiveBg);
+                    return {
+                        hovered: el.matches(':hover'),
+                        ratio: (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05),
+                    };
+                });
+                expect(hovered, `${selector} stayed hovered`).toBe(true);
+                expect(ratio, `${selector} hover contrast in ${theme} theme`).toBeGreaterThanOrEqual(minRatio);
+            }
+        });
     });
 }

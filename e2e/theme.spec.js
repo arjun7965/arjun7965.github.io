@@ -118,3 +118,21 @@ test.describe('unavailable theme storage', () => {
         }
     }
 });
+
+test.describe('corrupted theme storage', () => {
+    test.use({ colorScheme: 'dark' });
+
+    test('falls back to system theme without setting undefined theme-color', async ({ page }) => {
+        const errors = trackPageErrors(page);
+        await page.addInitScript(() => {
+            localStorage.setItem('theme', 'system');
+        });
+        await page.goto('/');
+
+        await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+        await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#0a0a0a');
+        await expect(page.locator('.theme-toggle')).toHaveAttribute('aria-checked', 'true');
+        await expect(page.locator('.theme-toggle')).toHaveAttribute('aria-label', 'Switch to light mode');
+        expect(errors).toEqual([]);
+    });
+});

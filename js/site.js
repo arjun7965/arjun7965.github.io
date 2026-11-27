@@ -29,34 +29,56 @@ window.addEventListener('DOMContentLoaded', () => {
         setRevealDelays(grid.querySelectorAll('.book-item'));
     });
 
+    const settleImmediately = elements => {
+        if (elements.length === 0) return;
+        elements.forEach(el => {
+            el.style.transition = 'none';
+            el.classList.add('visible', 'reveal-complete');
+        });
+        // Commit the instant reveal in one pass before restoring hover transitions.
+        void document.documentElement.offsetHeight;
+        elements.forEach(el => {
+            el.style.removeProperty('transition');
+        });
+    };
+
     // Keep content visible in browsers that do not support IntersectionObserver.
     if (typeof IntersectionObserver !== 'function') {
-        revealTargets.forEach(el => {
-            el.style.transition = 'none';
-            el.classList.add('visible');
-        });
+        settleImmediately([...revealTargets]);
         return;
     }
+
+    const finishReveal = el => {
+        if (el.classList.contains('reveal-complete')) return;
+        const delay = parseFloat(el.style.getPropertyValue('--reveal-delay')) || 0;
+        const complete = () => el.classList.add('reveal-complete');
+        el.addEventListener('transitionend', event => {
+            if (event.target === el) complete();
+        }, { once: true });
+        setTimeout(complete, delay + 550);
+    };
 
     // Scroll-reveal animations
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
+                finishReveal(entry.target);
                 revealObserver.unobserve(entry.target);
             }
         });
     }, { threshold: 0.1 });
 
+    const immediateTargets = [];
     revealTargets.forEach(el => {
         // Show elements already on screen instantly after the head bootstrap
         // hides them. Only later arrivals need the scroll-reveal animation.
         const rect = el.getBoundingClientRect();
         if (rect.top < window.innerHeight && rect.bottom > 0) {
-            el.style.transition = 'none';
-            el.classList.add('visible');
+            immediateTargets.push(el);
         } else {
             revealObserver.observe(el);
         }
     });
+    settleImmediately(immediateTargets);
 });

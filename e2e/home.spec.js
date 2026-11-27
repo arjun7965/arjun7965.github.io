@@ -175,6 +175,24 @@ test('reveal groups use deterministic, capped stagger delays', async ({ page }) 
     expect(await delays(page.locator('.lane-education .node'))).toEqual(['0ms', '70ms']);
 });
 
+test('revealed cards restore un-delayed hover transitions', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto('/');
+
+    // Above-the-fold expertise cards settle immediately without lingering inline transition:none
+    const secondCard = page.locator('.expertise-card').nth(1);
+    await expect(secondCard).toHaveClass(/\breveal-complete\b/);
+    const cardStyles = await secondCard.evaluate(el => ({
+        inlineTransition: el.style.transition,
+        transitionProperty: getComputedStyle(el).transitionProperty,
+        transitionDelay: getComputedStyle(el).transitionDelay,
+    }));
+    expect(cardStyles.inlineTransition).toBe('');
+    expect(cardStyles.transitionProperty).toContain('border-color');
+    expect(cardStyles.transitionProperty).toContain('box-shadow');
+    expect(cardStyles.transitionDelay).toBe('0s, 0s, 0s');
+});
+
 test('theme toggle switches theme, persists it, and survives reload', async ({ page }) => {
     await page.goto('/');
     const html = page.locator('html');
