@@ -158,7 +158,9 @@ All of the above also run in CI (`.github/workflows/ci.yml`) on every PR and pus
 | `ip-address` | `^10.1.1` |
 | `postcss` | `^8.5.25` |
 | `chrome-launcher` | `^1.2.1` |
+| `glob` | `^14.0.2` |
 | `lighthouse` | `13.4.1` |
+| `minimatch` | `^11.0.1` |
 | `qs` | `^6.16.0` |
 
 Run `npm audit` after `npm install` to verify 0 vulnerabilities.
