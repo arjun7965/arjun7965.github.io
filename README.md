@@ -158,10 +158,14 @@ All of the above also run in CI (`.github/workflows/ci.yml`) on every PR and pus
 | `ip-address` | `^10.1.1` |
 | `postcss` | `^8.5.25` |
 | `chrome-launcher` | `^1.2.1` |
+| `glob` | `^14.0.6` |
 | `lighthouse` | `13.4.1` |
+| `minimatch` | `^11.0.8` |
 | `qs` | `^6.16.0` |
 
 Run `npm audit` after `npm install` to verify 0 vulnerabilities.
+
+> **Known dev-tool bundle note ([#110](https://github.com/arjun7965/arjun7965.github.io/issues/110)):** While `node_modules/minimatch` resolves to `11.0.9`, `glob@14.0.6` (the latest published release) still resolves CommonJS `require("glob")` (used by `htmlhint`) to `./dist/commonjs/index.min.js`, which bundles an inlined `minimatch` `11.0.5` snapshot affected by [`GHSA-cf2h-pxjq-68xw`](https://github.com/isaacs/minimatch/security/advisories/GHSA-cf2h-pxjq-68xw) and [`GHSA-hqmv-qgp3-jx75`](https://github.com/isaacs/minimatch/security/advisories/GHSA-hqmv-qgp3-jx75). Exposure is limited to local/CI linting with fixed file paths (`htmlhint index.html books/index.html 404.html`, never untrusted glob patterns) until upstream publishes a `glob` release rebuilt with `minimatch >= 11.0.8`.
 
 ## Technologies
 
